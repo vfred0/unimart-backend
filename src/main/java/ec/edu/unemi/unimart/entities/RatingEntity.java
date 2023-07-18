@@ -18,14 +18,15 @@ public class RatingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
-    UUID id;
+    private UUID id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_ratings_users_user_id"))
+    private UserEntity userId;
+
+    @Column(nullable = false, length = 100)
+    private String comment;
 
     @Column(nullable = false)
-    UUID idUser;
-
-    @Column(nullable = false)
-    String comment;
-
-    @Column(nullable = false)
-    Integer rating;
+    private Integer rating;
 }

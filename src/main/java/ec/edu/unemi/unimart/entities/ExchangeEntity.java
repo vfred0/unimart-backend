@@ -1,12 +1,13 @@
 package ec.edu.unemi.unimart.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.UUID;
+
+@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -15,26 +16,31 @@ import lombok.NoArgsConstructor;
 public class ExchangeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-    @Column(nullable = false)
-    private String exchangeId;
+   @ManyToMany
+    @JoinTable(
+            name = "exchanges_articles",
+            joinColumns = @JoinColumn(name = "exchange_id"),
+            inverseJoinColumns = @JoinColumn(name = "article_id")
+    )
+    private Set<ArticleEntity> articleId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String userName;
 
     @Column(nullable = false)
     private String userPhoto;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 60)
     private String articleToExchange;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 60)
     private String articleToReceive;
 
     @Column(nullable = false)
-    private String date;
-
+//    @Temporal(TemporalType.DATE)
+    private LocalDateTime date;
 }
 

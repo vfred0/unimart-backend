@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,33 +24,38 @@ public class ArticleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
-    UUID id;
-    @Column(nullable = false)
-    String title;
-    @Column(nullable = false)
-    String description;
+    private UUID id;
+    @Column(nullable = false, length = 60)
+    private String title;
+    @Column(nullable = false, length = 100)
+    private String description;
 
     @ElementCollection
     @Column(nullable = false)
-    List<String> images;
+    private List<String> images;
 
     @Column(nullable = false)
-    Category category;
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
     @Column(nullable = false)
-    State state;
+    @Enumerated(EnumType.STRING)
+    private State state;
 
-    Gender gender;
-
-    @Column(nullable = false)
-    TypeArticle typeArticle;
-
-    @Column(nullable = false)
-    UUID idUser;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Column(nullable = false)
-    Integer numbersProposals;
+    @Enumerated(EnumType.STRING)
+    private TypeArticle typeArticle;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_articles_users_user_id"))
+    private UserEntity user;
 
     @Column(nullable = false)
-    String datePublished;
+    private Integer numbersProposals;
+
+    @Column(nullable = false)
+    private LocalDateTime date;
 }

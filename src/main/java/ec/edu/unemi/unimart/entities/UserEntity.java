@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -18,19 +19,19 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
-    UUID id;
+    private UUID id;
     @Column(nullable = false)
-    String photo;
+    private String photo;
+    @Column(nullable = false, length = 50)
+    private String name;
+    @Column(nullable = false, length = 100)
+    private String about;
+    @Column(nullable = false, length = 100)
+    private String description;
     @Column(nullable = false)
-    String name;
+    private Integer numberOfExchanges;
     @Column(nullable = false)
-    String about;
-    @Column(nullable = false)
-    String description;
-    @Column(nullable = false)
-    Integer numberOfExchanges;
-    @Column(nullable = false)
-    Double rating;
-    @Column(nullable = false)
-    String numberWhatsapp;
+    private Double rating;
+    @Column(nullable = false, length = 10)
+    private String numberWhatsapp;
 }
