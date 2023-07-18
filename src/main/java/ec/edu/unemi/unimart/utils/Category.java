@@ -14,8 +14,8 @@ public enum Category {
 
     private final String name;
 
-    Category(String displayName) {
-        this.name = displayName;
+    Category(String name) {
+        this.name = name;
     }
 
     public String getName() {
