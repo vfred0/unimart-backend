@@ -40,7 +40,6 @@ public class ExchangeEntity {
     private String articleToReceive;
 
     @Column(nullable = false)
-//    @Temporal(TemporalType.DATE)
     private LocalDateTime date;
 }
 

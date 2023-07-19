@@ -14,7 +14,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Builder
-@Table(name = "users")
+@Table(name = "users",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = "numberWhatsapp", name = "uq_number_whatsapp")
+    }
+)
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -26,8 +30,6 @@ public class UserEntity {
     private String name;
     @Column(nullable = false, length = 100)
     private String about;
-    @Column(nullable = false, length = 100)
-    private String description;
     @Column(nullable = false)
     private Integer numberOfExchanges;
     @Column(nullable = false)

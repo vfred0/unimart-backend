@@ -1,4 +1,4 @@
-package ec.edu.unemi.unimart.repositories;
+package ec.edu.unemi.unimart.repositories.article;
 
 import ec.edu.unemi.unimart.entities.ArticleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

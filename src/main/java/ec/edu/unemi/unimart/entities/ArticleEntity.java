@@ -23,8 +23,11 @@ import java.util.UUID;
 public class ArticleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(nullable = false)
     private UUID id;
+
+    @Column(nullable = false, name = "user_id")
+    private UUID userId;
+
     @Column(nullable = false, length = 60)
     private String title;
     @Column(nullable = false, length = 100)
@@ -50,8 +53,8 @@ public class ArticleEntity {
     private TypeArticle typeArticle;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_articles_users_user_id"))
-    private UserEntity user;
+    @JoinColumn(name = "user_id", updatable = false, insertable = false, foreignKey = @ForeignKey(name = "fk_articles_users_user_id"))
+    private UserEntity userEntity;
 
     @Column(nullable = false)
     private Integer numbersProposals;

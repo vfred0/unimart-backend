@@ -12,6 +12,7 @@ import java.util.UUID;
 
 public record ArticleDto(
         UUID id,
+        UUID userId,
         String title,
         String description,
         List<String>images,

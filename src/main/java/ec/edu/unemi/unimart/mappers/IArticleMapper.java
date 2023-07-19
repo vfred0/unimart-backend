@@ -13,5 +13,7 @@ public interface IArticleMapper {
     List<ArticleDto> toArticlesDto(List<ArticleEntity> articles);
 
     @InheritInverseConfiguration
+    // save name of TypeArticleEntity in ArticleDto
+    @Mapping(target = "typeArticle", source = "typeArticle.name")
     ArticleEntity toArticleEntity(ArticleDto article);
 }
