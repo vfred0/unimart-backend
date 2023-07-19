@@ -1,25 +1,38 @@
 package ec.edu.unemi.unimart.controllers;
 
 import ec.edu.unemi.unimart.dtos.ArticleDto;
-import ec.edu.unemi.unimart.services.IArticleService;
-import lombok.AllArgsConstructor;
+import ec.edu.unemi.unimart.services.article.IArticleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
+
 
 
 @RestController
-@RequestMapping("/api/v1/articles")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/articles")
 public class ArticleController {
     private final IArticleService articleService;
 
     @GetMapping
-    public ResponseEntity<List<ArticleDto>> getAll() {
+    ResponseEntity<List<ArticleDto>> getAll() {
         return ResponseEntity.ok(articleService.getAll());
+    }
+
+    @PostMapping
+    ResponseEntity<HttpHeaders> save(@RequestBody ArticleDto articleDto) {
+        UUID articleId = articleService.save(articleDto);
+        return new ResponseEntity<>(this.getHttpHeaders(articleId), HttpStatus.CREATED);
+    }
+
+    private HttpHeaders getHttpHeaders(UUID articleId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "/api/v1/articles/" + articleId);
+        return headers;
     }
 }
