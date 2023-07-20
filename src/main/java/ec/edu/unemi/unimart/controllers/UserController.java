@@ -26,7 +26,7 @@ public class UserController {
 
     @PostMapping
     ResponseEntity<HttpHeaders> save(@RequestBody UserDto userDto) {
-        UUID articleId = userService.save(userDto);
+        UUID articleId = userService.save(userDto).getId();
         return new ResponseEntity<>(this.getHttpHeaders(articleId), HttpStatus.CREATED);
     }
     private HttpHeaders getHttpHeaders(UUID userId) {
