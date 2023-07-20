@@ -1,6 +1,8 @@
 package ec.edu.unemi.unimart.dtos;
 
-import ec.edu.unemi.unimart.entities.UserEntity;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import ec.edu.unemi.unimart.models.User;
 import ec.edu.unemi.unimart.utils.Category;
 import ec.edu.unemi.unimart.utils.Gender;
 import ec.edu.unemi.unimart.utils.State;
@@ -10,9 +12,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record ArticleDto(
         UUID id,
-        UUID userId,
+
+        @JsonIncludeProperties({"id"})
+        User user,
+
         String title,
         String description,
         List<String>images,
