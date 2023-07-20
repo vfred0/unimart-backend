@@ -22,7 +22,7 @@ public class Rating {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_ratings_users_user_id"))
-    private User userId;
+    private User user;
 
     @Column(nullable = false, length = 100)
     private String comment;

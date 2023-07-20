@@ -13,8 +13,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Getter @Setter
-@AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "articles")
@@ -48,15 +50,9 @@ public class Article {
     @Enumerated(EnumType.STRING)
     TypeArticle typeArticle;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_articles",
-            joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            foreignKey = @ForeignKey(name = "fk_user_articles_article_id"),
-            inverseForeignKey = @ForeignKey(name = "fk_user_articles_user_id")
-    )
-    List<User> users;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_articles_users_user_id"))
+    User user;
 
     @Column(nullable = false)
     Integer numbersProposals;
