@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-
 @Service
 public class ArticleService extends CrudService<Article, ArticleDto, UUID> implements IArticleService {
 

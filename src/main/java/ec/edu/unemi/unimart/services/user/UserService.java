@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
-
 @Service
-
 public class UserService extends CrudService<User, UserDto, UUID> implements IUserService {
 
     public UserService(Mapper mapper, IUserRepository repository) {

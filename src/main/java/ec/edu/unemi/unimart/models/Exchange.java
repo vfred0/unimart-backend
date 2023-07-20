@@ -7,7 +7,8 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
-@Getter @Setter
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -19,7 +20,7 @@ public class Exchange {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-   @ManyToMany
+    @ManyToMany
     @JoinTable(
             name = "exchanges_articles",
             joinColumns = @JoinColumn(name = "exchange_id"),

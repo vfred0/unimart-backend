@@ -14,9 +14,9 @@ import java.util.UUID;
 @Entity
 @Builder
 @Table(name = "users",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = "numberWhatsapp", name = "uq_number_whatsapp")
-    }
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "numberWhatsapp", name = "uq_number_whatsapp")
+        }
 )
 public class User {
     @Id

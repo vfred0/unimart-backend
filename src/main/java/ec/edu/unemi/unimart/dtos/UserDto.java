@@ -8,7 +8,8 @@ import lombok.experimental.FieldDefaults;
 import java.util.UUID;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter @Setter
+@Getter
+@Setter
 public class UserDto {
     UUID id;
     String photo;

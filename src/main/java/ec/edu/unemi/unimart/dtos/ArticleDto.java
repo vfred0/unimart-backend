@@ -21,7 +21,7 @@ public record ArticleDto(
 
         String title,
         String description,
-        List<String>images,
+        List<String> images,
         Category category,
         State state,
         Gender gender,

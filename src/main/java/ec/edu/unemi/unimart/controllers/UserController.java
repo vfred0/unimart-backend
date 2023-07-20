@@ -29,6 +29,7 @@ public class UserController {
         UUID articleId = userService.save(userDto).getId();
         return new ResponseEntity<>(this.getHttpHeaders(articleId), HttpStatus.CREATED);
     }
+
     private HttpHeaders getHttpHeaders(UUID userId) {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")

@@ -2,12 +2,9 @@ package ec.edu.unemi.unimart.utils;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.logging.Logger;
-
 
 @Component
 @RequiredArgsConstructor
