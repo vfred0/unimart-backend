@@ -1,15 +1,12 @@
 package ec.edu.unemi.unimart.services.user;
 
 import ec.edu.unemi.unimart.dtos.UserDto;
+import ec.edu.unemi.unimart.services.crud.ICrudService;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface IUserService {
-    List<UserDto> getAll();
-
-    UUID save(UserDto userDto);
+public interface IUserService extends ICrudService<UserDto, UUID> {
 
     Optional<UserDto> findById(UUID id);
 }
