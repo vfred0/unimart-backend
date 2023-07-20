@@ -1,4 +1,4 @@
-package ec.edu.unemi.unimart.entities;
+package ec.edu.unemi.unimart.models;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @Builder
 @Entity
 @Table(name = "exchanges")
-public class ExchangeEntity {
+public class Exchange {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -25,7 +25,7 @@ public class ExchangeEntity {
             joinColumns = @JoinColumn(name = "exchange_id"),
             inverseJoinColumns = @JoinColumn(name = "article_id")
     )
-    private Set<ArticleEntity> articleId;
+    private Set<Article> articleId;
 
     @Column(nullable = false, length = 50)
     private String userName;

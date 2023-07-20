@@ -1,4 +1,4 @@
-package ec.edu.unemi.unimart.entities;
+package ec.edu.unemi.unimart.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @Entity
 @Builder
 @Table(name = "ratings")
-public class RatingEntity {
+public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
@@ -22,7 +22,7 @@ public class RatingEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_ratings_users_user_id"))
-    private UserEntity userId;
+    private User userId;
 
     @Column(nullable = false, length = 100)
     private String comment;

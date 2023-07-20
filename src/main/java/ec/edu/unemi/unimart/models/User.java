@@ -1,4 +1,4 @@
-package ec.edu.unemi.unimart.entities;
+package ec.edu.unemi.unimart.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -19,7 +18,7 @@ import java.util.UUID;
         @UniqueConstraint(columnNames = "numberWhatsapp", name = "uq_number_whatsapp")
     }
 )
-public class UserEntity {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
