@@ -7,7 +7,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,13 +28,17 @@ public class ArticleController {
 
     @PostMapping
     ResponseEntity<HttpHeaders> save(@RequestBody ArticleDto articleDto) {
-        UUID articleId = articleService.save(articleDto);
+        UUID articleId = articleService.save(articleDto).id();
         return new ResponseEntity<>(this.getHttpHeaders(articleId), HttpStatus.CREATED);
     }
 
-    private HttpHeaders getHttpHeaders(UUID articleId) {
+    private HttpHeaders getHttpHeaders(UUID userId) {
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(userId)
+                .toUri();
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", "/api/v1/articles/" + articleId);
+        headers.setLocation(location);
         return headers;
     }
 }
