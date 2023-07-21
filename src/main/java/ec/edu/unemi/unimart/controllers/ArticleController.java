@@ -2,6 +2,8 @@ package ec.edu.unemi.unimart.controllers;
 
 import ec.edu.unemi.unimart.dtos.ArticleDto;
 import ec.edu.unemi.unimart.services.article.IArticleService;
+import ec.edu.unemi.unimart.utils.Category;
+import ec.edu.unemi.unimart.utils.State;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -50,6 +52,10 @@ public class ArticleController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/search")
+    ResponseEntity<List<ArticleDto>> search(@RequestParam(required = false) String title, @RequestParam(required = false) Category category, @RequestParam(required = false) State state) {
+        return ResponseEntity.ok(articleService.search(title, category, state));
+    }
 
     private HttpHeaders getHttpHeaders(UUID userId) {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
