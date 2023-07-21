@@ -33,7 +33,7 @@ public class Article {
     String description;
 
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 50)
     List<String> images;
 
     @Column(nullable = false, length = 20)

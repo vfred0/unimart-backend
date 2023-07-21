@@ -34,7 +34,7 @@ public class Exchange {
     @Column(nullable = false, length = 50)
     String userName;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 50)
     String userPhoto;
 
     @Column(nullable = false, length = 60)
