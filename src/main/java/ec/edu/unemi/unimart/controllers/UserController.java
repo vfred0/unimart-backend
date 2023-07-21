@@ -30,6 +30,12 @@ public class UserController {
         return new ResponseEntity<>(this.getHttpHeaders(articleId), HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id}")
+    ResponseEntity<HttpHeaders> update(@PathVariable UUID id, @RequestBody UserDto userDto) {
+        UUID articleId = userService.update(id, userDto).getId();
+        return new ResponseEntity<>(this.getHttpHeaders(articleId), HttpStatus.CREATED);
+    }
+
     private HttpHeaders getHttpHeaders(UUID userId) {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
