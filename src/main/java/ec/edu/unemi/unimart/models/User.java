@@ -1,18 +1,19 @@
 package ec.edu.unemi.unimart.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.DecimalMax;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.UUID;
 
-@Data
+@Entity
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "users",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "numberWhatsapp", name = "uq_number_whatsapp")
@@ -22,17 +23,17 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
-    private UUID id;
-    @Column(nullable = false)
-    private String photo;
+    UUID id;
+    @Column(nullable = false, length = 20)
+    String photo;
     @Column(nullable = false, length = 50)
-    private String name;
+    String name;
     @Column(nullable = false, length = 100)
-    private String about;
+    String about;
     @Column(nullable = false)
-    private Integer numberOfExchanges;
+    Integer numberOfExchanges;
     @Column(nullable = false)
-    private Double rating;
+    Double rating;
     @Column(nullable = false, length = 10)
-    private String numberWhatsapp;
+    String numberWhatsapp;
 }

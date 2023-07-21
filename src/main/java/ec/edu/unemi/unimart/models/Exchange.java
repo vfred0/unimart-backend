@@ -2,20 +2,21 @@ package ec.edu.unemi.unimart.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "exchanges")
 public class Exchange {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -24,23 +25,25 @@ public class Exchange {
     @JoinTable(
             name = "exchanges_articles",
             joinColumns = @JoinColumn(name = "exchange_id"),
-            inverseJoinColumns = @JoinColumn(name = "article_id")
+            inverseJoinColumns = @JoinColumn(name = "article_id"),
+            foreignKey = @ForeignKey(name = "fk_exchanges_articles_exchange_id"),
+            inverseForeignKey = @ForeignKey(name = "fk_exchanges_articles_article_id")
     )
-    private Set<Article> articleId;
+    Set<Article> article;
 
     @Column(nullable = false, length = 50)
-    private String userName;
+    String userName;
 
-    @Column(nullable = false)
-    private String userPhoto;
-
-    @Column(nullable = false, length = 60)
-    private String articleToExchange;
+    @Column(nullable = false, length = 20)
+    String userPhoto;
 
     @Column(nullable = false, length = 60)
-    private String articleToReceive;
+    String articleToExchange;
+
+    @Column(nullable = false, length = 60)
+    String articleToReceive;
 
     @Column(nullable = false)
-    private LocalDateTime date;
+    LocalDateTime date;
 }
 

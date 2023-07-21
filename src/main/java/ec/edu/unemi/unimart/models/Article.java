@@ -7,6 +7,7 @@ import ec.edu.unemi.unimart.utils.TypeArticle;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,22 +32,23 @@ public class Article {
     @Column(nullable = false, length = 100)
     String description;
 
-    @ElementCollection
-    @Column(nullable = false)
+    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+    @Column(nullable = false, length = 20)
     List<String> images;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
     Category category;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
     State state;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 10)
     Gender gender;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
     TypeArticle typeArticle;
 
