@@ -12,15 +12,7 @@ import java.util.UUID;
 @Service
 public class ExchangeService extends CrudService<Exchange, ExchangeDto, UUID> implements IExchangeService {
 
-//    private final IExchangeRepository repository;
-
     public ExchangeService(Mapper mapper, IExchangeRepository repository) {
         super(mapper, repository, Exchange.class, ExchangeDto.class);
-//        this.repository = repository;
     }
-//
-//    @Override
-//    public UUID accept(UUID id) {
-//        return repository.accept(id);
-//    }
 }
