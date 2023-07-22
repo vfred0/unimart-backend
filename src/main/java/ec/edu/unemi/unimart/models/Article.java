@@ -7,7 +7,6 @@ import ec.edu.unemi.unimart.utils.TypeArticle;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,7 +39,7 @@ public class Article {
     @Enumerated(EnumType.STRING)
     Category category;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 15)
     @Enumerated(EnumType.STRING)
     State state;
 

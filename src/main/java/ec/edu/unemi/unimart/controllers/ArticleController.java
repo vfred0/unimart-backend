@@ -14,6 +14,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 @RestController
@@ -40,6 +42,7 @@ public class ArticleController {
 
     @PutMapping("/{id}")
     ResponseEntity<HttpHeaders> update(@PathVariable UUID id, @RequestBody ArticleDto articleDto) {
+        Logger.getLogger(ArticleController.class.getName()).log(Level.INFO, "ArticleDto: " + articleDto);
         UUID articleId = articleService.update(id, articleDto).getId();
         return new ResponseEntity<>(this.getHttpHeaders(articleId), HttpStatus.CREATED);
     }
