@@ -17,4 +17,9 @@ public enum State {
     public static State byName(String state) {
         return Arrays.stream(State.values()).filter(s -> s.getName().equals(state)).findFirst().orElse(null);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
