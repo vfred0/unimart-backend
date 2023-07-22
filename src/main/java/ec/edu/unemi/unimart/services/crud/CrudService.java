@@ -2,11 +2,11 @@ package ec.edu.unemi.unimart.services.crud;
 
 import ec.edu.unemi.unimart.repositories.IRepository;
 import ec.edu.unemi.unimart.utils.Mapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 @RequiredArgsConstructor
 public abstract class CrudService<E, D, ID> implements ICrudService<D, ID> {
@@ -16,6 +16,7 @@ public abstract class CrudService<E, D, ID> implements ICrudService<D, ID> {
     private final Class<D> dtoClass;
 
     @Override
+    @Transactional
     public D save(D dto) {
         E entity = mapper.toEntity(dto, entityClass);
         entity = repository.save(entity);
@@ -23,6 +24,7 @@ public abstract class CrudService<E, D, ID> implements ICrudService<D, ID> {
     }
 
     @Override
+    @Transactional
     public D update(ID id, D dto) {
         this.findById(id).orElseThrow(() -> new RuntimeException("Entity not found"));
         return this.save(dto);
