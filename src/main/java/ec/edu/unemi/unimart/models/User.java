@@ -1,7 +1,6 @@
 package ec.edu.unemi.unimart.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMax;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
