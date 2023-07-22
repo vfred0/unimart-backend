@@ -1,11 +1,14 @@
 package ec.edu.unemi.unimart.services.article;
 
 import ec.edu.unemi.unimart.dtos.ArticleDto;
+import ec.edu.unemi.unimart.dtos.UserDto;
 import ec.edu.unemi.unimart.models.Article;
-import ec.edu.unemi.unimart.models.User;
-import ec.edu.unemi.unimart.repositories.IArticleRepository;
+import ec.edu.unemi.unimart.repositories.IRepository;
 import ec.edu.unemi.unimart.services.crud.CrudService;
-import ec.edu.unemi.unimart.utils.*;
+import ec.edu.unemi.unimart.services.user.IUserService;
+import ec.edu.unemi.unimart.utils.Category;
+import ec.edu.unemi.unimart.utils.Mapper;
+import ec.edu.unemi.unimart.utils.State;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +17,13 @@ import java.util.UUID;
 
 @Service
 public class ArticleService extends CrudService<Article, ArticleDto, UUID> implements IArticleService {
+    private final IArticleMapper articleMapper;
+    private final IUserService userService;
 
-    public ArticleService(Mapper mapper, IArticleRepository repository) {
+    public ArticleService(Mapper mapper, IRepository<Article, UUID> repository, IArticleMapper articleMapper, IUserService userService) {
         super(mapper, repository, Article.class, ArticleDto.class);
+        this.articleMapper = articleMapper;
+        this.userService = userService;
     }
 
     @Override
@@ -25,61 +32,20 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
                 .filter(article -> article.getTitle().toLowerCase().contains(title.toLowerCase()))
                 .filter(article -> article.getCategory().equals(category))
                 .filter(article -> article.getState().equals(state))
-                .map(this::getArticleDto).toList();
+                .map(article -> getMapper().toDto(article, ArticleDto.class)).toList();
     }
 
     @Override
-    public ArticleDto save(ArticleDto dto) {
-        User user = User.builder().id(dto.getUserId()).build();
-        Article article = Article.builder()
-                .user(user)
-                .title(dto.getTitle())
-                .description(dto.getDescription())
-                .images(dto.getImages())
-                .category(Category.byName(dto.getCategory()))
-                .state(State.byName(dto.getState()))
-                .gender(Gender.byName(dto.getGender()))
-                .typeArticle(TypeArticle.byName(dto.getTypeArticle()))
-                .date(dto.getDate()).numbersProposals(0).build();
-        return getMapper().toDto(getRepository().save(article), ArticleDto.class);
+    public ArticleDto save(ArticleDto articleDto) {
+        Optional<UserDto> userDto = this.userService.findById(articleDto.getUserId());
+        userDto.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        articleDto.setUser(userDto.get());
+        return this.articleMapper.toDto(this.getRepository().save(this.articleMapper.toModel(articleDto)));
     }
 
     @Override
-    public List<ArticleDto> getAll() {
-        return getRepository().findAll().stream().map(this::getArticleDto).toList();
-    }
+    public ArticleDto update(UUID uuid, ArticleDto articleDto) {
+        return this.save(articleDto);
 
-    private ArticleDto getArticleDto(Article article) {
-        ArticleDto dto = getMapper().toDto(article, ArticleDto.class);
-        dto.setUserId(null);
-        return dto;
-    }
-
-
-    @Override
-    public ArticleDto update(UUID id, ArticleDto articleDto) {
-        Optional<Article> articleEntity = getRepository().findById(id);
-        articleEntity.orElseThrow(() -> new RuntimeException("No se encontró el artículo"));
-        Article article = articleEntity.get();
-        article.setId(articleDto.getId());
-        article.setUser(article.getUser());
-        article.setTitle(articleDto.getTitle());
-        article.setDescription(articleDto.getDescription());
-        article.setImages(articleDto.getImages());
-        article.setCategory(Category.byName(articleDto.getCategory()));
-        article.setState(State.byName(articleDto.getState()));
-        if (articleDto.getGender() != null) {
-            article.setGender(Gender.byName(articleDto.getGender()));
-        }
-        article.setTypeArticle(TypeArticle.byName(articleDto.getTypeArticle()));
-        article.setNumbersProposals(articleDto.getNumbersProposals());
-        article.setDate(articleDto.getDate());
-        return getMapper().toDto(getRepository().save(article), ArticleDto.class);
-    }
-
-
-    @Override
-    public Optional<ArticleDto> findById(UUID id) {
-        return getRepository().findById(id).map(this::getArticleDto);
     }
 }
