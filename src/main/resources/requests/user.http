@@ -1,0 +1,58 @@
+###
+POST http://localhost:8080/api/v1/users
+Content-Type: application/json
+
+{
+  "photo": "https://is.gd/Xp9Pwj",
+  "name": "Roxana Rocha",
+  "about": "Tnego varios libros que ya no uso, pero me gustaría intercambiarlos por otros que no he leído",
+  "numberOfExchanges": 2,
+  "rating": 3,
+  "numberWhatsapp": "0912345678"
+}
+
+###
+PUT http://localhost:8080/api/v1/users/06fcffc5-523f-4ede-8416-afa86fd067c8
+Content-Type: application/json
+
+{
+  "id": "06fcffc5-523f-4ede-8416-afa86fd067c8",
+  "photo": "https://is.gd/YY9Rd8",
+  "name": "Roxana Rocha",
+  "about": "Tnego varios libros que ya no uso, pero me gustaría intercambiarlos por otros que no he leído",
+  "numberOfExchanges": 2,
+  "rating": 3,
+  "numberWhatsapp": "0912345678"
+}
+
+
+###
+POST http://localhost:8080/api/v1/users
+Content-Type: application/json
+
+{
+  "photo": "https://is.gd/YY9Rd8",
+  "name": "Víctor Arreaga",
+  "about": "Me gusta la idea de intercambiar cosas, porque así puedo obtener cosas que necesito sin gastar dinero",
+  "numberOfExchanges": 10,
+  "rating": 5,
+  "numberWhatsapp": "0987654321"
+}
+
+###
+PUT http://localhost:8080/api/v1/users/3ae3539c-54e8-4a74-a248-e9ea480ca591
+Content-Type: application/json
+
+{
+  "id": "3ae3539c-54e8-4a74-a248-e9ea480ca591",
+  "photo": "https://is.gd/YY9Rd8",
+  "name": "Víctor A.",
+  "about": "Me gusta la idea de intercambiar cosas, porque así puedo obtener cosas que necesito sin gastar dinero",
+  "numberOfExchanges": 10,
+  "rating": 5.0 ,
+  "numberWhatsapp": "0987654321"
+}
+
+###
+GET http://localhost:8080/api/v1/users
+

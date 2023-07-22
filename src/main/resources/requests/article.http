@@ -1,0 +1,40 @@
+###
+POST http://localhost:8080/api/v1/articles
+Content-Type: application/json
+
+{
+  "userId": "8b3f6baf-6003-4709-9a2c-b043b171a598",
+  "title": "Samsung J7 Neo",
+  "description": "Es un celular muy bueno, tiene 2 años de uso",
+  "images": ["https://is.gd/J7tWNO"],
+  "category": "Electrónica",
+  "state": "Baja calidad",
+  "typeArticle": "Publicado",
+  "numbersProposals": 1,
+  "date": "2023-08-23T20:10:10"
+}
+###
+GET http://localhost:8080/api/v1/articles
+
+###
+GET http://localhost:8080/api/v1/articles/search?title=Samsung J7 Neo&category=ELECTRONICS&state=PREOWNED
+
+###
+PUT http://localhost:8080/api/v1/articles/f5256ad2-0f29-48e9-a5fe-8b651f8a34c5
+Content-Type: application/json
+
+{
+  "id": "f5256ad2-0f29-48e9-a5fe-8b651f8a34c5",
+  "userId": "06fcffc5-523f-4ede-8416-afa86fd067c8",
+  "title": "MacBook Pro 2019",
+  "description": "No tiene mucho uso, prácticamente nuevo",
+  "images": ["https://is.gd/J7tWNO", "https://is.gd/z633eP"],
+  "category": "Electrónica",
+  "state": "Usado",
+  "typeArticle": "Publicado",
+  "numbersProposals": 10,
+  "date": "2023-07-22T20:10:10"
+}
+
+###
+DELETE http://localhost:8080/api/v1/articles/a758ed61-0c0f-48c4-99c3-83637761c799
