@@ -22,7 +22,7 @@ public class ArticleDto {
     UserDto user;
     @Size(max = 60, message = "El título no puede tener más de 60 caracteres")
     String title;
-    @Size(max = 100, message = "La descripción no puede tener más de 100 caracteres")
+    @Size(max = 250, message = "La descripción no puede tener más de 100 caracteres")
     String description;
     List<String> images;
     @Size(max = 20, message = "La categoría no puede tener más de 20 caracteres")

@@ -17,7 +17,7 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RatingDto {
     UUID id;
-    @Size(max = 100, message = "El comentario no puede tener más de 100 caracteres")
+    @Size(max = 250, message = "El comentario no puede tener más de 100 caracteres")
     String comment;
     Integer rating;
 }

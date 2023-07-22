@@ -21,7 +21,7 @@ public class UserDto {
     String photo;
     @Size(max = 20, message = "El nombre debe tener máximo 20 caracteres")
     String name;
-    @Size(max = 100, message = "La descripción debe tener máximo 100 caracteres")
+    @Size(max = 250, message = "La descripción debe tener máximo 100 caracteres")
     String about;
     Integer numberOfExchanges;
     Double rating;
