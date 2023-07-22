@@ -29,9 +29,7 @@ public class ArticleController {
 
     @GetMapping("/{id}")
     ResponseEntity<ArticleDto> findById(@PathVariable UUID id) {
-        return articleService.findById(id)
-                .map(articleDto -> new ResponseEntity<>(articleDto, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return articleService.findById(id).map(articleDto -> new ResponseEntity<>(articleDto, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
@@ -53,15 +51,12 @@ public class ArticleController {
     }
 
     @GetMapping("/search")
-    ResponseEntity<List<ArticleDto>> search(@RequestParam(required = false) String title, @RequestParam(required = false) Category category, @RequestParam(required = false) State state) {
-        return ResponseEntity.ok(articleService.search(title, category, state));
+    ResponseEntity<List<ArticleDto>> search(@RequestParam(required = false) String title, @RequestParam(required = false) String category, @RequestParam(required = false) String state) {
+        return ResponseEntity.ok(articleService.search(title, Category.byName(category), State.byName(state)));
     }
 
     private HttpHeaders getHttpHeaders(UUID userId) {
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(userId)
-                .toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(userId).toUri();
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(location);
         return headers;
