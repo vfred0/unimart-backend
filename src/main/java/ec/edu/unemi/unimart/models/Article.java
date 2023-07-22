@@ -29,7 +29,7 @@ public class Article {
     @Column(nullable = false, length = 60)
     String title;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 250)
     String description;
 
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)

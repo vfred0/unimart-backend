@@ -28,7 +28,7 @@ public class User {
     String photo;
     @Column(nullable = false, length = 50)
     String name;
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 250)
     String about;
     @Column(nullable = false)
     Integer numberOfExchanges;

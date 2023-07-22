@@ -24,7 +24,7 @@ public class Rating {
     @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_ratings_users_user_id"))
     User user;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 250)
     String comment;
 
     @Column(nullable = false)
