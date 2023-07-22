@@ -21,10 +21,6 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
 
     @Override
     public List<ArticleDto> search(String title, Category category, State state) {
-        return getRepository().findAll().stream()
-                .filter(article -> article.getTitle().toLowerCase().contains(title.toLowerCase()))
-                .filter(article -> article.getCategory().equals(category))
-                .filter(article -> article.getState().equals(state))
-                .map(article -> getMapper().toDto(article, ArticleDto.class)).toList();
+        return getRepository().findAll().stream().filter(article -> article.getTitle().toLowerCase().contains(title.toLowerCase())).filter(article -> article.getCategory().equals(category)).filter(article -> article.getState().equals(state)).map(article -> getMapper().toDto(article, ArticleDto.class)).toList();
     }
 }
