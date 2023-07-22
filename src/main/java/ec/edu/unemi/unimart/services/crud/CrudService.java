@@ -17,18 +17,15 @@ public abstract class CrudService<E, D, ID> implements ICrudService<D, ID> {
 
     @Override
     public D save(D dto) {
-        Logger.getLogger("CrudService").info("Received DTO: " + dto);
         E entity = mapper.toEntity(dto, entityClass);
         entity = repository.save(entity);
-        Logger.getLogger("CrudService").info("Entity saved: " + entity);
         return mapper.toDto(entity, dtoClass);
     }
 
     @Override
     public D update(ID id, D dto) {
-        E entity = mapper.toEntity(dto, entityClass);
-        entity = repository.save(entity);
-        return mapper.toDto(entity, dtoClass);
+        this.findById(id).orElseThrow(() -> new RuntimeException("Entity not found"));
+        return this.save(dto);
     }
 
     @Override
@@ -43,7 +40,7 @@ public abstract class CrudService<E, D, ID> implements ICrudService<D, ID> {
     }
 
     @Override
-    public Optional<D>  findById(ID id) {
+    public Optional<D> findById(ID id) {
         return repository.findById(id).map(entity -> mapper.toDto(entity, dtoClass));
     }
 
