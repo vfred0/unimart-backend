@@ -6,9 +6,6 @@ import ec.edu.unemi.unimart.models.Article;
 import ec.edu.unemi.unimart.repositories.IRepository;
 import ec.edu.unemi.unimart.services.crud.CrudService;
 import ec.edu.unemi.unimart.services.user.IUserService;
-import ec.edu.unemi.unimart.utils.Category;
-import ec.edu.unemi.unimart.utils.Mapper;
-import ec.edu.unemi.unimart.utils.State;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +17,7 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
     private final IArticleMapper articleMapper;
     private final IUserService userService;
 
-    public ArticleService(Mapper mapper, IRepository<Article, UUID> repository, IArticleMapper articleMapper, IUserService userService) {
+    public ArticleService(Mapper mapper, IArticleRepository repository, IArticleMapper articleMapper, IUserService userService) {
         super(mapper, repository, Article.class, ArticleDto.class);
         this.articleMapper = articleMapper;
         this.userService = userService;
