@@ -1,4 +1,4 @@
-package ec.edu.unemi.unimart.utils;
+package ec.edu.unemi.unimart.models.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.util.Arrays;
 @Getter
 @AllArgsConstructor
-public enum State {
+public enum State  {
     NEW("Nuevo"),
     PREOWNED("Seminuevo"),
     USED("Usado"),

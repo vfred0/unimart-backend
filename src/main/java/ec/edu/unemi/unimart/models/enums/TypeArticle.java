@@ -1,4 +1,4 @@
-package ec.edu.unemi.unimart.utils;
+package ec.edu.unemi.unimart.models.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
