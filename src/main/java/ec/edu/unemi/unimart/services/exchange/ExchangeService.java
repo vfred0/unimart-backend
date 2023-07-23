@@ -4,7 +4,7 @@ import ec.edu.unemi.unimart.dtos.ExchangeDto;
 import ec.edu.unemi.unimart.models.Exchange;
 import ec.edu.unemi.unimart.repositories.IExchangeRepository;
 import ec.edu.unemi.unimart.services.crud.CrudService;
-import ec.edu.unemi.unimart.utils.Mapper;
+import ec.edu.unemi.unimart.mappers.Mapper;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

@@ -4,7 +4,7 @@ import ec.edu.unemi.unimart.dtos.RatingDto;
 import ec.edu.unemi.unimart.models.Rating;
 import ec.edu.unemi.unimart.repositories.IRatingRepository;
 import ec.edu.unemi.unimart.services.crud.CrudService;
-import ec.edu.unemi.unimart.utils.Mapper;
+import ec.edu.unemi.unimart.mappers.Mapper;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

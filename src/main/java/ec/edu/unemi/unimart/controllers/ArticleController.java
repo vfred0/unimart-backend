@@ -2,8 +2,8 @@ package ec.edu.unemi.unimart.controllers;
 
 import ec.edu.unemi.unimart.dtos.ArticleDto;
 import ec.edu.unemi.unimart.services.article.IArticleService;
-import ec.edu.unemi.unimart.utils.Category;
-import ec.edu.unemi.unimart.utils.State;
+import ec.edu.unemi.unimart.models.enums.Category;
+import ec.edu.unemi.unimart.models.enums.State;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
