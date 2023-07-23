@@ -1,4 +1,4 @@
-package ec.edu.unemi.unimart.utils;
+package ec.edu.unemi.unimart.mappers;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -16,7 +16,7 @@ public class Mapper {
         return mapper.map(entity, dtoClass);
     }
 
-    public <E, D> E toEntity(D dto, Class<E> entityClass) {
+    public <E, D> E toModel(D dto, Class<E> entityClass) {
         return mapper.map(dto, entityClass);
     }
 

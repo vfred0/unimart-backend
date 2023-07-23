@@ -1,7 +1,7 @@
 package ec.edu.unemi.unimart.services.crud;
 
 import ec.edu.unemi.unimart.repositories.IRepository;
-import ec.edu.unemi.unimart.utils.Mapper;
+import ec.edu.unemi.unimart.mappers.Mapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -9,18 +9,18 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public abstract class CrudService<E, D, ID> implements ICrudService<D, ID> {
+public abstract class CrudService<M, D, ID> implements ICrudService<D, ID> {
     private final Mapper mapper;
-    private final IRepository<E, ID> repository;
-    private final Class<E> entityClass;
+    private final IRepository<M, ID> repository;
+    private final Class<M> modelClass;
     private final Class<D> dtoClass;
 
     @Override
     @Transactional
     public D save(D dto) {
-        E entity = mapper.toEntity(dto, entityClass);
-        entity = repository.save(entity);
-        return mapper.toDto(entity, dtoClass);
+        M model = mapper.toModel(dto, modelClass);
+        model = repository.save(model);
+        return mapper.toDto(model, dtoClass);
     }
 
     @Override
@@ -37,16 +37,16 @@ public abstract class CrudService<E, D, ID> implements ICrudService<D, ID> {
 
     @Override
     public List<D> getAll() {
-        List<E> entities = repository.findAll();
+        List<M> entities = repository.findAll();
         return mapper.toDtos(entities, dtoClass);
     }
 
     @Override
     public Optional<D> findById(ID id) {
-        return repository.findById(id).map(entity -> mapper.toDto(entity, dtoClass));
+        return repository.findById(id).map(model -> mapper.toDto(model, dtoClass));
     }
 
-    protected IRepository<E, ID> getRepository() {
+    protected IRepository<M, ID> getRepository() {
         return repository;
     }
 

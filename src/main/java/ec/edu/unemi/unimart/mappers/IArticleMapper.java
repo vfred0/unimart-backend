@@ -1,11 +1,11 @@
-package ec.edu.unemi.unimart.services.article;
+package ec.edu.unemi.unimart.mappers;
 
 import ec.edu.unemi.unimart.dtos.ArticleDto;
 import ec.edu.unemi.unimart.models.Article;
-import ec.edu.unemi.unimart.utils.Category;
-import ec.edu.unemi.unimart.utils.Gender;
-import ec.edu.unemi.unimart.utils.State;
-import ec.edu.unemi.unimart.utils.TypeArticle;
+import ec.edu.unemi.unimart.models.enums.Category;
+import ec.edu.unemi.unimart.models.enums.Gender;
+import ec.edu.unemi.unimart.models.enums.State;
+import ec.edu.unemi.unimart.models.enums.TypeArticle;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
