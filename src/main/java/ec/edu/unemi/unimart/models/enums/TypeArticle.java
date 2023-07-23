@@ -9,7 +9,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum TypeArticle {
     PUBLISHED("Publicado"),
-    PROPOSED("Propuesto");;
+    PROPOSED("Propuesto");
 
     private final String name;
 
