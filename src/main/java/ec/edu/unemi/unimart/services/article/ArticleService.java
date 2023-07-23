@@ -2,8 +2,12 @@ package ec.edu.unemi.unimart.services.article;
 
 import ec.edu.unemi.unimart.dtos.ArticleDto;
 import ec.edu.unemi.unimart.dtos.UserDto;
+import ec.edu.unemi.unimart.mappers.IArticleMapper;
+import ec.edu.unemi.unimart.mappers.Mapper;
 import ec.edu.unemi.unimart.models.Article;
-import ec.edu.unemi.unimart.repositories.IRepository;
+import ec.edu.unemi.unimart.models.enums.Category;
+import ec.edu.unemi.unimart.models.enums.State;
+import ec.edu.unemi.unimart.repositories.IArticleRepository;
 import ec.edu.unemi.unimart.services.crud.CrudService;
 import ec.edu.unemi.unimart.services.user.IUserService;
 import org.springframework.stereotype.Service;
