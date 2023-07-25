@@ -1,6 +1,6 @@
 package ec.edu.unemi.unimart.mappers;
 
-import ec.edu.unemi.unimart.dtos.ArticleDto;
+import ec.edu.unemi.unimart.dtos.article.ArticleDto;
 import ec.edu.unemi.unimart.models.Article;
 import ec.edu.unemi.unimart.models.enums.Category;
 import ec.edu.unemi.unimart.models.enums.Gender;
