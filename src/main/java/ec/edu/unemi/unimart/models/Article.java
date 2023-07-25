@@ -59,4 +59,9 @@ public class Article {
     Short numbersProposals;
     
     LocalDateTime date;
+
+    @ElementCollection(targetClass = UUID.class, fetch = FetchType.LAZY)
+    @CollectionTable(name = "articles_suggestions", joinColumns = @JoinColumn(name = "article_id"))
+    @Column(name = "suggest_id", nullable = false)
+    List<UUID> suggestions;
 }
