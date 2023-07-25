@@ -23,6 +23,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
     UUID id;
+    @Column(nullable = false, length = 15)
+    String username;
     @Column(nullable = false, length = 50)
     String photo;
     @Column(nullable = false, length = 50)
@@ -35,4 +37,6 @@ public class User {
     Double rating;
     @Column(nullable = false, length = 10)
     String numberWhatsapp;
+    @Column(nullable = false, columnDefinition = "text")
+    String password;
 }
