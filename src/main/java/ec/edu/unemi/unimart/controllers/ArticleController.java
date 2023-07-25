@@ -1,9 +1,10 @@
 package ec.edu.unemi.unimart.controllers;
 
-import ec.edu.unemi.unimart.dtos.ArticleDto;
-import ec.edu.unemi.unimart.services.article.IArticleService;
+import ec.edu.unemi.unimart.dtos.article.ArticleDto;
+import ec.edu.unemi.unimart.dtos.article.ArticleCardDto;
 import ec.edu.unemi.unimart.models.enums.Category;
 import ec.edu.unemi.unimart.models.enums.State;
+import ec.edu.unemi.unimart.services.article.IArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,8 +15,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 @RestController
@@ -33,6 +32,10 @@ public class ArticleController {
     ResponseEntity<ArticleDto> findById(@PathVariable UUID id) {
         return articleService.findById(id).map(articleDto -> new ResponseEntity<>(articleDto, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+    @GetMapping("/user/{id}")
+    ResponseEntity<List<ArticleCardDto>> findByUserId(@PathVariable UUID id) {
+        return ResponseEntity.ok(articleService.findByUserId(id));
+    }
 
     @PostMapping
     ResponseEntity<HttpHeaders> save(@RequestBody ArticleDto articleDto) {
@@ -42,7 +45,6 @@ public class ArticleController {
 
     @PutMapping("/{id}")
     ResponseEntity<HttpHeaders> update(@PathVariable UUID id, @RequestBody ArticleDto articleDto) {
-        Logger.getLogger(ArticleController.class.getName()).log(Level.INFO, "ArticleDto: " + articleDto);
         UUID articleId = articleService.update(id, articleDto).getId();
         return new ResponseEntity<>(this.getHttpHeaders(articleId), HttpStatus.CREATED);
     }

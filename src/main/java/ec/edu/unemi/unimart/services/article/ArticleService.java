@@ -1,7 +1,8 @@
 package ec.edu.unemi.unimart.services.article;
 
-import ec.edu.unemi.unimart.dtos.ArticleDto;
 import ec.edu.unemi.unimart.dtos.UserDto;
+import ec.edu.unemi.unimart.dtos.article.ArticleCardDto;
+import ec.edu.unemi.unimart.dtos.article.ArticleDto;
 import ec.edu.unemi.unimart.mappers.IArticleMapper;
 import ec.edu.unemi.unimart.mappers.Mapper;
 import ec.edu.unemi.unimart.models.Article;
@@ -47,6 +48,12 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
     @Override
     public ArticleDto update(UUID uuid, ArticleDto articleDto) {
         return this.save(articleDto);
+    }
 
+    @Override
+    public List<ArticleCardDto> findByUserId(UUID id) {
+        return getRepository().findAll().stream()
+                .filter(article -> article.getUser().getId().equals(id))
+                .map(article -> getMapper().toDto(article, ArticleCardDto.class)).toList();
     }
 }
