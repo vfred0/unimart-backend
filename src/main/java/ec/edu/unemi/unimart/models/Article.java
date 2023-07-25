@@ -55,9 +55,9 @@ public class Article {
     @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_articles_users_user_id"))
     User user;
 
-    @Column(columnDefinition = "SMALLINT DEFAULT 0")
+   @Column(columnDefinition = "SMALLINT DEFAULT 0")
     Short numbersProposals;
-    
+
     LocalDateTime date;
 
     @ElementCollection(targetClass = UUID.class, fetch = FetchType.LAZY)
