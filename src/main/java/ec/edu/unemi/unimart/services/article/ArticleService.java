@@ -1,8 +1,9 @@
 package ec.edu.unemi.unimart.services.article;
 
 import ec.edu.unemi.unimart.dtos.UserDto;
-import ec.edu.unemi.unimart.dtos.article.ArticleCardDto;
 import ec.edu.unemi.unimart.dtos.article.ArticleDto;
+import ec.edu.unemi.unimart.dtos.article.ArticleSaveOrCardDto;
+import ec.edu.unemi.unimart.dtos.article.SuggestArticleDto;
 import ec.edu.unemi.unimart.mappers.IArticleMapper;
 import ec.edu.unemi.unimart.mappers.Mapper;
 import ec.edu.unemi.unimart.models.Article;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @Service
 public class ArticleService extends CrudService<Article, ArticleDto, UUID> implements IArticleService {
@@ -39,6 +41,7 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
 
     @Override
     public ArticleDto save(ArticleDto articleDto) {
+        Logger.getLogger("ArticleService").info("ArticleDto: " + articleDto);
         Optional<UserDto> userDto = this.userService.findById(articleDto.getUserId());
         userDto.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         articleDto.setUser(userDto.get());
@@ -51,9 +54,21 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
     }
 
     @Override
-    public List<ArticleCardDto> findByUserId(UUID id) {
+    public List<ArticleSaveOrCardDto> findByUserId(UUID id) {
         return getRepository().findAll().stream()
                 .filter(article -> article.getUser().getId().equals(id))
-                .map(article -> getMapper().toDto(article, ArticleCardDto.class)).toList();
+                .map(article -> getMapper().toDto(article, ArticleSaveOrCardDto.class)).toList();
+    }
+
+    @Override
+    public UUID addProposal(SuggestArticleDto suggestArticleDto) {
+        Article article = this.getRepository().findById(suggestArticleDto.getArticleId()).orElseThrow(() -> new RuntimeException("Articulo no encontrado"));
+        Article suggestArticle = this.getRepository().findById(suggestArticleDto.getSuggestArticleId()).orElseThrow(() -> new RuntimeException("Propuesta no encontrada"));
+        List<UUID> suggestions = article.getSuggestions();
+        suggestions.add(suggestArticle.getId());
+        article.setSuggestions(suggestions);
+        article.setNumbersProposals((short) (suggestions.size()));
+        this.getRepository().save(article);
+        return article.getId();
     }
 }
