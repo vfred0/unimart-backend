@@ -35,7 +35,7 @@ public class Article {
     @Column(nullable = false, length = 50)
     List<String> images;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 35)
     @Enumerated(EnumType.STRING)
     Category category;
 
