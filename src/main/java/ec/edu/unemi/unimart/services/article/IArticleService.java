@@ -17,5 +17,9 @@ public interface IArticleService extends ICrudService<ArticleDto, UUID> {
 
     UUID addProposal(SuggestArticleDto suggestArticleDto);
 
-    List<ArticleCardDto> proposedArticles(UUID id);
+    List<ArticleCardDto> proposedArticlesByUserId(UUID id);
+
+    void deleteProposedArticleById(UUID id);
+
+    void deleteProposedArticleByArticleId(UUID articleId, UUID proposedArticleId);
 }

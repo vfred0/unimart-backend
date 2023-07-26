@@ -12,7 +12,7 @@ import java.util.UUID;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SuggestArticleDto {
+public class ProposedArticleDto {
     UUID articleId;
-    UUID suggestArticleId;
+    UUID proposedArticleId;
 }

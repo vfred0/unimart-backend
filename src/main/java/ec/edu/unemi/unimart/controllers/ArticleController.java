@@ -2,7 +2,7 @@ package ec.edu.unemi.unimart.controllers;
 
 import ec.edu.unemi.unimart.dtos.article.ArticleDto;
 import ec.edu.unemi.unimart.dtos.article.ArticleCardDto;
-import ec.edu.unemi.unimart.dtos.article.SuggestArticleDto;
+import ec.edu.unemi.unimart.dtos.article.ProposedArticleDto;
 import ec.edu.unemi.unimart.models.enums.Category;
 import ec.edu.unemi.unimart.models.enums.State;
 import ec.edu.unemi.unimart.services.article.IArticleService;

@@ -9,6 +9,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -56,18 +57,33 @@ public class Article {
     @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_articles_users_user_id"))
     User user;
 
-   @Column(columnDefinition = "SMALLINT DEFAULT 0")
+    @Column(columnDefinition = "SMALLINT DEFAULT 0")
     Short numbersProposals;
 
     LocalDateTime date;
 
-    @ElementCollection(targetClass = UUID.class, fetch = FetchType.LAZY)
-    @CollectionTable(name = "articles_suggestions", joinColumns = @JoinColumn(name = "article_id"))
-    @Column(name = "suggest_id", nullable = false)
-    Set<UUID> suggestions;
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    Set<ProposedArticle> proposedArticles = new HashSet<>();
 
-    public void setSuggestArticle(UUID suggestArticleId) {
-        this.suggestions.add(suggestArticleId);
-        this.numbersProposals++;
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    Set<ExchangeArticle> exchangeArticle = new HashSet<>();
+
+    public void addProposedArticle(UUID articleProposedId) {
+        this.proposedArticles.add(
+                ProposedArticle.builder()
+                        .article(this)
+                        .proposedArticle(Article.builder().id(articleProposedId).build())
+                        .build()
+        );
+        this.updateNumberProposals();
+    }
+
+    public void updateNumberProposals() {
+        this.numbersProposals = (short) this.proposedArticles.size();
+    }
+
+    public void removeProposedArticle(UUID proposedArticleId) {
+        this.proposedArticles.removeIf(proposedArticle -> proposedArticle.getProposedArticle().getId().equals(proposedArticleId));
+        this.updateNumberProposals();
     }
 }

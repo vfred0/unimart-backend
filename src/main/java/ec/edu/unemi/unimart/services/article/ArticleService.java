@@ -70,11 +70,32 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
     }
 
     @Override
-    public List<ArticleCardDto> proposedArticles(UUID id) {
-        Article article = this.getRepository().findById(id).orElseThrow(() -> new RuntimeException("Articulo no encontrado"));
-        return article.getSuggestions().stream()
-                .map(this::findById)
-                .map(articleDto -> this.getMapper().toDto(articleDto.get(), ArticleCardDto.class))
-                .toList();
+    public List<ArticleCardDto> proposedArticlesByArticleId(UUID articleId) {
+        Article article = this.getRepository().findById(articleId).orElseThrow(() -> new RuntimeException("Articulo no encontrado"));
+        Logger.getLogger("ArticleService").info("Article: " + article);
+        return this.getRepository().findProposedArticlesByArticleId(article.getUser().getId());
+    }
+
+    @Override
+    protected IArticleRepository getRepository() {
+        return (IArticleRepository) super.getRepository();
+    }
+
+    @Override
+    public List<ArticleCardDto> proposedArticlesByUserId(UUID userId) {
+        return getRepository().findProposedArticlesByUserId(userId);
+    }
+
+    @Override
+    public void deleteProposedArticleById(UUID id) {
+
+    }
+
+    @Override
+    public void deleteProposedArticleByArticleId(UUID articleId, UUID proposedArticleId) {
+        Article article = this.getRepository().findById(articleId).orElseThrow(() -> new RuntimeException("Articulo no encontrado"));
+        this.getRepository().deleteProposedArticleByArticleId(articleId, proposedArticleId);
+        article.removeProposedArticle(proposedArticleId);
+        this.getRepository().save(article);
     }
 }
