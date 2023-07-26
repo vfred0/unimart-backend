@@ -37,6 +37,12 @@ public class ExchangeController {
         return new ResponseEntity<>(getHttpHeaders(id), HttpStatus.CREATED);
     }
 
+    @GetMapping("/user/{id}")
+    ResponseEntity<List<ExchangeDto>> findByUserId(@PathVariable UUID id) {
+        return ResponseEntity.ok(exchangeService.findByUserId(id));
+    }
+
+
     private HttpHeaders getHttpHeaders(UUID userId) {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
