@@ -5,8 +5,10 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @Entity
 @Getter
@@ -21,15 +23,8 @@ public class Exchange {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToMany
-    @JoinTable(
-            name = "exchanges_articles",
-            joinColumns = @JoinColumn(name = "exchange_id"),
-            inverseJoinColumns = @JoinColumn(name = "article_id"),
-            foreignKey = @ForeignKey(name = "fk_exchanges_articles_exchange_id"),
-            inverseForeignKey = @ForeignKey(name = "fk_exchanges_articles_article_id")
-    )
-    Set<Article> article;
+    @OneToMany(mappedBy = "exchange")
+    Set<ExchangeArticle> exchangeArticle;
 
     @Column(nullable = false, length = 50)
     String userName;
@@ -45,5 +40,18 @@ public class Exchange {
 
     @Column(nullable = false)
     LocalDateTime date;
+
+    public void add(Article article, Article articleProposed) {
+        if (this.exchangeArticle == null) {
+            exchangeArticle = new HashSet<>();
+        }
+        Logger.getLogger("Exchange").info("Article: " + article + "ArticleProposed: " + articleProposed);
+        this.exchangeArticle.add(ExchangeArticle.builder().exchange(this).article(article).articleProposed(articleProposed).build());
+        this.userName = article.getUser().getName();
+        this.userPhoto = article.getUser().getPhoto();
+        this.articleToExchange = article.getTitle();
+        this.articleToReceive = articleProposed.getTitle();
+        this.date = LocalDateTime.now();
+    }
 }
 

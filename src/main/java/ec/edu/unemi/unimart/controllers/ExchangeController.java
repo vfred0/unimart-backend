@@ -1,6 +1,7 @@
 package ec.edu.unemi.unimart.controllers;
 
 import ec.edu.unemi.unimart.dtos.ExchangeDto;
+import ec.edu.unemi.unimart.dtos.ExchangeSaveDto;
 import ec.edu.unemi.unimart.services.exchange.IExchangeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -31,11 +32,10 @@ public class ExchangeController {
     }
 
     @PostMapping
-    ResponseEntity<HttpHeaders> save(@RequestBody ExchangeDto exchangeDto) {
-        UUID id = exchangeService.save(exchangeDto).getId();
+    ResponseEntity<HttpHeaders> save(@RequestBody ExchangeSaveDto exchangeSaveDto) {
+        UUID id = exchangeService.save(exchangeSaveDto);
         return new ResponseEntity<>(getHttpHeaders(id), HttpStatus.CREATED);
     }
-
 
     private HttpHeaders getHttpHeaders(UUID userId) {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
