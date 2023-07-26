@@ -9,6 +9,7 @@ import ec.edu.unemi.unimart.mappers.Mapper;
 import ec.edu.unemi.unimart.models.Article;
 import ec.edu.unemi.unimart.models.enums.Category;
 import ec.edu.unemi.unimart.models.enums.State;
+import ec.edu.unemi.unimart.models.enums.TypeArticle;
 import ec.edu.unemi.unimart.repositories.IArticleRepository;
 import ec.edu.unemi.unimart.services.crud.CrudService;
 import ec.edu.unemi.unimart.services.user.IUserService;
@@ -82,7 +83,9 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
 
     @Override
     public List<ArticleCardDto> proposedArticlesByUserId(UUID userId) {
-        return getRepository().findProposedArticlesByUserId(userId);
+        return this.getRepository().findAll().stream()
+                .filter(article -> article.isToUserAndArticleProposed(userId))
+                .map(article -> getMapper().toDto(article, ArticleCardDto.class)).toList();
     }
 
     @Override

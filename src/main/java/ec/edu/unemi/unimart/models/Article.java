@@ -86,4 +86,8 @@ public class Article {
         this.proposedArticles.removeIf(proposedArticle -> proposedArticle.getProposedArticle().getId().equals(proposedArticleId));
         this.updateNumberProposals();
     }
+
+    public boolean isToUserAndArticleProposed(UUID userId) {
+        return this.user.getId().equals(userId) && this.typeArticle.equals(TypeArticle.PROPOSED);
+    }
 }

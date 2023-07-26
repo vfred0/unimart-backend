@@ -13,11 +13,6 @@ import java.util.UUID;
 public interface IArticleRepository extends IRepository<Article, UUID> {
     @Query(value = "SELECT a.* FROM articles a " +
             "JOIN proposed_articles ap ON a.id = ap.article_id " +
-            "WHERE a.user_id = :userId", nativeQuery = true)
-    List<ArticleCardDto> findProposedArticlesByUserId(@Param("userId") UUID userId);
-
-    @Query(value = "SELECT a.* FROM articles a " +
-            "JOIN proposed_articles ap ON a.id = ap.article_id " +
             "WHERE ap.article_id = :id", nativeQuery = true)
     List<ArticleCardDto> findProposedArticlesByArticleId(UUID id);
 
