@@ -2,7 +2,6 @@ package ec.edu.unemi.unimart.dtos.article;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -30,12 +29,12 @@ public class ArticleCardDto {
     @Size(max = 15, message = "El estado no puede tener más de 15 caracteres")
     String state;
     @Size(max = 10, message = "El género no puede tener más de 10 caracteres")
-    @Null
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     String gender;
     @Size(max = 10, message = "El tipo de artículo no puede tener más de 10 caracteres")
     String typeArticle;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    Short numbersProposals = 0;
+    Short numbersProposals;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     LocalDateTime date = LocalDateTime.now();
 }
