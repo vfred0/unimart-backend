@@ -77,6 +77,12 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.proposedArticlesByUserId(userId));
     }
 
+    @GetMapping("/proposedArticles/users/{userId}/articles/{articleId}")
+    ResponseEntity<Boolean> isProposedArticleByUserIdAndArticleId(@PathVariable UUID userId, @PathVariable UUID articleId) {
+        return ResponseEntity.ok(articleService.isProposedArticleByUserIdAndArticleId(userId, articleId));
+    }
+
+
     @PostMapping("proposedArticles")
     ResponseEntity<HttpHeaders> addProposedArticle(@RequestBody ProposedArticleDto proposedArticleDto) {
         UUID articleId = articleService.addProposedArticle(proposedArticleDto);

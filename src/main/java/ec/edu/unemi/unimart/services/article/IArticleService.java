@@ -24,4 +24,6 @@ public interface IArticleService extends ICrudService<ArticleDto, UUID> {
     void deleteProposedArticleById(UUID id);
 
     void deleteProposedArticleByArticleId(UUID articleId, UUID proposedArticleId);
+
+    Boolean isProposedArticleByUserIdAndArticleId(UUID articleId, UUID userId);
 }
