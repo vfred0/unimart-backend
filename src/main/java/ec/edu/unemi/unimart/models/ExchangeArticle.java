@@ -30,4 +30,10 @@ public class ExchangeArticle {
     @ManyToOne
     @JoinColumn(name = "article_proposed_id", foreignKey = @ForeignKey(name = "fk_exchanges_articles_article_proposed_id"))
     Article articleProposed;
+
+    public void setExchangeWith(Exchange exchange, Article article, Article articleProposed) {
+        this.exchange = exchange;
+        this.article = article;
+        this.articleProposed = articleProposed;
+    }
 }
