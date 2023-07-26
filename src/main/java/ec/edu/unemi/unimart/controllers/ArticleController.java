@@ -61,16 +61,34 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.search(title, Category.byName(category), State.byName(state)));
     }
 
-    @GetMapping("/proposedArticles/{id}")
-    ResponseEntity<List<ArticleCardDto>> proposedArticles(@PathVariable UUID id) {
-        return ResponseEntity.ok(articleService.proposedArticles(id));
+    @GetMapping("/proposedArticles/articles/{articleId}")
+    ResponseEntity<List<ArticleCardDto>> proposedArticlesByArticleId(@PathVariable UUID articleId) {
+        return ResponseEntity.ok(articleService.proposedArticlesByArticleId(articleId));
     }
 
-    @PostMapping("suggest")
-    ResponseEntity<HttpHeaders> suggest(@RequestBody SuggestArticleDto suggestArticleDto) {
-        UUID articleId = articleService.addProposal(suggestArticleDto);
+    @DeleteMapping("/proposedArticles/articles/{articleId}/delete/{proposedArticleId}")
+    ResponseEntity<HttpHeaders> deleteProposedArticleByArticleId(@PathVariable UUID articleId, @PathVariable UUID proposedArticleId) {
+        articleService.deleteProposedArticleByArticleId(articleId, proposedArticleId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/proposedArticles/users/{userId}")
+    ResponseEntity<List<ArticleCardDto>> proposedArticlesByUserId(@PathVariable UUID userId) {
+        return ResponseEntity.ok(articleService.proposedArticlesByUserId(userId));
+    }
+
+    @PostMapping("proposedArticles")
+    ResponseEntity<HttpHeaders> addProposedArticle(@RequestBody ProposedArticleDto proposedArticleDto) {
+        UUID articleId = articleService.addProposedArticle(proposedArticleDto);
         return new ResponseEntity<>(this.getHttpHeaders(articleId), HttpStatus.CREATED);
     }
+
+    @DeleteMapping("proposedArticles/{id}")
+    ResponseEntity<HttpHeaders> deleteProposedArticleById(@PathVariable UUID id) {
+        articleService.deleteProposedArticleById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 
     private HttpHeaders getHttpHeaders(UUID userId) {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(userId).toUri();
