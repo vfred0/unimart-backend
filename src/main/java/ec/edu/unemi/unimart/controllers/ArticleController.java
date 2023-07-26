@@ -1,7 +1,7 @@
 package ec.edu.unemi.unimart.controllers;
 
 import ec.edu.unemi.unimart.dtos.article.ArticleDto;
-import ec.edu.unemi.unimart.dtos.article.ArticleSaveOrCardDto;
+import ec.edu.unemi.unimart.dtos.article.ArticleCardDto;
 import ec.edu.unemi.unimart.dtos.article.SuggestArticleDto;
 import ec.edu.unemi.unimart.models.enums.Category;
 import ec.edu.unemi.unimart.models.enums.State;
@@ -34,7 +34,7 @@ public class ArticleController {
         return articleService.findById(id).map(articleDto -> new ResponseEntity<>(articleDto, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
     @GetMapping("/user/{id}")
-    ResponseEntity<List<ArticleSaveOrCardDto>> findByUserId(@PathVariable UUID id) {
+    ResponseEntity<List<ArticleCardDto>> findByUserId(@PathVariable UUID id) {
         return ResponseEntity.ok(articleService.findByUserId(id));
     }
 
@@ -59,6 +59,11 @@ public class ArticleController {
     @GetMapping("/search")
     ResponseEntity<List<ArticleDto>> search(@RequestParam(required = false) String title, @RequestParam(required = false) String category, @RequestParam(required = false) String state) {
         return ResponseEntity.ok(articleService.search(title, Category.byName(category), State.byName(state)));
+    }
+
+    @GetMapping("/proposedArticles/{id}")
+    ResponseEntity<List<ArticleCardDto>> proposedArticles(@PathVariable UUID id) {
+        return ResponseEntity.ok(articleService.proposedArticles(id));
     }
 
     @PostMapping("suggest")

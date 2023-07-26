@@ -10,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -63,5 +64,10 @@ public class Article {
     @ElementCollection(targetClass = UUID.class, fetch = FetchType.LAZY)
     @CollectionTable(name = "articles_suggestions", joinColumns = @JoinColumn(name = "article_id"))
     @Column(name = "suggest_id", nullable = false)
-    List<UUID> suggestions;
+    Set<UUID> suggestions;
+
+    public void setSuggestArticle(UUID suggestArticleId) {
+        this.suggestions.add(suggestArticleId);
+        this.numbersProposals++;
+    }
 }

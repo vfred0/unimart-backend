@@ -19,7 +19,6 @@ import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ArticleDto {
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     UUID id;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     UUID userId;
@@ -39,8 +38,8 @@ public class ArticleDto {
     String gender;
     @Size(max = 10, message = "El tipo de artículo no puede tener más de 10 caracteres")
     String typeArticle;
+    Short numbersProposals;
+    LocalDateTime date;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    Short numbersProposals = 0;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    LocalDateTime date = LocalDateTime.now();
+    List<UUID> suggestions;
 }
