@@ -1,9 +1,9 @@
 package ec.edu.unemi.unimart.services.article;
 
 import ec.edu.unemi.unimart.dtos.UserDto;
-import ec.edu.unemi.unimart.dtos.article.ArticleDto;
 import ec.edu.unemi.unimart.dtos.article.ArticleCardDto;
-import ec.edu.unemi.unimart.dtos.article.SuggestArticleDto;
+import ec.edu.unemi.unimart.dtos.article.ArticleDto;
+import ec.edu.unemi.unimart.dtos.article.ProposedArticleDto;
 import ec.edu.unemi.unimart.mappers.IArticleMapper;
 import ec.edu.unemi.unimart.mappers.Mapper;
 import ec.edu.unemi.unimart.models.Article;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -62,10 +61,10 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
     }
 
     @Override
-    public UUID addProposal(SuggestArticleDto suggestArticleDto) {
-        Article article = this.getRepository().findById(suggestArticleDto.getArticleId()).orElseThrow(() -> new RuntimeException("Articulo no encontrado"));
-        Article suggestArticle = this.getRepository().findById(suggestArticleDto.getSuggestArticleId()).orElseThrow(() -> new RuntimeException("Propuesta no encontrada"));
-        article.setSuggestArticle(suggestArticle.getId());
+    public UUID addProposedArticle(ProposedArticleDto proposedArticleDto) {
+        Article article = this.getRepository().findById(proposedArticleDto.getArticleId()).orElseThrow(() -> new RuntimeException("Articulo no encontrado"));
+        Article suggestArticle = this.getRepository().findById(proposedArticleDto.getProposedArticleId()).orElseThrow(() -> new RuntimeException("Propuesta no encontrada"));
+        article.addProposedArticle(suggestArticle.getId());
         return this.getRepository().save(article).getId();
     }
 
