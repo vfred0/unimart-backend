@@ -21,8 +21,8 @@ public class ProposedArticleController {
     private final IProposedArticleService proposedArticleService;
 
     @PostMapping
-    ResponseEntity<HttpHeaders> add(@RequestBody ProposedArticleDto proposedArticleDto) {
-        UUID articleId = proposedArticleService.add(proposedArticleDto);
+    ResponseEntity<HttpHeaders> save(@RequestBody ProposedArticleDto proposedArticleDto) {
+        UUID articleId = proposedArticleService.save(proposedArticleDto);
         return new ResponseEntity<>(this.getHttpHeaders(articleId), HttpStatus.CREATED);
     }
 
