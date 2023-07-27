@@ -10,11 +10,6 @@ import java.util.UUID;
 public interface IArticleRepository extends IRepository<Article, UUID> {
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM proposed_articles WHERE article_id = :articleId AND proposed_article_id = :proposedArticleId", nativeQuery = true)
-    void deleteProposedArticleByArticleId(UUID articleId, UUID proposedArticleId);
-
-    @Modifying
-    @Transactional
     @Query(value = "DELETE FROM proposed_articles WHERE proposed_article_id = :proposedArticleId", nativeQuery = true)
     void deleteProposedArticleById(UUID proposedArticleId);
 
