@@ -33,7 +33,7 @@ public class ArticleController {
     ResponseEntity<ArticleDto> findById(@PathVariable UUID id) {
         return articleService.findById(id).map(articleDto -> new ResponseEntity<>(articleDto, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-    @GetMapping("/user/{id}")
+    @GetMapping("users/{id}")
     ResponseEntity<List<ArticleCardDto>> findByUserId(@PathVariable UUID id) {
         return ResponseEntity.ok(articleService.findByUserId(id));
     }
@@ -56,28 +56,28 @@ public class ArticleController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/search")
+    @GetMapping("search")
     ResponseEntity<List<ArticleDto>> search(@RequestParam(required = false) String title, @RequestParam(required = false) String category, @RequestParam(required = false) String state) {
         return ResponseEntity.ok(articleService.search(title, Category.byName(category), State.byName(state)));
     }
 
-    @GetMapping("/proposedArticles/articles/{articleId}")
+    @GetMapping("proposedArticles/articles/{articleId}")
     ResponseEntity<List<ArticleCardDto>> proposedArticlesByArticleId(@PathVariable UUID articleId) {
         return ResponseEntity.ok(articleService.proposedArticlesByArticleId(articleId));
     }
 
-    @DeleteMapping("/proposedArticles/articles/{articleId}/delete/{proposedArticleId}")
+    @DeleteMapping("proposedArticles/articles/{articleId}/delete/{proposedArticleId}")
     ResponseEntity<HttpHeaders> deleteProposedArticleByArticleId(@PathVariable UUID articleId, @PathVariable UUID proposedArticleId) {
         articleService.deleteProposedArticleByArticleId(articleId, proposedArticleId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/proposedArticles/users/{userId}")
+    @GetMapping("proposedArticles/users/{userId}")
     ResponseEntity<List<ArticleCardDto>> proposedArticlesByUserId(@PathVariable UUID userId) {
         return ResponseEntity.ok(articleService.proposedArticlesByUserId(userId));
     }
 
-    @GetMapping("/proposedArticles/users/{userId}/articles/{articleId}")
+    @GetMapping("proposedArticles/users/{userId}/articles/{articleId}")
     ResponseEntity<Boolean> userHasMadeProposed(@PathVariable UUID userId, @PathVariable UUID articleId) {
         return ResponseEntity.ok(articleService.userHasMadeProposed(userId, articleId));
     }
