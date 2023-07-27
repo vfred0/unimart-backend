@@ -25,4 +25,10 @@ public interface IArticleRepository extends IRepository<Article, UUID> {
 
     @Query(value = "SELECT fn_update_type_article_from_deleted(cast(:articleId as uuid))", nativeQuery = true)
     void updateTypeArticleFromDeleted(UUID articleId);
+
+    @Query(value = "SELECT fn_exists_proposed_article(CAST(:proposedArticleId AS UUID))", nativeQuery = true)
+    boolean existsProposedArticle(UUID proposedArticleId);
+
+    @Query(value = "SELECT a.* FROM articles a, proposed_articles pa WHERE pa.article_id = a.id AND pa.proposed_article_id = :proposedArticleId", nativeQuery = true)
+    Article findByProposedArticleId(UUID proposedArticleId);
 }
