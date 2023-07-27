@@ -30,7 +30,7 @@ public class UserController {
         return new ResponseEntity<>(this.getHttpHeaders(articleId), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
     ResponseEntity<HttpHeaders> update(@PathVariable UUID id, @RequestBody UserDto userDto) {
         UUID articleId = userService.update(id, userDto).getId();
         return new ResponseEntity<>(this.getHttpHeaders(articleId), HttpStatus.CREATED);
@@ -46,7 +46,7 @@ public class UserController {
         return headers;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     ResponseEntity<UserDto> findById(@PathVariable UUID id) {
         return userService.findById(id)
                 .map(userDto -> new ResponseEntity<>(userDto, HttpStatus.OK))
