@@ -100,4 +100,9 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
         article.removeProposedArticle(proposedArticleId);
         this.getRepository().save(article);
     }
+
+    @Override
+    public Boolean userHasMadeProposed(UUID userId, UUID articleId) {
+        return this.getRepository().userHasMadeProposed(userId, articleId);
+    }
 }

@@ -78,8 +78,8 @@ public class ArticleController {
     }
 
     @GetMapping("/proposedArticles/users/{userId}/articles/{articleId}")
-    ResponseEntity<Boolean> isProposedArticleByUserIdAndArticleId(@PathVariable UUID userId, @PathVariable UUID articleId) {
-        return ResponseEntity.ok(articleService.isProposedArticleByUserIdAndArticleId(userId, articleId));
+    ResponseEntity<Boolean> userHasMadeProposed(@PathVariable UUID userId, @PathVariable UUID articleId) {
+        return ResponseEntity.ok(articleService.userHasMadeProposed(userId, articleId));
     }
 
 
