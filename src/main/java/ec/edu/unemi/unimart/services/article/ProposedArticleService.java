@@ -20,7 +20,7 @@ public class ProposedArticleService extends ArticleService implements IProposedA
     }
 
     @Override
-    public UUID add(ProposedArticleDto proposedArticleDto) {
+    public UUID save(ProposedArticleDto proposedArticleDto) {
         Article article = this.getRepository().findById(proposedArticleDto.getArticleId()).orElseThrow(() -> new RuntimeException("Articulo no encontrado"));
         Article proposedArticle = this.getRepository().findById(proposedArticleDto.getProposedArticleId()).orElseThrow(() -> new RuntimeException("Propuesta no encontrada"));
         if (!this.getRepository().existsProposedArticle(proposedArticleDto.getProposedArticleId())) {

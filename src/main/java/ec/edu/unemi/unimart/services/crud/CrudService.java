@@ -53,5 +53,4 @@ public abstract class CrudService<M, D, ID> implements ICrudService<D, ID> {
     protected Mapper getMapper() {
         return mapper;
     }
-
 }

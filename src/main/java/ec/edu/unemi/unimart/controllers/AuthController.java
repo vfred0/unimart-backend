@@ -23,6 +23,4 @@ public class AuthController {
                 .map(loginResponse -> new ResponseEntity<>(loginResponse, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.UNAUTHORIZED));
     }
-
-
 }

@@ -26,6 +26,12 @@ public class ProposedArticleController {
         return new ResponseEntity<>(this.getHttpHeaders(articleId), HttpStatus.CREATED);
     }
 
+    @DeleteMapping("{id}")
+    ResponseEntity<HttpHeaders> deleteById(@PathVariable UUID id) {
+        proposedArticleService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     @GetMapping("articles/{articleId}")
     ResponseEntity<List<ArticleCardDto>> proposedArticlesByArticleId(@PathVariable UUID articleId) {
         return ResponseEntity.ok(proposedArticleService.proposedArticlesByArticleId(articleId));
@@ -39,12 +45,6 @@ public class ProposedArticleController {
     @GetMapping("users/{userId}/articles/{articleId}")
     ResponseEntity<Boolean> userHasMadeProposed(@PathVariable UUID userId, @PathVariable UUID articleId) {
         return ResponseEntity.ok(proposedArticleService.userHasMadeProposed(userId, articleId));
-    }
-
-    @DeleteMapping("{id}")
-    ResponseEntity<HttpHeaders> deleteById(@PathVariable UUID id) {
-        proposedArticleService.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     private HttpHeaders getHttpHeaders(UUID userId) {

@@ -40,6 +40,6 @@ public class ArticleDto {
     String typeArticle;
     Short numbersProposals;
     LocalDateTime date;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    List<UUID> suggestions;
+//    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+//    List<ProposedArticleDto> proposedArticles;
 }
