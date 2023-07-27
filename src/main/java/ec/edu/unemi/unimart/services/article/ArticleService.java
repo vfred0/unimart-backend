@@ -105,4 +105,10 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
     public Boolean userHasMadeProposed(UUID userId, UUID articleId) {
         return this.getRepository().userHasMadeProposed(userId, articleId);
     }
+
+    @Override
+    public void delete(UUID articleId) {
+        this.getRepository().updateTypeArticleFromDeleted(articleId);
+        this.getRepository().deleteById(articleId);
+    }
 }

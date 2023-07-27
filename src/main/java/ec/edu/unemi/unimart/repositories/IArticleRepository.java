@@ -20,4 +20,9 @@ public interface IArticleRepository extends IRepository<Article, UUID> {
     @Transactional
     @Query(value = "DELETE FROM proposed_articles WHERE article_id = :articleId AND proposed_article_id = :proposedArticleId", nativeQuery = true)
     void deleteProposedArticleByArticleId(UUID articleId, UUID proposedArticleId);
+    @Query(value = "SELECT fn_user_has_made_proposed(cast(:userId as uuid), cast(:articleId as uuid))", nativeQuery = true)
+    Boolean userHasMadeProposed(UUID userId, UUID articleId);
+
+    @Query(value = "SELECT fn_update_type_article_from_deleted(cast(:articleId as uuid))", nativeQuery = true)
+    void updateTypeArticleFromDeleted(UUID articleId);
 }
