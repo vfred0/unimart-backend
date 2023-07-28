@@ -3,13 +3,11 @@ POST http://localhost:8080/api/v1/articles
 Content-Type: application/json
 
 {
-  "userId": "39c64946-8568-4152-875a-bf379ca95b87",
+  "userId": "6045973e-33f8-4818-b7a6-37197d1008d5",
   "title": "Mouse marvo",
   "description": "No funciona el botón derecho",
   "images": ["https://is.gd/J7tWNO"],
-  "category": "Electrónica",
-  "state": "Baja calidad",
-  "typeArticle": "Publicado"
+  "category": "Electrónica"
 }
 
 
@@ -60,9 +58,11 @@ GET http://localhost:8080/api/v1/articles/user/907615eb-c595-45a1-ab16-d8c239525
 ###
 GET http://localhost:8080/api/v1/articles/proposedArticles/users/68a973d8-8e74-4ec0-b383-d7a7e39cef7c
 
-###
-
+### search by article id is equal to article id
 GET http://localhost:8080/api/v1/articles/proposedArticles/users/68a973d8-8e74-4ec0-b383-d7a7e39cef7c/articles/350aa27e-11d9-40a5-9d0c-5f4c2ec9608f
+
+### search by article id is equal to article proposed id
+GET http://localhost:8080/api/v1/articles/proposedArticles/users/907615eb-c595-45a1-ab16-d8c239525a75/articles/58230515-d84b-49f3-993a-f45a04ed97aa
 
 ###
 GET http://localhost:8080/api/v1/articles/proposedArticles/articles/350aa27e-11d9-40a5-9d0c-5f4c2ec9608f
