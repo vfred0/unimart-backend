@@ -9,7 +9,8 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum Gender {
     MALE("Masculino"),
-    FEMALE("Femenino");
+    FEMALE("Femenino"),
+    UNISEX("Unisex");
 
     private final String name;
 
