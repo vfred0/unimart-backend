@@ -7,6 +7,7 @@ import ec.edu.unemi.unimart.models.enums.TypeArticle;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -38,19 +39,19 @@ public class Article {
     @Column(nullable = false, length = 50)
     List<String> images;
 
-    @Column(nullable = false, length = 35)
+    @Column(nullable = false, length = 35, columnDefinition = "VARCHAR(35) DEFAULT 'TEXT_BOOKS_EDUCATIONAL_MATERIAL'")
     @Enumerated(EnumType.STRING)
     Category category;
 
-    @Column(nullable = false, length = 15)
+    @Column(nullable = false, length = 15, insertable = false, columnDefinition = "VARCHAR(15) DEFAULT 'NEW'")
     @Enumerated(EnumType.STRING)
     State state;
 
+    @Column(length = 10, insertable = false, columnDefinition = "VARCHAR(10) DEFAULT NULL")
     @Enumerated(EnumType.STRING)
-    @Column(length = 10)
     Gender gender;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 10, insertable = false, columnDefinition = "VARCHAR(10) DEFAULT 'PUBLISHED'")
     @Enumerated(EnumType.STRING)
     TypeArticle typeArticle;
 
@@ -58,9 +59,12 @@ public class Article {
     @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_articles_users_user_id"))
     User user;
 
-    @Column(columnDefinition = "SMALLINT DEFAULT 0")
+    @ColumnDefault("0")
+    @Column(insertable = false)
     Short numbersProposals;
 
+    @ColumnDefault("NOW()")
+    @Column(nullable = false, insertable = false)
     LocalDateTime date;
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
