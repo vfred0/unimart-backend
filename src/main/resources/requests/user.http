@@ -4,10 +4,23 @@ Content-Type: application/json
 
 {
   "photo": "https://is.gd/Xp9Pwj",
+  "username": "terri",
+  "name": "Terri Mendoza",
+  "about": "Me gusta la idea de intercambiar cosas, porque así puedo obtener cosas que necesito sin gastar dinero",
+  "numberWhatsapp": "0912345671",
+  "password": "12345"
+}
+
+###
+POST http://localhost:8080/api/v1/users
+Content-Type: application/json
+
+{
+  "photo": "https://is.gd/G5qCMW",
   "username": "rrocham",
   "name": "Roxana Rocha",
-  "about": "Tnego varios libros que ya no uso, pero me gustaría intercambiarlos por otros que no he leído",
-  "numberWhatsapp": "0912345678",
+  "about": "Tenemos varios libros que ya no usamos, pero nos gustaría intercambiarlos por otros que no hemos leído",
+  "numberWhatsapp": "0912345672",
   "password": "12345"
 }
 
@@ -30,7 +43,7 @@ Content-Type: application/json
 
 {
   "id": "d6fbf2c9-9e71-4c3b-b973-2b6324486a4b",
-  "username": "rrocham",
+  "username": "user03",
   "photo": "https://is.gd/YY9Rd8",
   "name": "Roxana Rocha",
   "about": "Tnego varios libros que ya no uso, pero me gustaría intercambiarlos por otros que no he leído",
