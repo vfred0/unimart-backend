@@ -61,7 +61,7 @@ public class Article {
     User user;
 
     @ColumnDefault("0")
-    @Column(insertable = false, updatable = false)
+    @Column(insertable = false)
     Short numbersProposals;
 
     @ColumnDefault("NOW()")
