@@ -36,6 +36,7 @@ public class Article {
     String description;
 
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "articles_images", joinColumns = @JoinColumn(name = "article_id"), foreignKey = @ForeignKey(name = "fk_articles_images_article_id"))
     @Column(nullable = false, length = 50)
     List<String> images;
 
@@ -43,11 +44,11 @@ public class Article {
     @Enumerated(EnumType.STRING)
     Category category;
 
-    @Column(nullable = false, length = 15, insertable = false, columnDefinition = "VARCHAR(15) DEFAULT 'NEW'")
+    @Column(nullable = false, length = 15, columnDefinition = "VARCHAR(15) DEFAULT 'NEW'")
     @Enumerated(EnumType.STRING)
     State state;
 
-    @Column(length = 10, insertable = false, columnDefinition = "VARCHAR(10) DEFAULT NULL")
+    @Column(length = 10, columnDefinition = "VARCHAR(10) DEFAULT NULL")
     @Enumerated(EnumType.STRING)
     Gender gender;
 
@@ -60,18 +61,15 @@ public class Article {
     User user;
 
     @ColumnDefault("0")
-    @Column(insertable = false)
+    @Column(insertable = false, updatable = false)
     Short numbersProposals;
 
     @ColumnDefault("NOW()")
-    @Column(nullable = false, insertable = false)
+    @Column(nullable = false, insertable = false, updatable = false)
     LocalDateTime date;
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     Set<ProposedArticle> proposedArticles = new HashSet<>();
-
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    Set<ExchangeArticle> exchangeArticle = new HashSet<>();
 
     public void addProposedArticle(UUID articleProposedId) {
         this.proposedArticles.add(
