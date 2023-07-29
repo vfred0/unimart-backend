@@ -16,5 +16,5 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ExchangeSaveDto {
     UUID articleId;
-    UUID articleProposedId;
+    UUID proposedArticleId;
 }

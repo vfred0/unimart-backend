@@ -18,11 +18,13 @@ import java.util.UUID;
 public class ExchangeService extends CrudService<Exchange, ExchangeDto, UUID> implements IExchangeService {
     private final IArticleRepository articleRepository;
     private final IUserRepository userRepository;
+    private final IExchangeRepository exchangeRepository;
 
-    public ExchangeService(Mapper mapper, IExchangeRepository repository, IArticleRepository articleRepository, IUserRepository userRepository) {
+    public ExchangeService(Mapper mapper, IExchangeRepository repository, IArticleRepository articleRepository, IUserRepository userRepository, IExchangeRepository exchangeRepository) {
         super(mapper, repository, Exchange.class, ExchangeDto.class);
         this.articleRepository = articleRepository;
         this.userRepository = userRepository;
+        this.exchangeRepository = exchangeRepository;
     }
 
     protected IExchangeRepository getRepository() {
@@ -32,10 +34,12 @@ public class ExchangeService extends CrudService<Exchange, ExchangeDto, UUID> im
     @Override
     public UUID save(ExchangeSaveDto exchangeSaveDto) {
         Article article = articleRepository.findById(exchangeSaveDto.getArticleId()).orElseThrow(() -> new RuntimeException("Article not found"));
-        Article proposedArticle = articleRepository.findById(exchangeSaveDto.getArticleProposedId()).orElseThrow(() -> new RuntimeException("Article proposed not found"));
+        Article proposedArticle = articleRepository.findById(exchangeSaveDto.getProposedArticleId()).orElseThrow(() -> new RuntimeException("Article proposed not found"));
         Exchange exchange = new Exchange();
-        exchange.add(article, proposedArticle);
-        return this.getRepository().save(exchange).getId();
+        exchange.setValues(article, proposedArticle);
+        UUID exchangeId = this.exchangeRepository.save(exchange).getId();
+        exchangeRepository.setExchangeId(article.getId(), proposedArticle.getId(), exchangeId);
+        return exchangeId;
     }
 
     @Override

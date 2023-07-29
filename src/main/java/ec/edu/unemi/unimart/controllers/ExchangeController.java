@@ -25,19 +25,19 @@ public class ExchangeController {
         return ResponseEntity.ok(exchangeService.getAll());
     }
 
-    @DeleteMapping("{id}")
-    ResponseEntity<HttpHeaders> delete(@PathVariable UUID id) {
-        exchangeService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
     @PostMapping
     ResponseEntity<HttpHeaders> save(@RequestBody ExchangeSaveDto exchangeSaveDto) {
         UUID id = exchangeService.save(exchangeSaveDto);
         return new ResponseEntity<>(getHttpHeaders(id), HttpStatus.CREATED);
     }
 
-    @GetMapping("user/{id}")
+    @DeleteMapping("{id}")
+    ResponseEntity<HttpHeaders> delete(@PathVariable UUID id) {
+        exchangeService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("users/{id}")
     ResponseEntity<List<ExchangeDto>> findByUserId(@PathVariable UUID id) {
         return ResponseEntity.ok(exchangeService.findByUserId(id));
     }
