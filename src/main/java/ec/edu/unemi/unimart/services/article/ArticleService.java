@@ -42,6 +42,9 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
         Optional<UserDto> userDto = this.userService.findById(articleDto.getUserId());
         userDto.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         articleDto.setUser(userDto.get());
+        this.getRepository().findAll().stream()
+                .filter(searchArticle -> searchArticle.getId().equals(articleDto.getId()))
+                .findFirst().ifPresent(article -> articleDto.setNumbersProposals(article.getNumbersProposals()));
         return this.articleMapper.toDto(this.getRepository().save(this.articleMapper.toModel(articleDto)));
     }
 
