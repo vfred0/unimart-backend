@@ -66,7 +66,7 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
     }
 
     @Override
-    public void delete(UUID articleId) {
+    public void deleteById(UUID articleId) {
         this.getRepository().updateTypeArticleFromDeleted(articleId, false);
         this.getRepository().deleteAllMatchesByArticleId(articleId);
         this.getRepository().deleteById(articleId);

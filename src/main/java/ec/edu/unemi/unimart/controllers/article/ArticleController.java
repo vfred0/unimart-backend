@@ -52,7 +52,7 @@ public class ArticleController {
 
     @DeleteMapping("{id}")
     ResponseEntity<HttpHeaders> delete(@PathVariable UUID id) {
-        articleService.delete(id);
+        articleService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

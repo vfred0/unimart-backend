@@ -81,7 +81,7 @@ public class Article {
         this.updateNumberProposals();
     }
 
-    public void updateNumberProposals() {
+    private void updateNumberProposals() {
         this.numbersProposals = (short) this.proposedArticles.size();
     }
 
