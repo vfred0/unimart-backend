@@ -31,7 +31,7 @@ public abstract class CrudService<M, D, ID> implements ICrudService<D, ID> {
     }
 
     @Override
-    public void delete(ID id) {
+    public void deleteById(ID id) {
         repository.deleteById(id);
     }
 
