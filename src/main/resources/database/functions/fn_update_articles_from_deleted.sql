@@ -12,7 +12,6 @@ DECLARE
         FROM proposed_articles
         WHERE article_id = p_article_id;
 BEGIN
-
     IF NOT p_only_update_number_proposals THEN
         OPEN cur_articles;
         LOOP
@@ -23,6 +22,12 @@ BEGIN
             WHERE id = _proposed_article_id;
         END LOOP;
         CLOSE cur_articles;
+
+        UPDATE articles
+        SET numbers_proposals = 0,
+            type_article      = 'PUBLISHED'
+        WHERE id = p_article_id;
+
     ELSE
         UPDATE articles
         SET type_article = 'PUBLISHED'
@@ -45,8 +50,8 @@ BEGIN
         SET numbers_proposals = _numbers_proposals
         WHERE id = _article_id_to_update;
     END IF;
-
 END;
 $$;
 
-SELECT fn_update_articles_from_deleted('0efe4b9e-e301-40a9-bb3c-66877fc0af3a', FALSE);
+SELECT fn_update_articles_from_deleted('0efe4b9e-e301-40a9-bb3c-66877fc0af3a', TRUE);
+

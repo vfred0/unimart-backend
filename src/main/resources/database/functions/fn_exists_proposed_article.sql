@@ -4,8 +4,9 @@ AS
 $$
 BEGIN
 
-RETURN EXISTS((SELECT 1
-               FROM proposed_articles pa
-               WHERE pa.proposed_article_id = p_article_id));
+    RETURN EXISTS((SELECT 1
+                   FROM proposed_articles pa
+                   WHERE pa.proposed_article_id = p_article_id
+                     AND exchange_id IS NULL));
 END;
 $$;
