@@ -1,12 +1,13 @@
 package ec.edu.unemi.unimart.services.exchange;
 
 import ec.edu.unemi.unimart.dtos.ExchangeDto;
-import ec.edu.unemi.unimart.dtos.ExchangeSaveDto;
+import ec.edu.unemi.unimart.dtos.article.ProposedArticleDto;
 import ec.edu.unemi.unimart.mappers.Mapper;
 import ec.edu.unemi.unimart.models.Article;
 import ec.edu.unemi.unimart.models.Exchange;
 import ec.edu.unemi.unimart.repositories.IArticleRepository;
 import ec.edu.unemi.unimart.repositories.IExchangeRepository;
+import ec.edu.unemi.unimart.repositories.IProposedArticleRepository;
 import ec.edu.unemi.unimart.repositories.IUserRepository;
 import ec.edu.unemi.unimart.services.crud.CrudService;
 import org.springframework.stereotype.Service;
@@ -18,13 +19,13 @@ import java.util.UUID;
 public class ExchangeService extends CrudService<Exchange, ExchangeDto, UUID> implements IExchangeService {
     private final IArticleRepository articleRepository;
     private final IUserRepository userRepository;
-    private final IExchangeRepository exchangeRepository;
+    private final IProposedArticleRepository proposedArticleRepository;
 
-    public ExchangeService(Mapper mapper, IExchangeRepository repository, IArticleRepository articleRepository, IUserRepository userRepository, IExchangeRepository exchangeRepository) {
+    public ExchangeService(Mapper mapper, IExchangeRepository repository, IArticleRepository articleRepository, IUserRepository userRepository, IProposedArticleRepository proposedArticleRepository) {
         super(mapper, repository, Exchange.class, ExchangeDto.class);
         this.articleRepository = articleRepository;
         this.userRepository = userRepository;
-        this.exchangeRepository = exchangeRepository;
+        this.proposedArticleRepository = proposedArticleRepository;
     }
 
     protected IExchangeRepository getRepository() {
@@ -32,13 +33,13 @@ public class ExchangeService extends CrudService<Exchange, ExchangeDto, UUID> im
     }
 
     @Override
-    public UUID save(ExchangeSaveDto exchangeSaveDto) {
-        Article article = articleRepository.findById(exchangeSaveDto.getArticleId()).orElseThrow(() -> new RuntimeException("Article not found"));
-        Article proposedArticle = articleRepository.findById(exchangeSaveDto.getProposedArticleId()).orElseThrow(() -> new RuntimeException("Article proposed not found"));
+    public UUID save(ProposedArticleDto proposedArticleDto) {
+        Article article = articleRepository.findById(proposedArticleDto.getArticleId()).orElseThrow(() -> new RuntimeException("Article not found"));
+        Article proposedArticle = articleRepository.findById(proposedArticleDto.getProposedArticleId()).orElseThrow(() -> new RuntimeException("Article proposed not found"));
         Exchange exchange = new Exchange();
         exchange.setValues(article, proposedArticle);
-        UUID exchangeId = this.exchangeRepository.save(exchange).getId();
-        exchangeRepository.setExchangeId(article.getId(), proposedArticle.getId(), exchangeId);
+        UUID exchangeId = this.getRepository().save(exchange).getId();
+        this.getRepository().updateArticlesFromAcceptExchange(exchangeId, article.getId(), proposedArticle.getId());
         return exchangeId;
     }
 

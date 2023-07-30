@@ -1,7 +1,7 @@
 package ec.edu.unemi.unimart.controllers;
 
 import ec.edu.unemi.unimart.dtos.ExchangeDto;
-import ec.edu.unemi.unimart.dtos.ExchangeSaveDto;
+import ec.edu.unemi.unimart.dtos.article.ProposedArticleDto;
 import ec.edu.unemi.unimart.services.exchange.IExchangeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -26,14 +26,14 @@ public class ExchangeController {
     }
 
     @PostMapping
-    ResponseEntity<HttpHeaders> save(@RequestBody ExchangeSaveDto exchangeSaveDto) {
-        UUID id = exchangeService.save(exchangeSaveDto);
+    ResponseEntity<HttpHeaders> save(@RequestBody ProposedArticleDto proposedArticleDto) {
+        UUID id = exchangeService.save(proposedArticleDto);
         return new ResponseEntity<>(getHttpHeaders(id), HttpStatus.CREATED);
     }
 
     @DeleteMapping("{id}")
     ResponseEntity<HttpHeaders> delete(@PathVariable UUID id) {
-        exchangeService.delete(id);
+        exchangeService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
