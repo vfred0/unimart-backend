@@ -8,7 +8,7 @@ public interface ICrudService<D, ID> {
 
     D update(ID id, D dto);
 
-    void delete(ID id);
+    void deleteById(ID id);
 
     List<D> getAll();
 
