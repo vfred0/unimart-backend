@@ -48,4 +48,11 @@ public class ExchangeService extends CrudService<Exchange, ExchangeDto, UUID> im
         this.userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found: " + userId));
         return this.getMapper().toDtos(this.getRepository().findByUserId(userId), ExchangeDto.class);
     }
+
+    @Override
+    public void deleteById(UUID id) {
+        Exchange exchange = this.getRepository().findById(id).orElseThrow(() -> new RuntimeException("Exchange not found: " + id));
+        this.proposedArticleRepository.deleteByExchangeId(id);
+        this.getRepository().delete(exchange);
+    }
 }
