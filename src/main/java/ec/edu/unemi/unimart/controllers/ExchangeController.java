@@ -1,7 +1,8 @@
 package ec.edu.unemi.unimart.controllers;
 
-import ec.edu.unemi.unimart.dtos.ExchangeDto;
+import ec.edu.unemi.unimart.dtos.exchange.ExchangeDto;
 import ec.edu.unemi.unimart.dtos.article.ProposedArticleDto;
+import ec.edu.unemi.unimart.dtos.rating.RatingDto;
 import ec.edu.unemi.unimart.services.exchange.IExchangeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +24,11 @@ public class ExchangeController {
     @GetMapping
     ResponseEntity<List<ExchangeDto>> getAll() {
         return ResponseEntity.ok(exchangeService.getAll());
+    }
+    @PutMapping("{exchangeId}")
+    ResponseEntity<HttpHeaders> setExchangeMade(@PathVariable UUID exchangeId, @RequestBody RatingDto ratingDto) {
+        UUID id = exchangeService.setExchangeMade(exchangeId, ratingDto);
+        return new ResponseEntity<>(getHttpHeaders(id), HttpStatus.CREATED);
     }
 
     @PostMapping
