@@ -1,4 +1,4 @@
-package ec.edu.unemi.unimart.dtos;
+package ec.edu.unemi.unimart.dtos.exchange;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Size;
@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
