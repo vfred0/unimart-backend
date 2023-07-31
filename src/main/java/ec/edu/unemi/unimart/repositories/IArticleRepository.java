@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface IArticleRepository extends IRepository<Article, UUID> {
@@ -29,4 +30,7 @@ public interface IArticleRepository extends IRepository<Article, UUID> {
     @Transactional
     @Query(value = "DELETE FROM proposed_articles WHERE article_id = :articleId OR proposed_article_id = :articleId", nativeQuery = true)
     void deleteAllMatchesByArticleId(UUID articleId);
+
+    @Query(value = "SELECT * FROM fn_get_exchange_details_by_article_id(CAST(:articleId AS UUID))", nativeQuery = true)
+    List<Object[]> findExchangeDetailsByArticleId(UUID articleId);
 }
