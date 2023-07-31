@@ -1,4 +1,4 @@
-package ec.edu.unemi.unimart.dtos.exchange;
+package ec.edu.unemi.unimart.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Size;
