@@ -34,7 +34,7 @@ public class ArticleController {
     }
 
     @GetMapping("users/{id}")
-    ResponseEntity<List<ArticleCardDto>> findByUserId(@PathVariable UUID id) {
+    ResponseEntity<List<ArticleDto>> findByUserId(@PathVariable UUID id) {
         return ResponseEntity.ok(articleService.findByUserId(id));
     }
 
