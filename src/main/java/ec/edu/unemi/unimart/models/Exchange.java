@@ -23,33 +23,24 @@ public class Exchange {
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
 
-    @OneToMany(mappedBy = "exchange", cascade = CascadeType.ALL, orphanRemoval = true)
-    Set<ProposedArticle> proposedArticles = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "proposed_article_id", foreignKey = @ForeignKey(name = "fk_exchanges_proposed_article_id"))
+    ProposedArticle proposedArticle;
 
-    @Column(nullable = false, length = 50)
-    String userName;
+    @ManyToOne
+    @JoinColumn(name = "receiver_rating_id", foreignKey = @ForeignKey(name = "fk_exchanges_receiver_rating_id"))
+    Rating receiverRatingId;
 
-    @Column(nullable = false, length = 50)
-    String userPhoto;
-
-    @Column(nullable = false, length = 60)
-    String articleToExchange;
-
-    @Column(nullable = false, length = 60)
-    String articleToReceive;
+    @ManyToOne
+    @JoinColumn(name = "proposer_rating_id", foreignKey = @ForeignKey(name = "fk_exchanges_proposer_rating_id"))
+    Rating proposerRatingId;
 
     @ColumnDefault("NOW()")
     @Column(nullable = false, insertable = false, updatable = false)
     LocalDateTime date;
 
     @ColumnDefault("false")
-    @Column(nullable = false)
-    Boolean isAccepted;
+    @Column(nullable = false, insertable = false)
+    Boolean isMade;
 
-    public void setValues(Article article, Article proposedArticle) {
-        this.userName = article.getUser().getName();
-        this.userPhoto = article.getUser().getPhoto();
-        this.articleToExchange = article.getTitle();
-        this.articleToReceive = proposedArticle.getTitle();
-    }
 }

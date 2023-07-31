@@ -26,8 +26,4 @@ public class ProposedArticle {
     @ManyToOne
     @JoinColumn(name = "proposed_article_id", foreignKey = @ForeignKey(name = "fk_proposed_articles_article_proposed_id"))
     Article proposedArticle;
-
-    @ManyToOne
-    @JoinColumn(name = "exchange_id", foreignKey = @ForeignKey(name = "fk_proposed_articles_exchange_id"))
-    Exchange exchange;
 }
