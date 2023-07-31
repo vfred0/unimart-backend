@@ -18,6 +18,7 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ExchangeDto {
     UUID id;
+    UUID userId;
     @Size(max = 60, message = "El título no puede tener más de 60 caracteres")
     String userName;
     @Size(max = 20, message = "La imagen no puede tener más de 20 caracteres")
@@ -26,5 +27,7 @@ public class ExchangeDto {
     String articleToExchange;
     @Size(max = 60, message = "El nombre del artículo a recibir no puede tener más de 60 caracteres")
     String articleToReceive;
-    LocalDateTime date;
+    Boolean hasBeenRated;
+    Boolean isDiscarded;
+    String date;
 }
