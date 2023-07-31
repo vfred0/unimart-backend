@@ -13,6 +13,6 @@ import java.util.UUID;
 public interface IArticleService extends ICrudService<ArticleDto, UUID> {
     List<ArticleDto> search(String title, Category category, State state);
 
-    List<ArticleCardDto> findByUserId(UUID id);
+    List<ArticleDto> findByUserId(UUID id);
 
 }
