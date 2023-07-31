@@ -6,6 +6,7 @@ import ec.edu.unemi.unimart.models.enums.Category;
 import ec.edu.unemi.unimart.models.enums.Gender;
 import ec.edu.unemi.unimart.models.enums.State;
 import ec.edu.unemi.unimart.models.enums.TypeArticle;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -18,7 +19,6 @@ public interface IArticleMapper {
     @Mapping(target = "gender", qualifiedByName = "mapGender")
     @Mapping(target = "typeArticle", qualifiedByName = "mapTypeArticle")
     Article toModel(ArticleDto article);
-
 
     @Named("mapCategory")
     default Category mapCategory(String categoryName) {
