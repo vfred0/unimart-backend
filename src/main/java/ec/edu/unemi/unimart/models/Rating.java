@@ -3,7 +3,9 @@ package ec.edu.unemi.unimart.models;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.ColumnDefault;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -28,5 +30,9 @@ public class Rating {
     String comment;
 
     @Column(nullable = false)
-    Short rating;
+    Short score;
+
+    @ColumnDefault("NOW()")
+    @Column(nullable = false, insertable = false, updatable = false)
+    LocalDateTime date;
 }
