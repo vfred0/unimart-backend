@@ -9,12 +9,17 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum TypeArticle {
     PUBLISHED("Publicado"),
-    PROPOSED("Propuesto");
+    PROPOSED("Propuesto"),
+    EXCHANGED("Intercambiado");
 
     private final String name;
 
     public static TypeArticle byName(String typeArticle) {
         return Arrays.stream(TypeArticle.values()).filter(ta -> ta.getName().equals(typeArticle)).findFirst().orElse(null);
+    }
+
+    public static boolean isExchanged(TypeArticle typeArticle) {
+        return typeArticle.equals(EXCHANGED);
     }
 
     @Override
