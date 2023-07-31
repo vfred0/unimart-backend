@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION fn_exists_proposed_article(p_article_id UUID) RETURNS BOOLEAN
+CREATE OR REPLACE FUNCTION fn_exists_proposed_article(p_article_id UUID) RETURNS boolean
     LANGUAGE plpgsql
 AS
 $$
