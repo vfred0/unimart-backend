@@ -58,5 +58,14 @@ public class ArticleDto {
     Short numbersProposals;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    LocalDateTime date;
+    String date;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    Boolean acceptProposals;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    UUID receiverUserIdForArticle;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    List<UUID> proposersUserIdsForArticle;
 }
