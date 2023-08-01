@@ -18,7 +18,6 @@ import java.util.UUID;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-
     @Column(nullable = false)
     UUID id;
 
