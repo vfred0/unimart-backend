@@ -30,6 +30,11 @@ public class RatingController {
         return new ResponseEntity<>(getHttpHeaders(id), HttpStatus.CREATED);
     }
 
+    @GetMapping("users/{userId}")
+    ResponseEntity<List<RatingDto>> getByUserId(@PathVariable UUID userId) {
+        return ResponseEntity.ok(ratingService.getByUserId(userId));
+    }
+
     private HttpHeaders getHttpHeaders(UUID userId) {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(userId).toUri();
         HttpHeaders headers = new HttpHeaders();
