@@ -1,19 +1,16 @@
 package ec.edu.unemi.unimart.services.exchange;
 
-import ec.edu.unemi.unimart.dtos.exchange.ExchangeDto;
+import ec.edu.unemi.unimart.dtos.ExchangeDto;
 import ec.edu.unemi.unimart.dtos.article.ProposedArticleDto;
-import ec.edu.unemi.unimart.dtos.rating.RatingDto;
+import ec.edu.unemi.unimart.dtos.RatingDto;
 import ec.edu.unemi.unimart.mappers.Mapper;
 import ec.edu.unemi.unimart.models.Exchange;
-import ec.edu.unemi.unimart.models.Rating;
 import ec.edu.unemi.unimart.repositories.*;
 import ec.edu.unemi.unimart.services.crud.CrudService;
 import ec.edu.unemi.unimart.services.rating.IRatingService;
 import jakarta.transaction.Transactional;
-import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
