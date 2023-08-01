@@ -5,8 +5,10 @@ CREATE OR REPLACE FUNCTION fn_update_articles_from_made_exchange(
 ) RETURNS VOID AS
 $$
 DECLARE
-    v_article_id                  UUID;
-    DECLARE v_proposed_article_id UUID;
+    v_article_id          UUID;
+    v_proposed_article_id UUID;
+    v_user_id_who_rated   UUID;
+    v_average_rating      NUMERIC;
 BEGIN
     SELECT pa.article_id, pa.proposed_article_id
     INTO v_article_id, v_proposed_article_id
@@ -18,23 +20,48 @@ BEGIN
     PERFORM fn_update_articles_from_deleted(v_article_id, FALSE);
     PERFORM fn_update_articles_from_deleted(v_proposed_article_id, FALSE);
 
+    --     RAISE NOTICE 'v_article_id: %', v_article_id;
+--     RAISE NOTICE 'v_proposed_article_id: %', v_proposed_article_id;
+--     RAISE NOTICE 'p_exchange_id: %', p_exchange_id;
+--     RAISE NOTICE 'p_rating_id: %', p_rating_id;
+--     RAISE NOTICE 'p_user_id: %', p_user_id;
+
     DELETE
     FROM proposed_articles
     WHERE (article_id IN (v_article_id, v_proposed_article_id)
         OR proposed_article_id = v_article_id)
-      AND id NOT IN (SELECT id FROM exchanges WHERE id = p_exchange_id);
+      AND id NOT IN (SELECT e.proposed_article_id FROM exchanges e WHERE e.id = p_exchange_id);
 
     UPDATE articles
     SET type_article = 'EXCHANGED'
     WHERE id = v_article_id
        OR id = v_proposed_article_id;
 
-    IF fn_is_user_receiver(p_user_id, p_exchange_id) THEN
-        UPDATE exchanges SET receiver_rating_id = p_rating_id WHERE id = p_exchange_id;
-    ELSE
+    IF fn_is_user_receiver(p_user_id, p_exchange_id) = TRUE THEN
         UPDATE exchanges SET proposer_rating_id = p_rating_id WHERE id = p_exchange_id;
+        v_user_id_who_rated := (SELECT a.user_id FROM articles a WHERE a.id = v_proposed_article_id);
+    ELSE
+        UPDATE exchanges SET receiver_rating_id = p_rating_id WHERE id = p_exchange_id;
+        v_user_id_who_rated := (SELECT a.user_id FROM articles a WHERE a.id = v_article_id);
     END IF;
 
     UPDATE exchanges SET is_made = TRUE WHERE id = p_exchange_id;
+    UPDATE ratings SET user_proposer_id = v_user_id_who_rated WHERE id = p_rating_id;
+
+    SELECT AVG(r.score)
+    INTO v_average_rating
+    FROM ratings r
+    WHERE r.user_receiver_id = p_user_id;
+
+    UPDATE users
+    SET number_of_exchanges = number_of_exchanges + 1,
+        rating              = v_average_rating
+    WHERE id = p_user_id;
 END;
 $$ LANGUAGE plpgsql;
+
+
+SELECT *
+FROM fn_update_articles_from_made_exchange('95673215-2449-4b9d-bdf5-c10b14dfdb70',
+                                           '0b2d80df-cbe8-4db8-b19f-32ae37d14414',
+                                           '16a02de8-9b37-4c22-a901-947d763ac9b2');

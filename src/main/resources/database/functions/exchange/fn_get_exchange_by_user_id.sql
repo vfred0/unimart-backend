@@ -64,21 +64,11 @@ BEGIN
 
 
     IF fn_is_user_receiver(p_user_id, v_exchange_id_to_exchange) THEN
-        RAISE NOTICE 'User is receiver';
-        SELECT receiver_rating_id INTO v_has_been_rated FROM exchanges e WHERE e.id = v_exchange_id_to_exchange;
-        IF v_has_been_rated IS NULL THEN
-            v_has_been_rated := FALSE;
-        ELSE
-            v_has_been_rated := TRUE;
-        END IF;
+        v_has_been_rated :=
+                (SELECT e.receiver_rating_id IS NOT NULL FROM exchanges e WHERE e.id = v_exchange_id_to_exchange);
     ELSE
-        RAISE NOTICE 'User is proposer';
-        SELECT proposer_rating_id INTO v_has_been_rated FROM exchanges e WHERE e.id = v_exchange_id_to_exchange;
-        IF v_has_been_rated IS NULL THEN
-            v_has_been_rated := FALSE;
-        ELSE
-            v_has_been_rated := TRUE;
-        END IF;
+        v_has_been_rated :=
+                (SELECT e.proposer_rating_id IS NOT NULL FROM exchanges e WHERE e.id = v_exchange_id_to_exchange);
     END IF;
 
     SELECT NOT is_made INTO v_is_discarded FROM exchanges e WHERE e.id = v_exchange_id_to_exchange;
