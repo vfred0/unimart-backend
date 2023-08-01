@@ -33,13 +33,7 @@ BEGIN
                                        AND v_exchange_id IS NOT NULL);
 
     IF NOT v_accept_proposals THEN
---         SELECT exchange_id
---         INTO v_exchange_id
---         FROM proposed_articles
---         WHERE (article_id = p_article_id OR proposed_article_id = p_article_id)
---           AND exchange_id IS NOT NULL;
-
-        v_accept_proposals := (SELECT is_made FROM exchanges WHERE id = v_exchange_id);
+        v_accept_proposals := (SELECT NOT is_made FROM exchanges WHERE id = '8858fe50-3c1a-4f02-869b-a569b4e72a0b');
     END IF;
 
     OPEN cur_proposed_articles;
