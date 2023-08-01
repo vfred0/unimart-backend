@@ -20,12 +20,6 @@ BEGIN
     PERFORM fn_update_articles_from_deleted(v_article_id, FALSE);
     PERFORM fn_update_articles_from_deleted(v_proposed_article_id, FALSE);
 
-    --     RAISE NOTICE 'v_article_id: %', v_article_id;
---     RAISE NOTICE 'v_proposed_article_id: %', v_proposed_article_id;
---     RAISE NOTICE 'p_exchange_id: %', p_exchange_id;
---     RAISE NOTICE 'p_rating_id: %', p_rating_id;
---     RAISE NOTICE 'p_user_id: %', p_user_id;
-
     DELETE
     FROM proposed_articles
     WHERE (article_id IN (v_article_id, v_proposed_article_id)
