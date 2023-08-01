@@ -2,7 +2,7 @@ package ec.edu.unemi.unimart.services.exchange;
 
 import ec.edu.unemi.unimart.dtos.ExchangeDto;
 import ec.edu.unemi.unimart.dtos.article.ProposedArticleDto;
-import ec.edu.unemi.unimart.dtos.rating.RatingDto;
+import ec.edu.unemi.unimart.dtos.RatingDto;
 import ec.edu.unemi.unimart.services.crud.ICrudService;
 
 import java.util.List;
