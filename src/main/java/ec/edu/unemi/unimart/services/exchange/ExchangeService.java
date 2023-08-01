@@ -40,7 +40,6 @@ public class ExchangeService extends CrudService<Exchange, ExchangeDto, UUID> im
     @Override
     public List<ExchangeDto> findByUserId(UUID userId) {
         List<ExchangeDto> exchangeDtos = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
         this.getRepository().findByUserId(userId).forEach(exchange -> {
             ExchangeDto exchangeDto = new ExchangeDto();
             exchangeDto.setId(UUID.fromString(exchange[0].toString()));
@@ -51,7 +50,6 @@ public class ExchangeService extends CrudService<Exchange, ExchangeDto, UUID> im
             exchangeDto.setArticleToReceive(exchange[5].toString());
             exchangeDto.setHasBeenRated(Boolean.parseBoolean(exchange[6].toString()));
             exchangeDto.setIsDiscarded(Boolean.parseBoolean(exchange[7].toString()));
-//            exchangeDto.setDate(new PrettyTime(new Locale("es")).format(LocalDateTime.parse(exchange[8].toString(), formatter)));
             exchangeDto.setDate(exchange[8].toString());
             exchangeDtos.add(exchangeDto);
         });
@@ -69,8 +67,6 @@ public class ExchangeService extends CrudService<Exchange, ExchangeDto, UUID> im
 
     @Override
     public void deleteById(UUID id) {
-        Exchange exchange = this.getRepository().findById(id).orElseThrow(() -> new RuntimeException("Exchange not found: " + id));
-        this.proposedArticleRepository.deleteByExchangeId(id);
-        this.getRepository().delete(exchange);
+        this.getRepository().deleteByExchangeId(id);
     }
 }
