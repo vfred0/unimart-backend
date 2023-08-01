@@ -1,8 +1,9 @@
 package ec.edu.unemi.unimart.controllers.article;
 
 import ec.edu.unemi.unimart.dtos.article.ArticleCardDto;
+import ec.edu.unemi.unimart.dtos.article.ArticleDto;
 import ec.edu.unemi.unimart.dtos.article.ProposedArticleDto;
-import ec.edu.unemi.unimart.services.article.IProposedArticleService;
+import ec.edu.unemi.unimart.services.article.proposedArticle.IProposedArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,7 @@ public class ProposedArticleController {
     }
 
     @GetMapping("articles/{articleId}")
-    ResponseEntity<List<ArticleCardDto>> proposedArticlesByArticleId(@PathVariable UUID articleId) {
+    ResponseEntity<List<ArticleDto>> proposedArticlesByArticleId(@PathVariable UUID articleId) {
         return ResponseEntity.ok(proposedArticleService.proposedArticlesByArticleId(articleId));
     }
 
@@ -45,6 +46,11 @@ public class ProposedArticleController {
     @GetMapping("users/{userId}/articles/{articleId}")
     ResponseEntity<Boolean> userHasMadeProposed(@PathVariable UUID userId, @PathVariable UUID articleId) {
         return ResponseEntity.ok(proposedArticleService.userHasMadeProposed(userId, articleId));
+    }
+
+    @GetMapping("{proposedArticleId}/article")
+    ResponseEntity<ArticleDto> getArticleByProposedArticleId(@PathVariable UUID proposedArticleId) {
+        return ResponseEntity.ok(proposedArticleService.getArticleByProposedArticleId(proposedArticleId));
     }
 
     private HttpHeaders getHttpHeaders(UUID userId) {

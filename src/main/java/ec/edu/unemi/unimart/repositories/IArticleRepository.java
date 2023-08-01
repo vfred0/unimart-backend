@@ -31,6 +31,6 @@ public interface IArticleRepository extends IRepository<Article, UUID> {
     @Query(value = "DELETE FROM proposed_articles WHERE article_id = :articleId OR proposed_article_id = :articleId", nativeQuery = true)
     void deleteAllMatchesByArticleId(UUID articleId);
 
-    @Query(value = "SELECT * FROM fn_get_exchange_details_by_article_id(CAST(:articleId AS UUID))", nativeQuery = true)
+    @Query(value = "SELECT * FROM fn_exchange_details_by_article_id(CAST(:articleId AS UUID))", nativeQuery = true)
     List<Object[]> findExchangeDetailsByArticleId(UUID articleId);
 }

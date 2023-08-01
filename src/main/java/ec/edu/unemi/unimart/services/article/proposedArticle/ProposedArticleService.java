@@ -1,12 +1,15 @@
-package ec.edu.unemi.unimart.services.article;
+package ec.edu.unemi.unimart.services.article.proposedArticle;
 
 import ec.edu.unemi.unimart.dtos.article.ArticleCardDto;
+import ec.edu.unemi.unimart.dtos.article.ArticleDto;
 import ec.edu.unemi.unimart.dtos.article.ProposedArticleDto;
 import ec.edu.unemi.unimart.mappers.IArticleMapper;
 import ec.edu.unemi.unimart.mappers.Mapper;
 import ec.edu.unemi.unimart.models.Article;
 import ec.edu.unemi.unimart.models.enums.TypeArticle;
 import ec.edu.unemi.unimart.repositories.IArticleRepository;
+import ec.edu.unemi.unimart.services.article.ArticleService;
+import ec.edu.unemi.unimart.services.article.proposedArticle.IProposedArticleService;
 import ec.edu.unemi.unimart.services.user.IUserService;
 import org.springframework.stereotype.Service;
 
@@ -32,11 +35,17 @@ public class ProposedArticleService extends ArticleService implements IProposedA
     }
 
     @Override
-    public List<ArticleCardDto> proposedArticlesByArticleId(UUID articleId) {
+    public List<ArticleDto> proposedArticlesByArticleId(UUID articleId) {
         Article article = this.getRepository().findById(articleId).orElseThrow(() -> new RuntimeException("Articulo no encontrado"));
         return article.getProposedArticles()
                 .stream()
-                .map(proposedArticle -> this.getMapper().toDto(this.getRepository().findById(proposedArticle.getProposedArticle().getId()), ArticleCardDto.class))
+                .map(proposedArticle -> this.getMapper().toDto(this.getRepository().findById(proposedArticle.getProposedArticle().getId()), ArticleDto.class))
+                .peek(articleDto ->
+                        {
+                            List<Object[]> exchangeDetails = this.getRepository().findExchangeDetailsByArticleId(articleDto.getId());
+                            articleDto.setAcceptProposals(Boolean.parseBoolean(exchangeDetails.get(0)[0].toString()));
+                        }
+                )
                 .toList();
     }
 
@@ -48,8 +57,8 @@ public class ProposedArticleService extends ArticleService implements IProposedA
 
     public void deleteById(UUID proposedArticleId) {
         this.getRepository().findById(proposedArticleId).orElseThrow(() -> new RuntimeException("Articulo no encontrado"));
-        this.getRepository().updateTypeArticleFromDeleted(proposedArticleId);
-        Article article = this.getRepository().findByProposedArticleId(proposedArticleId);
+        this.getRepository().updateTypeArticleFromDeleted(proposedArticleId, true);
+        Article article = this.getRepository().getArticleByProposedArticleId(proposedArticleId);
         article.removeProposedArticle(proposedArticleId);
         this.getRepository().deleteProposedArticleById(proposedArticleId);
         this.getRepository().save(article);
@@ -57,5 +66,16 @@ public class ProposedArticleService extends ArticleService implements IProposedA
 
     public Boolean userHasMadeProposed(UUID userId, UUID articleId) {
         return this.getRepository().userHasMadeProposed(userId, articleId);
+    }
+
+    @Override
+    public ArticleDto getArticleByProposedArticleId(UUID proposedArticleId) {
+        Article article = this.getRepository().getArticleByProposedArticleId(proposedArticleId);
+
+        if (article == null) {
+        }
+
+        return this.getMapper().toDto(article, ArticleDto.class);
+
     }
 }
