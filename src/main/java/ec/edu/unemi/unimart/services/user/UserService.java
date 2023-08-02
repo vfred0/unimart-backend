@@ -15,4 +15,14 @@ public class UserService extends CrudService<User, UserDto, UUID> implements IUs
     public UserService(Mapper mapper, IUserRepository repository) {
         super(mapper, repository, User.class, UserDto.class);
     }
+
+    @Override
+    public UserDto update(UUID userId, UserDto userDto) {
+        User user = this.getRepository().findById(userId).orElseThrow(() -> new RuntimeException("Entity not found"));
+        User userUpdated = this.getMapper().toModel(userDto, User.class);
+        userUpdated.setId(user.getId());
+        userUpdated.setRating(user.getRating());
+        userUpdated.setNumberExchanges(user.getNumberExchanges());
+        return this.getMapper().toDto(this.getRepository().save(userUpdated), UserDto.class);
+    }
 }
