@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -26,4 +28,7 @@ public class ProposedArticle {
     @ManyToOne
     @JoinColumn(name = "proposed_article_id", foreignKey = @ForeignKey(name = "fk_proposed_articles_article_proposed_id"))
     Article proposedArticle;
+
+    @OneToMany(mappedBy = "proposedArticle", cascade = CascadeType.ALL, orphanRemoval = true)
+    Set<Exchange> exchanges = new HashSet<>();
 }
