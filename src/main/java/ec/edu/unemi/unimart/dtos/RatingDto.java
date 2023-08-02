@@ -19,7 +19,8 @@ public class RatingDto {
     UUID id;
     String userName;
     String userPhoto;
-    UUID userId;
+    UUID userIdWhoWasRated;
+    UUID userIdWhoRated;
     @Size(max = 250, message = "El comentario no puede tener más de 100 caracteres")
     String comment;
     Short score;

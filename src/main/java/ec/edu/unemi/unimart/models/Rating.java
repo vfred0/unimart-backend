@@ -23,12 +23,12 @@ public class Rating {
     UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "user_receiver_id", nullable = false, foreignKey = @ForeignKey(name = "fk_ratings_users_user_id_receiver"))
+    @JoinColumn(name = "user_id_who_was_rated", foreignKey = @ForeignKey(name = "fk_ratings_users_user_id_receiver"))
     User user;
 
     @ManyToOne
-    @JoinColumn(name = "user_proposer_id", foreignKey = @ForeignKey(name = "fk_ratings_users_user_id_proposer"))
-    User userProposer;
+    @JoinColumn(name = "user_id_who_rated", foreignKey = @ForeignKey(name = "fk_ratings_users_user_id_proposer"))
+    User userWhoRated;
 
     @Column(nullable = false, length = 250)
     String comment;
