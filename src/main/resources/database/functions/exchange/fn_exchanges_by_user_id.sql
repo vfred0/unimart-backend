@@ -1,17 +1,3 @@
-CREATE TYPE tp_exchange AS
-(
-    id                  uuid,
-    user_id             uuid,
-    user_name           VARCHAR(60),
-    user_photo          VARCHAR(20),
-    article_to_exchange VARCHAR(60),
-    article_to_receive  VARCHAR(60),
-    has_been_rated      BOOLEAN,
-    is_discarded        BOOLEAN,
-    date                TIMESTAMP
-);
-
-
 CREATE OR REPLACE FUNCTION fn_exchanges_by_user_id(p_user_id uuid)
     RETURNS SETOF v_exchange
 AS
@@ -110,7 +96,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 SELECT *
-FROM fn_exchanges_by_user_id('98e64d24-9dbc-4035-86b4-b5b387487ebb');
+FROM fn_exchanges_by_user_id('faef87e4-369d-4892-a499-d7f788e62cca');
 
 CREATE OR REPLACE FUNCTION fn_get_by_user_id(p_user_id uuid)
     RETURNS TABLE
