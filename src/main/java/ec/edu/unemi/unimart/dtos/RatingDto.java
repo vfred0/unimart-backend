@@ -9,20 +9,17 @@ import lombok.experimental.FieldDefaults;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class RatingDto {
-    UUID id;
-    String userName;
-    String userPhoto;
-    UUID userIdWhoWasRated;
-    UUID userIdWhoRated;
-    @Size(max = 250, message = "El comentario no puede tener más de 100 caracteres")
-    String comment;
-    Short score;
-    LocalDateTime date;
+
+public record RatingDto(
+        UUID id,
+        String userName,
+        String userPhoto,
+        UUID userIdWhoWasRated,
+        UUID userIdWhoRated,
+        @Size(max = 250, message = "El comentario no puede tener más de 100 caracteres")
+        String comment,
+        Short score,
+        LocalDateTime date
+) {
+
 }

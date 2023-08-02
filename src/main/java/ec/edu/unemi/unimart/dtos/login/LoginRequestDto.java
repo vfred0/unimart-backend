@@ -6,13 +6,9 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.UUID;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class LoginRequestDto {
-    String username;
-    String password;
+
+public record LoginRequestDto(
+        String username,
+        String password
+) {
 }

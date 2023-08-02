@@ -6,13 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.UUID;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProposedArticleDto {
-    UUID articleId;
-    UUID proposedArticleId;
-}
+public record ProposedArticleDto (
+    UUID receiverArticle,
+    UUID proposerArticle
+) {}
