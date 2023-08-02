@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -67,8 +68,8 @@ public class Article {
     User user;
 
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "articles_images", joinColumns = @JoinColumn(name = "article_id"), foreignKey = @ForeignKey(name = "fk_article_images_article_id"))
-    @Column(nullable = false, length = 50)
+    @CollectionTable(name = "article_images", joinColumns = @JoinColumn(name = "article_id"))
+    @Column(name = "image", nullable = false)
     Set<String> images = new LinkedHashSet<>();
 
     @ToString.Exclude
@@ -77,5 +78,4 @@ public class Article {
 
     @OneToOne(mappedBy = "proposerArticle")
     ProposedArticle proposerArticle;
-
 }

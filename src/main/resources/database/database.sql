@@ -34,15 +34,18 @@ CREATE TYPE type_articles AS ENUM (
 CREATE TABLE users
 (
     id               UUID             NOT NULL DEFAULT gen_random_uuid(),
-    photo            VARCHAR(50)      NOT NULL,
+    photo            VARCHAR(60)      NOT NULL,
     username         VARCHAR(15)      NOT NULL,
-    name             VARCHAR(50)      NOT NULL,
+    name             VARCHAR(60)      NOT NULL,
     about            VARCHAR(250)     NOT NULL,
     rating           DOUBLE PRECISION NOT NULL DEFAULT 0,
     number_exchanges SMALLINT         NOT NULL DEFAULT 0,
     number_whatsapp  VARCHAR(10)      NOT NULL,
     password         VARCHAR(32)      NOT NULL,
-    CONSTRAINT pk_users PRIMARY KEY (id)
+    CONSTRAINT pk_users PRIMARY KEY (id),
+    CONSTRAINT uq_users_username UNIQUE (username),
+    CONSTRAINT ck_users_rating CHECK (rating >= 0 AND rating <= 5),
+    CONSTRAINT uq_users_number_whatsapp UNIQUE (number_whatsapp)
 );
 
 CREATE TABLE articles
@@ -54,17 +57,19 @@ CREATE TABLE articles
     category          categories    NOT NULL DEFAULT 'TEXT_BOOKS_EDUCATIONAL_MATERIAL',
     state             states        NOT NULL DEFAULT 'NEW',
     type_article      type_articles NOT NULL DEFAULT 'PUBLISHED',
-    gender            genders       NOT NULL DEFAULT 'MALE',
+    gender            genders                DEFAULT NULL,
     numbers_proposals SMALLINT      NOT NULL DEFAULT 0,
     date              TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT pk_articles PRIMARY KEY (id),
-    CONSTRAINT fk_articles_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+    CONSTRAINT fk_articles_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    CONSTRAINT ck_articles_numbers_proposals CHECK (numbers_proposals >= 0)
 );
+
 
 CREATE TABLE article_images
 (
-    article_id UUID,
-    image      VARCHAR(60),
+    article_id UUID        NOT NULL,
+    image      VARCHAR(60) NOT NULL,
     CONSTRAINT pk_article_images PRIMARY KEY (article_id),
     CONSTRAINT fk_article_images_article_id FOREIGN KEY (article_id) REFERENCES articles (id) ON DELETE CASCADE
 );
