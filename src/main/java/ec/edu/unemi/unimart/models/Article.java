@@ -5,23 +5,22 @@ import ec.edu.unemi.unimart.models.enums.Gender;
 import ec.edu.unemi.unimart.models.enums.State;
 import ec.edu.unemi.unimart.models.enums.TypeArticle;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@Entity
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @ToString
+@Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "articles")
 public class Article {
@@ -29,68 +28,54 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
 
-    @Column(nullable = false, length = 60)
+    @Size(max = 60)
+    @NotNull
+    @Column(name = "title", nullable = false, length = 60)
     String title;
 
-    @Column(nullable = false, length = 250)
+    @Size(max = 250)
+    @NotNull
+    @Column(name = "description", nullable = false, length = 250)
     String description;
 
-    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "articles_images", joinColumns = @JoinColumn(name = "article_id"), foreignKey = @ForeignKey(name = "fk_articles_images_article_id"))
-    @Column(nullable = false, length = 50)
-    List<String> images;
-
-    @Column(nullable = false, length = 35, columnDefinition = "VARCHAR(35) DEFAULT 'TEXT_BOOKS_EDUCATIONAL_MATERIAL'")
-    @Enumerated(EnumType.STRING)
-    Category category;
-
-    @Column(nullable = false, length = 15, columnDefinition = "VARCHAR(15) DEFAULT 'NEW'")
-    @Enumerated(EnumType.STRING)
-    State state;
-
-    @Column(length = 10, columnDefinition = "VARCHAR(10) DEFAULT NULL")
-    @Enumerated(EnumType.STRING)
-    Gender gender;
-
-    @Column(nullable = false, length = 10, insertable = false, columnDefinition = "VARCHAR(10) DEFAULT 'PUBLISHED'")
-    @Enumerated(EnumType.STRING)
-    TypeArticle typeArticle;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_articles_users_user_id"))
-    User user;
-
-    @ColumnDefault("0")
-    @Column(insertable = false)
+    @Column(name = "numbers_proposals", nullable = false, insertable = false)
     Short numbersProposals;
 
-    @ColumnDefault("NOW()")
-    @Column(nullable = false, insertable = false, updatable = false)
+    @Column(name = "date", nullable = false, insertable = false, updatable = false)
     LocalDateTime date;
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    Set<ProposedArticle> proposedArticles = new HashSet<>();
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    Category category = Category.TEXT_BOOKS_EDUCATIONAL_MATERIAL;
 
-    public void addProposedArticle(UUID articleProposedId) {
-        this.proposedArticles.add(
-                ProposedArticle.builder()
-                        .article(this)
-                        .proposedArticle(Article.builder().id(articleProposedId).build())
-                        .build()
-        );
-        this.updateNumberProposals();
-    }
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    State state = State.NEW;
 
-    private void updateNumberProposals() {
-        this.numbersProposals = (short) this.proposedArticles.size();
-    }
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    Gender gender = null;
 
-    public void removeProposedArticle(UUID proposedArticleId) {
-        this.proposedArticles.removeIf(proposedArticle -> proposedArticle.getProposedArticle().getId().equals(proposedArticleId));
-        this.updateNumberProposals();
-    }
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    TypeArticle typeArticle = TypeArticle.PUBLISHED;
 
-    public boolean isToUserAndArticleProposed(UUID userId) {
-        return this.user.getId().equals(userId) && this.typeArticle.equals(TypeArticle.PROPOSED);
-    }
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "user_id")
+    User user;
+
+    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "articles_images", joinColumns = @JoinColumn(name = "article_id"), foreignKey = @ForeignKey(name = "fk_article_images_article_id"))
+    @Column(nullable = false, length = 50)
+    Set<String> images = new LinkedHashSet<>();
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "receiverArticle")
+    Set<ProposedArticle> receiverArticles = new LinkedHashSet<>();
+
+    @OneToOne(mappedBy = "proposerArticle")
+    ProposedArticle proposerArticle;
+
 }
