@@ -61,7 +61,7 @@ public class ExchangeService extends CrudService<Exchange, ExchangeDto, UUID> im
         Exchange exchange = this.getRepository().findById(exchangeId).orElseThrow(() -> new RuntimeException("Exchange not found: " + exchangeId));
         RatingDto rating = this.ratingService.save(ratingDto);
         UUID ratingId = rating.getId();
-        this.getRepository().updateArticlesFromMadeExchange(exchangeId, ratingId, ratingDto.getUserId());
+        this.getRepository().updateArticlesFromMadeExchange(exchangeId, ratingId, ratingDto.getUserIdWhoRated(), ratingDto.getUserIdWhoWasRated());
         return this.getRepository().save(exchange).getId();
     }
 
