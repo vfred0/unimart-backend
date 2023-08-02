@@ -60,7 +60,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8080/api/v1/articles/1065900-84f4-4d1e-946a-39d57e0e9675
+DELETE http://localhost:8080/api/v1/articles/81f9a71c-ed30-4aa0-ac37-e675fa6248f1
 
 ###
 GET http://localhost:8080/api/v1/articles/user/907615eb-c595-45a1-ab16-d8c239525a75

@@ -9,7 +9,6 @@ import ec.edu.unemi.unimart.models.Article;
 import ec.edu.unemi.unimart.models.enums.TypeArticle;
 import ec.edu.unemi.unimart.repositories.IArticleRepository;
 import ec.edu.unemi.unimart.services.article.ArticleService;
-import ec.edu.unemi.unimart.services.article.proposedArticle.IProposedArticleService;
 import ec.edu.unemi.unimart.services.user.IUserService;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +38,7 @@ public class ProposedArticleService extends ArticleService implements IProposedA
         Article article = this.getRepository().findById(articleId).orElseThrow(() -> new RuntimeException("Articulo no encontrado"));
         return article.getProposedArticles()
                 .stream()
-                .map(proposedArticle -> this.getMapper().toDto(this.getRepository().findById(proposedArticle.getProposedArticle().getId()), ArticleDto.class))
+                .map(proposedArticle -> this.getMapper().toDto(this.getRepository().findById(proposedArticle.getProposerArticle().getId()), ArticleDto.class))
                 .peek(articleDto ->
                         {
                             List<Object[]> exchangeDetails = this.getRepository().findExchangeDetailsByArticleId(articleDto.getId());

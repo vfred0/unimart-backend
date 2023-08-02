@@ -36,5 +36,8 @@ public class ArticleCardDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     Short numbersProposals;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    LocalDateTime date;
+    String date;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    Boolean acceptProposals;
 }
