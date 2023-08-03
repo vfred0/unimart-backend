@@ -9,14 +9,16 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -72,10 +74,51 @@ public class Article {
     @Column(name = "image", nullable = false)
     Set<String> images = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "receiverArticle", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    @OneToMany(mappedBy = "receiverArticle")
     Set<ProposedArticle> receiverArticles = new LinkedHashSet<>();
+
 
     @OneToOne(mappedBy = "proposerArticle")
     ProposedArticle proposerArticle;
+
+
+    public boolean containsFilters(String title, Category category, State state) {
+        return this.title.contains(title) && this.category.equals(category) && this.state.equals(state);
+    }
+
+    public boolean isExchanged() {
+        return TypeArticle.isExchanged(this.typeArticle);
+    }
+
+
+    public List<UUID> getProposersUserIdsForArticle() {
+        if (!this.receiverArticles.isEmpty()) {
+            return this.receiverArticles.stream()
+                    .map(proposedArticle -> proposedArticle.getProposerArticle().getUser().getId())
+                    .collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    public UUID getReceiverUserIdForArticle() {
+        if (this.proposerArticle != null) {
+            return this.proposerArticle.getReceiverArticle().getUser().getId();
+        }
+        return null;
+    }
+
+    public Boolean isAcceptProposals() {
+        boolean isAcceptProposals = true;
+        if (this.proposerArticle != null) {
+            isAcceptProposals = this.proposerArticle.getExchanges().stream()
+                    .noneMatch(Exchange::getIsMade);
+        }
+        if (!this.receiverArticles.isEmpty()) {
+            isAcceptProposals = this.receiverArticles.stream()
+                    .flatMap(proposedArticle -> proposedArticle.getExchanges().stream())
+                    .noneMatch(Exchange::getIsMade);
+        }
+        return isAcceptProposals;
+    }
 }
