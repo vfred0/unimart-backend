@@ -1,6 +1,5 @@
 package ec.edu.unemi.unimart.models;
 
-import ec.edu.unemi.unimart.models.enums.TypeArticle;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -40,14 +39,4 @@ public class ProposedArticle {
     @OneToMany(mappedBy = "proposedArticle")
     @ToString.Exclude
     Set<Exchange> exchanges = new LinkedHashSet<>();
-
-    public Exchange updateFromAcceptExchange() {
-        this.receiverArticle.decrementNumberProposals();
-        this.proposerArticle.setTypeArticle(TypeArticle.PUBLISHED);
-        Exchange exchange = new Exchange();
-        exchange.setProposedArticle(this);
-        this.exchanges.add(exchange);
-
-        return exchange;
-    }
 }
