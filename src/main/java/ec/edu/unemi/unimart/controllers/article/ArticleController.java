@@ -2,6 +2,8 @@ package ec.edu.unemi.unimart.controllers.article;
 
 import ec.edu.unemi.unimart.controllers.HttpHeader;
 import ec.edu.unemi.unimart.dtos.article.ArticleDto;
+import ec.edu.unemi.unimart.models.enums.Category;
+import ec.edu.unemi.unimart.models.enums.State;
 import ec.edu.unemi.unimart.services.article.IArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -40,21 +43,22 @@ public class ArticleController {
         return new ResponseEntity<>(HttpHeader.getHttpHeaders(articleId), HttpStatus.CREATED);
     }
 
+
     @PutMapping("{articleId}")
     ResponseEntity<HttpHeaders> update(@PathVariable UUID articleId, @RequestBody ArticleDto articleDto) {
         UUID id = articleService.update(articleId, articleDto).getId();
         return new ResponseEntity<>(HttpHeader.getHttpHeaders(id), HttpStatus.CREATED);
     }
-//
+
     @DeleteMapping("{id}")
     ResponseEntity<HttpHeaders> delete(@PathVariable UUID id) {
         articleService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-//
-//    @GetMapping("search")
-//    ResponseEntity<List<ArticleDto>> search(@RequestParam(required = false) String title, @RequestParam(required = false) String category, @RequestParam(required = false) String state) {
-//        return ResponseEntity.ok(articleService.search(title, Category.byName(category), State.byName(state)));
-//    }
+
+    @GetMapping("search")
+    ResponseEntity<List<ArticleDto>> search(@RequestParam(required = false) String title, @RequestParam(required = false) Category category, @RequestParam(required = false) State state) {
+        return ResponseEntity.ok(articleService.search(title, category, state));
+    }
 
 }
