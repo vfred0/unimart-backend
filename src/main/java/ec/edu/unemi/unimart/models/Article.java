@@ -139,4 +139,15 @@ public class Article {
         Logger.getLogger("Article").info("Where Received: " + this.whereReceived);
         this.updateNumberProposals();
     }
+
+    public Exchange getExchange() {
+        List<Exchange> exchanges = new ArrayList<>();
+
+        if (!this.whereReceived.isEmpty()) {
+            exchanges = this.whereReceived.stream()
+                    .map(ProposedArticle::getExchanges)
+                    .flatMap(Collection::stream)
+                    .collect(Collectors.toList());
+        }
+
 }
