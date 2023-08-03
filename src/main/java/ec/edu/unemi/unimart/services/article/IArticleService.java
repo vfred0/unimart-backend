@@ -14,8 +14,5 @@ public interface IArticleService extends ICrudService<ArticleDto, UUID> {
 
     List<ArticleDto> findByUserId(UUID id);
 
-//   @ UUID update(UUID userId, ArticleDto articleDto);
-//    List<ArticleDto> search(String title, Category category, State state);
-
-
+    List<ArticleDto> search(String title, Category category, State state);
 }
