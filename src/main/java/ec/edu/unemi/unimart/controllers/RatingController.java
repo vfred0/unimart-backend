@@ -7,9 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,27 +17,9 @@ import java.util.UUID;
 public class RatingController {
     private final IRatingService ratingService;
 
-    @GetMapping
-    ResponseEntity<List<RatingDto>> getAll() {
-        return ResponseEntity.ok(ratingService.getAll());
-    }
-
-    @PostMapping
-    ResponseEntity<HttpHeaders> save(@RequestBody RatingDto ratingDto) {
-        UUID id = ratingService.save(ratingDto).getId();
-        return new ResponseEntity<>(getHttpHeaders(id), HttpStatus.CREATED);
-    }
-
     @GetMapping("users/{userId}")
     ResponseEntity<List<RatingDto>> getByUserId(@PathVariable UUID userId) {
         return ResponseEntity.ok(ratingService.getByUserId(userId));
-    }
-
-    private HttpHeaders getHttpHeaders(UUID userId) {
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(userId).toUri();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(location);
-        return headers;
     }
 
 }

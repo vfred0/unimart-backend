@@ -1,0 +1,5 @@
+### GET Ratings Victor
+GET http://localhost:8080/api/v1/ratings/users/74998608-ba34-41a2-814d-6274fc519af9
+
+### GET Ratings Roxana
+GET http://localhost:8080/api/v1/ratings/users/ea57d8c1-33aa-4c83-b3d8-32b59b262059

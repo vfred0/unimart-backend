@@ -2,49 +2,40 @@ package ec.edu.unemi.unimart.services.rating;
 
 import ec.edu.unemi.unimart.dtos.RatingDto;
 import ec.edu.unemi.unimart.models.Rating;
+import ec.edu.unemi.unimart.models.User;
 import ec.edu.unemi.unimart.repositories.IRatingRepository;
 import ec.edu.unemi.unimart.repositories.IUserRepository;
-import ec.edu.unemi.unimart.services.crud.CrudService;
-import ec.edu.unemi.unimart.mappers.Mapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
-public class RatingService extends CrudService<Rating, RatingDto, UUID> implements IRatingService {
-    //    private final IRatingMapper ratingMapper;
+@RequiredArgsConstructor
+public class RatingService implements IRatingService {
+    private final IRatingRepository ratingRepository;
     private final IUserRepository userRepository;
 
-    public RatingService(Mapper mapper, IRatingRepository repository, IUserRepository userRepository) {
-        super(mapper, repository, Rating.class, RatingDto.class);
-        this.userRepository = userRepository;
-    }
-
     @Override
-    protected IRatingRepository getRepository() {
-        return (IRatingRepository) super.getRepository();
-    }
-
-    @Override
-    public RatingDto save(RatingDto ratingDto) {
+    public UUID save(RatingDto ratingDto) {
         Rating rating = Rating.builder()
-                .score(ratingDto.getScore())
                 .comment(ratingDto.getComment())
+                .score(ratingDto.getScore())
                 .build();
-        return this.getMapper().toDto(this.getRepository().save(rating), RatingDto.class);
+
+        User userWhoRated = this.userRepository.findById(ratingDto.getUserIdWhoRated()).orElseThrow();
+        User userWhoWasRated = this.userRepository.findById(ratingDto.getUserIdWhoWasRated()).orElseThrow();
+
+        rating.setUserIdWhoRated(userWhoRated);
+        rating.setUserIdWhoWasRated(userWhoWasRated);
+
+        return this.ratingRepository.save(rating).getId();
     }
 
     public List<RatingDto> getByUserId(UUID userId) {
-        List<Rating> ratings = this.getRepository().findByUserId(userId);
-        return ratings.stream().map(rating ->
-                RatingDto.builder()
-                        .userName(rating.getUserWhoRated().getName())
-                        .userPhoto(rating.getUserWhoRated().getPhoto())
-                        .comment(rating.getComment())
-                        .score(rating.getScore())
-                        .date(rating.getDate())
-                        .build()
-        ).toList();
+        User user = this.userRepository.findById(userId).orElseThrow();
+        return user.getRatings().stream().map(Rating::getDetails).toList();
     }
 }
