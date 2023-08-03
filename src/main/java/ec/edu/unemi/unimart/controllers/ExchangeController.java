@@ -21,20 +21,16 @@ import java.util.UUID;
 public class ExchangeController {
     private final IExchangeService exchangeService;
 
-    @GetMapping
-    ResponseEntity<List<ExchangeDto>> getAll() {
-        return ResponseEntity.ok(exchangeService.getAll());
-    }
     @PutMapping("{exchangeId}")
     ResponseEntity<HttpHeaders> setExchangeMade(@PathVariable UUID exchangeId, @RequestBody RatingDto ratingDto) {
         UUID id = exchangeService.setExchangeMade(exchangeId, ratingDto);
-        return new ResponseEntity<>(getHttpHeaders(id), HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpHeader.getHttpHeaders(id), HttpStatus.CREATED);
     }
 
     @PostMapping
-    ResponseEntity<HttpHeaders> save(@RequestBody ProposedArticleDto proposedArticleDto) {
-        UUID id = exchangeService.save(proposedArticleDto);
-        return new ResponseEntity<>(getHttpHeaders(id), HttpStatus.CREATED);
+    ResponseEntity<HttpHeaders> acceptExchange(@RequestBody ProposedArticleDto proposedArticleDto) {
+        UUID id = exchangeService.acceptExchange(proposedArticleDto);
+        return new ResponseEntity<>(HttpHeader.getHttpHeaders(id), HttpStatus.CREATED);
     }
 
     @DeleteMapping("{id}")
@@ -46,16 +42,5 @@ public class ExchangeController {
     @GetMapping("users/{id}")
     ResponseEntity<List<ExchangeDto>> findByUserId(@PathVariable UUID id) {
         return ResponseEntity.ok(exchangeService.findByUserId(id));
-    }
-
-
-    private HttpHeaders getHttpHeaders(UUID userId) {
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(userId)
-                .toUri();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(location);
-        return headers;
     }
 }

@@ -1,0 +1,28 @@
+### Exchanges by user id: Roxana
+GET http://localhost:8080/api/v1/exchanges/users/ea57d8c1-33aa-4c83-b3d8-32b59b262059
+
+### Exchanges by user id: Vicor
+GET http://localhost:8080/api/v1/exchanges/users/74998608-ba34-41a2-814d-6274fc519af9
+
+### Accept exchange
+POST http://localhost:8080/api/v1/exchanges
+Content-Type: application/json
+
+{
+  "receiverArticle": "5326dfab-db9a-4aaf-b05c-0ab17ba31ffd",
+  "proposerArticle": "a0737312-2972-403a-b75e-e2ca875890ca"
+}
+
+### Discard exchange
+DELETE http://localhost:8080/api/v1/exchanges/94698a6a-bf21-4e48-a9ba-bd39c71f16a6
+
+### Made exchange
+PUT http://localhost:8080/api/v1/exchanges/aa1825d5-2c5a-4331-ad8c-4b1ce9c727c5
+Content-Type: application/json
+
+{
+  "comment": "Roxana es super amable y puntual",
+  "score": 5,
+  "userIdWhoWasRated": "ea57d8c1-33aa-4c83-b3d8-32b59b262059",
+  "userIdWhoRated": "74998608-ba34-41a2-814d-6274fc519af9"
+}
