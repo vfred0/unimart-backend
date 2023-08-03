@@ -1,34 +1,53 @@
 package ec.edu.unemi.unimart.models;
 
+import ec.edu.unemi.unimart.models.enums.TypeArticle;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@Entity
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@ToString
 @Builder
+@Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "proposed_articles", uniqueConstraints = {@UniqueConstraint(name = "uq_proposed_article", columnNames = "proposed_article_id")})
+@Table(name = "proposed_articles")
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProposedArticle {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "article_id", foreignKey = @ForeignKey(name = "fk_proposed_articles_article_id"))
-    Article article;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "receiver_article_id", nullable = false)
+    @ToString.Exclude
+    Article receiverArticle;
 
-    @ManyToOne
-    @JoinColumn(name = "proposed_article_id", foreignKey = @ForeignKey(name = "fk_proposed_articles_article_proposed_id"))
-    Article proposedArticle;
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "proposer_article_id", nullable = false)
+    @ToString.Exclude
+    Article proposerArticle;
 
-    @OneToMany(mappedBy = "proposedArticle", cascade = CascadeType.ALL, orphanRemoval = true)
-    Set<Exchange> exchanges = new HashSet<>();
+    @OneToMany(mappedBy = "proposedArticle")
+    @ToString.Exclude
+    Set<Exchange> exchanges = new LinkedHashSet<>();
+
+    public Exchange updateFromAcceptExchange() {
+        this.receiverArticle.decrementNumberProposals();
+        this.proposerArticle.setTypeArticle(TypeArticle.PUBLISHED);
+        Exchange exchange = new Exchange();
+        exchange.setProposedArticle(this);
+        this.exchanges.add(exchange);
+
+        return exchange;
+    }
 }
