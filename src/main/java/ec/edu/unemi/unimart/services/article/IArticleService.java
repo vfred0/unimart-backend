@@ -5,7 +5,6 @@ import ec.edu.unemi.unimart.models.enums.Category;
 import ec.edu.unemi.unimart.models.enums.State;
 import ec.edu.unemi.unimart.services.crud.ICrudService;
 
-import javax.net.ssl.SSLSession;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,4 +14,6 @@ public interface IArticleService extends ICrudService<ArticleDto, UUID> {
     List<ArticleDto> findByUserId(UUID id);
 
     List<ArticleDto> search(String title, Category category, State state);
+
+    List<ArticleDto> proposerArticlesByReceiverArticleId(UUID receiverArticleId);
 }

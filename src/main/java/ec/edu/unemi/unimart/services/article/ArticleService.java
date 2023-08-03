@@ -33,6 +33,12 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
     }
 
     @Override
+    public List<ArticleDto> proposerArticlesByReceiverArticleId(UUID receiverArticleId) {
+        Article receiverArticle = this.getRepository().findById(receiverArticleId).orElseThrow(() -> new RuntimeException("Artículo no encontrado"));
+        return this.getMapper().toDtos(receiverArticle.getProposerArticles(), ArticleDto.class);
+    }
+
+    @Override
     public Optional<ArticleDto> findById(UUID articleId) {
         Article article = this.getRepository().findById(articleId).orElseThrow(() -> new RuntimeException("Artículo no encontrado"));
         ArticleDto articleDto = this.getMapper().toDto(article, ArticleDto.class);

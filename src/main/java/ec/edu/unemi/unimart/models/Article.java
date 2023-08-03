@@ -31,13 +31,11 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
 
-    @Size(max = 60)
-    @NotNull
+    @Size(max = 60) @NotNull
     @Column(name = "title", nullable = false, length = 60)
     String title;
 
-    @Size(max = 250)
-    @NotNull
+    @Size(max = 250) @NotNull
     @Column(name = "description", nullable = false, length = 250)
     String description;
 
@@ -76,12 +74,10 @@ public class Article {
 
     @OneToMany(mappedBy = "receiverArticle", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    Set<ProposedArticle> receiverArticles = new LinkedHashSet<>();
-
+    Set<ProposedArticle> whereReceived = new LinkedHashSet<>();
 
     @OneToOne(mappedBy = "proposerArticle")
-    ProposedArticle proposerArticle;
-
+    ProposedArticle whereProposed;
 
     public boolean containsFilters(String title, Category category, State state) {
         return this.title.contains(title) && this.category.equals(category) && this.state.equals(state);
@@ -91,34 +87,56 @@ public class Article {
         return TypeArticle.isExchanged(this.typeArticle);
     }
 
-
     public List<UUID> getProposersUserIdsForArticle() {
-        if (!this.receiverArticles.isEmpty()) {
-            return this.receiverArticles.stream()
+        if (!this.whereReceived.isEmpty()) {
+            return this.whereReceived.stream()
                     .map(proposedArticle -> proposedArticle.getProposerArticle().getUser().getId())
                     .collect(Collectors.toList());
         }
         return null;
     }
-
     public UUID getReceiverUserIdForArticle() {
-        if (this.proposerArticle != null) {
-            return this.proposerArticle.getReceiverArticle().getUser().getId();
+        if (this.whereProposed != null) {
+            return this.whereProposed.getReceiverArticle().getUser().getId();
         }
         return null;
     }
 
     public Boolean isAcceptProposals() {
         boolean isAcceptProposals = true;
-        if (this.proposerArticle != null) {
-            isAcceptProposals = this.proposerArticle.getExchanges().stream()
-                    .noneMatch(Exchange::getIsMade);
+        if (this.whereProposed != null) {
+            isAcceptProposals = this.whereProposed.getExchanges().stream().noneMatch(Exchange::getIsMade);
         }
-        if (!this.receiverArticles.isEmpty()) {
-            isAcceptProposals = this.receiverArticles.stream()
+        if (!this.whereReceived.isEmpty()) {
+            isAcceptProposals = this.whereReceived.stream()
                     .flatMap(proposedArticle -> proposedArticle.getExchanges().stream())
                     .noneMatch(Exchange::getIsMade);
         }
         return isAcceptProposals;
+    }
+
+    public void decrementNumberProposals() {
+        this.numbersProposals--;
+    }
+
+    public List<Article> getProposerArticles(){
+        return this.whereReceived.stream()
+                .map(ProposedArticle::getProposerArticle)
+                .collect(Collectors.toList());
+    }
+
+    public void removeProposer(Article article) {
+        this.whereReceived.removeIf(proposedArticle -> proposedArticle.getProposerArticle().equals(article));
+        this.updateNumberProposals();
+    }
+
+    public void updateNumberProposals() {
+        this.numbersProposals = (short) this.whereReceived.size();
+    }
+
+    public void addProposerArticle(ProposedArticle proposedArticle) {
+        this.whereReceived.add(proposedArticle);
+        Logger.getLogger("Article").info("Where Received: " + this.whereReceived);
+        this.updateNumberProposals();
     }
 }
