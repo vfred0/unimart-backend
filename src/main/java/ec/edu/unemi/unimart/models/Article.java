@@ -13,10 +13,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -32,17 +29,17 @@ public class Article {
     UUID id;
 
     @Size(max = 60) @NotNull
-    @Column(name = "title", nullable = false, length = 60)
+    @Column(nullable = false, length = 60)
     String title;
 
     @Size(max = 250) @NotNull
-    @Column(name = "description", nullable = false, length = 250)
+    @Column(nullable = false, length = 250)
     String description;
 
-    @Column(name = "numbers_proposals", nullable = false, insertable = false)
+    @Column(nullable = false, insertable = false)
     Short numbersProposals;
 
-    @Column(name = "date", nullable = false, insertable = false, updatable = false)
+    @Column(nullable = false, insertable = false, updatable = false)
     LocalDateTime date;
 
     @Builder.Default
@@ -95,6 +92,7 @@ public class Article {
         }
         return null;
     }
+
     public UUID getReceiverUserIdForArticle() {
         if (this.whereProposed != null) {
             return this.whereProposed.getReceiverArticle().getUser().getId();
@@ -116,10 +114,12 @@ public class Article {
     }
 
     public void decrementNumberProposals() {
-        this.numbersProposals--;
+        if (this.numbersProposals > 0) {
+            this.numbersProposals--;
+        }
     }
 
-    public List<Article> getProposerArticles(){
+    public List<Article> getProposerArticles() {
         return this.whereReceived.stream()
                 .map(ProposedArticle::getProposerArticle)
                 .collect(Collectors.toList());
@@ -136,18 +136,25 @@ public class Article {
 
     public void addProposerArticle(ProposedArticle proposedArticle) {
         this.whereReceived.add(proposedArticle);
-        Logger.getLogger("Article").info("Where Received: " + this.whereReceived);
         this.updateNumberProposals();
     }
 
     public Exchange getExchange() {
         List<Exchange> exchanges = new ArrayList<>();
-
         if (!this.whereReceived.isEmpty()) {
             exchanges = this.whereReceived.stream()
                     .map(ProposedArticle::getExchanges)
                     .flatMap(Collection::stream)
                     .collect(Collectors.toList());
         }
-
+        if (this.whereProposed != null) {
+            exchanges.addAll(this.whereProposed.getExchanges()
+                    .stream()
+                    .toList());
+        }
+        return exchanges.stream()
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
+    }
 }
