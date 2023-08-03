@@ -16,14 +16,14 @@ DECLARE
     v_proposed_article_id uuid;
     cursor_exchanges CURSOR FOR
         SELECT e.id,
-               pa.article_id,
-               pa.proposed_article_id,
+               pa.receiver_article_id,
+               pa.proposer_article_id,
                e.date
         FROM exchanges e,
              proposed_articles pa,
              articles a
         WHERE a.user_id = p_user_id
-          AND (a.id = pa.article_id OR a.id = pa.proposed_article_id)
+          AND (a.id = pa.receiver_article_id OR a.id = pa.proposer_article_id)
           AND e.proposed_article_id = pa.id;
 BEGIN
 
@@ -53,10 +53,10 @@ BEGIN
             v_has_been_rated :=
                     (SELECT e.receiver_rating_id IS NOT NULL FROM exchanges e WHERE e.id = v_exchange_id);
 
-            v_article_id := (SELECT pa.proposed_article_id
+            v_article_id := (SELECT pa.proposer_article_id
                              FROM proposed_articles pa,
                                   exchanges e
-                             WHERE pa.article_id = v_article_id
+                             WHERE pa.receiver_article_id = v_article_id
                                AND e.id = v_exchange_id
                                AND pa.id = e.proposed_article_id);
             RAISE NOTICE 'receiver%', v_article_id;
@@ -64,11 +64,11 @@ BEGIN
             v_has_been_rated :=
                     (SELECT e.proposer_rating_id IS NOT NULL FROM exchanges e WHERE e.id = v_exchange_id);
             v_proposed_article_id :=
-                    (SELECT pa.article_id
+                    (SELECT pa.receiver_article_id
                      FROM proposed_articles pa,
                           exchanges e
                      WHERE e.id = v_exchange_id
-                       AND pa.proposed_article_id = v_proposed_article_id);
+                       AND pa.proposer_article_id = v_proposed_article_id);
         END IF;
 
         v_article_to_exchange := (SELECT title FROM articles a WHERE a.id = v_article_id);
@@ -94,33 +94,3 @@ BEGIN
     RETURN QUERY SELECT * FROM v_exchange;
 END;
 $$ LANGUAGE plpgsql;
-
-SELECT *
-FROM fn_exchanges_by_user_id('faef87e4-369d-4892-a499-d7f788e62cca');
-
-CREATE OR REPLACE FUNCTION fn_get_by_user_id(p_user_id uuid)
-    RETURNS TABLE
-            (
-                exchange_id         uuid,
-                article_id          uuid,
-                proposed_article_id uuid,
-                date                TIMESTAMP
-            )
-AS
-$$
-BEGIN
-    RETURN QUERY
-        SELECT e.id,
-               pa.proposed_article_id,
-               pa.article_id,
-               e.date
-        FROM exchanges e
-                 JOIN proposed_articles pa ON e.proposed_article_id = pa.id
-                 JOIN articles a ON a.id = pa.article_id OR a.id = pa.proposed_article_id
-                 JOIN users u ON a.user_id = u.id
-        WHERE u.id = p_user_id;
-END;
-$$ LANGUAGE plpgsql;
-
-SELECT *
-FROM fn_get_article_details_by_user_id('ced89b9f-a230-45f0-bb17-9401eec6de6f')

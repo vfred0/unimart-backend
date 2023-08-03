@@ -49,24 +49,24 @@ $$
         INSERT INTO articles (id, user_id, title, description, category, state)
         VALUES (article06_id, user06_id, 'Articulo 6', 'Descripcion del articulo 6', 'ELECTRONICS', 'USED');
 
-        INSERT INTO articles_images VALUES (article01_id, 'https://is.gd/DdAob3');
-        INSERT INTO articles_images VALUES (article02_id, 'https://is.gd/DdAob3');
-        INSERT INTO articles_images VALUES (article03_id, 'https://is.gd/DdAob3');
-        INSERT INTO articles_images VALUES (article04_id, 'https://is.gd/DdAob3');
-        INSERT INTO articles_images VALUES (article05_id, 'https://is.gd/DdAob3');
-        INSERT INTO articles_images VALUES (article06_id, 'https://is.gd/DdAob3');
+        INSERT INTO article_images VALUES (article01_id, 'https://is.gd/DdAob3');
+        INSERT INTO article_images VALUES (article02_id, 'https://is.gd/DdAob3');
+        INSERT INTO article_images VALUES (article03_id, 'https://is.gd/DdAob3');
+        INSERT INTO article_images VALUES (article04_id, 'https://is.gd/DdAob3');
+        INSERT INTO article_images VALUES (article05_id, 'https://is.gd/DdAob3');
+        INSERT INTO article_images VALUES (article06_id, 'https://is.gd/DdAob3');
 
-        INSERT INTO proposed_articles(id, article_id, proposed_article_id)
+        INSERT INTO proposed_articles(id, receiver_article_id, proposer_article_id)
         VALUES (gen_random_uuid(), article01_id, article02_id);
-        INSERT INTO proposed_articles(id, article_id, proposed_article_id)
+        INSERT INTO proposed_articles(id, receiver_article_id, proposer_article_id)
         VALUES (gen_random_uuid(), article02_id, article03_id);
-        INSERT INTO proposed_articles(id, article_id, proposed_article_id)
+        INSERT INTO proposed_articles(id, receiver_article_id, proposer_article_id)
         VALUES (gen_random_uuid(), article03_id, article01_id);
-        INSERT INTO proposed_articles(id, article_id, proposed_article_id)
+        INSERT INTO proposed_articles(id, receiver_article_id, proposer_article_id)
         VALUES (gen_random_uuid(), article01_id, article05_id);
-        INSERT INTO proposed_articles(id, article_id, proposed_article_id)
+        INSERT INTO proposed_articles(id, receiver_article_id, proposer_article_id)
         VALUES (gen_random_uuid(), article02_id, article06_id);
-        INSERT INTO proposed_articles(id, article_id, proposed_article_id)
+        INSERT INTO proposed_articles(id, receiver_article_id, proposer_article_id)
         VALUES (gen_random_uuid(), article06_id, article04_id);
 
         UPDATE articles
