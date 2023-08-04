@@ -3,10 +3,7 @@ package ec.edu.unemi.unimart.services.exchange;
 import ec.edu.unemi.unimart.dtos.ExchangeDto;
 import ec.edu.unemi.unimart.dtos.article.ProposedArticleDto;
 import ec.edu.unemi.unimart.dtos.RatingDto;
-import ec.edu.unemi.unimart.models.Exchange;
-import ec.edu.unemi.unimart.models.ProposedArticle;
-import ec.edu.unemi.unimart.models.Rating;
-import ec.edu.unemi.unimart.models.User;
+import ec.edu.unemi.unimart.models.*;
 import ec.edu.unemi.unimart.models.enums.TypeArticle;
 import ec.edu.unemi.unimart.repositories.*;
 import jakarta.transaction.Transactional;
@@ -23,6 +20,7 @@ public class ExchangeService implements IExchangeService {
     private final IUserRepository userRepository;
     private final IProposedArticleRepository proposedArticleRepository;
     private final IRatingRepository ratingRepository;
+    private final IArticleRepository articleRepository;
 
     @Transactional
     @Override
@@ -30,7 +28,6 @@ public class ExchangeService implements IExchangeService {
         Exchange exchange = this.exchangeRepository.findById(exchangeId).orElseThrow(() -> new RuntimeException("Exchange not found: " + exchangeId));
         User userWhoRated = this.userRepository.findById(ratingDto.getUserIdWhoRated()).orElseThrow(() -> new RuntimeException("User not found: " + ratingDto.getUserIdWhoRated()));
         User userWhoWasRated = this.userRepository.findById(ratingDto.getUserIdWhoWasRated()).orElseThrow(() -> new RuntimeException("User not found: " + ratingDto.getUserIdWhoWasRated()));
-
         Rating rating = this.ratingRepository.save(Rating.builder()
                 .userIdWhoRated(userWhoRated)
                 .userIdWhoWasRated(userWhoWasRated)
@@ -38,15 +35,35 @@ public class ExchangeService implements IExchangeService {
                 .comment(ratingDto.getComment())
                 .build());
         exchange.addRating(rating);
+
+        Article receiverArticle = exchange.getProposedArticle().getReceiverArticle();
+        Article proposerArticle = exchange.getProposedArticle().getProposerArticle();
+
+        receiverArticle.updateArticlesFromDeleteOrExchanged();
+        proposerArticle.updateArticlesFromDeleteOrExchanged();
+
+        receiverArticle.setTypeArticle(TypeArticle.EXCHANGED);
+        proposerArticle.setTypeArticle(TypeArticle.EXCHANGED);
+
+        this.articleRepository.save(receiverArticle);
+        this.articleRepository.save(proposerArticle);
+
+        userWhoWasRated.setAverageRatingAndNumberExchanges(rating);
+        this.userRepository.save(userWhoWasRated);
+
+        userWhoRated.updateNumberExchanges();
+        this.userRepository.save(userWhoRated);
+
         return rating.getId();
     }
 
     @Transactional
     public UUID acceptExchange(ProposedArticleDto proposedArticleDto) {
         ProposedArticle proposedArticle = this.proposedArticleRepository
-                .findByReceiverArticleIdAndProposerArticleId(proposedArticleDto.receiverArticle(), proposedArticleDto.proposerArticle());
-        proposedArticle.getReceiverArticle().decrementNumberProposals();
-        proposedArticle.getProposerArticle().setTypeArticle(TypeArticle.PUBLISHED);
+                .findByReceiverArticleIdAndProposerArticleId(proposedArticleDto.receiverArticleId(), proposedArticleDto.proposerArticleId());
+        proposedArticle.getReceiverArticle().updateNumberProposals();
+        proposedArticle.getProposerArticle().setPublished();
+
         Exchange exchange = new Exchange();
         exchange.setProposedArticle(proposedArticle);
         return this.exchangeRepository.save(exchange).getId();
