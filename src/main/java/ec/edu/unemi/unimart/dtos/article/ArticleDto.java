@@ -29,6 +29,7 @@ import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ArticleDto {
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     UUID id;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -56,6 +57,9 @@ public class ArticleDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     UUID receiverUserIdForArticle;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    UUID receiverArticleId;
 
     @NotNull
     Set<String> images;
