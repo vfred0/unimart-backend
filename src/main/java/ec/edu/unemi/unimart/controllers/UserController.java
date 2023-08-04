@@ -40,10 +40,10 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-//    @GetMapping("{id}")
-//    ResponseEntity<UserDto> findById(@PathVariable UUID id) {
-//        return userService.findById(id)
-//                .map(userDto -> new ResponseEntity<>(userDto, HttpStatus.OK))
-//                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-//    }
+    @GetMapping("{id}")
+    ResponseEntity<UserDto> findById(@PathVariable UUID id) {
+        return userService.findById(id)
+                .map(userDto -> new ResponseEntity<>(userDto, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }

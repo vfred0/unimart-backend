@@ -6,4 +6,5 @@ import ec.edu.unemi.unimart.services.crud.ICrudService;
 import java.util.UUID;
 
 public interface IUserService extends ICrudService<UserDto, UUID> {
+
 }

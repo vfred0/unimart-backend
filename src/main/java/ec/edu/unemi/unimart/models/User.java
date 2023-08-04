@@ -1,19 +1,16 @@
 package ec.edu.unemi.unimart.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.ColumnDefault;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
+@ToString
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "users")
@@ -23,11 +20,11 @@ public class User {
     UUID id;
 
     @Size(max = 50)
-    @Column(name = "photo", nullable = false, length = 50)
+    @Column(nullable = false, length = 50)
     String photo;
 
     @Size(max = 15)
-    @Column(name = "username", nullable = false, length = 15)
+    @Column(nullable = false, length = 15)
     String username;
 
     @Size(max = 50)
@@ -52,4 +49,11 @@ public class User {
     @Column(nullable = false, length = 32)
     String password;
 
+    @OneToMany(mappedBy = "userIdWhoWasRated")
+    @ToString.Exclude
+    List<Rating> ratings;
+
+    @OneToMany(mappedBy = "user")
+    @ToString.Exclude
+    List<Article> articles;
 }

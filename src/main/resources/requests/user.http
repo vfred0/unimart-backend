@@ -38,16 +38,16 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:8080/api/v1/users/d6fbf2c9-9e71-4c3b-b973-2b6324486a4b
+PUT http://localhost:8080/api/v1/users/83cdae70-d0e1-4385-bc99-b44dbb9d6a84
 Content-Type: application/json
 
 {
-  "id": "d6fbf2c9-9e71-4c3b-b973-2b6324486a4b",
-  "username": "user03",
+  "id": "83cdae70-d0e1-4385-bc99-b44dbb9d6a84",
+  "username": "xx1",
   "photo": "https://is.gd/YY9Rd8",
-  "name": "Roxana Rocha",
+  "name": "Actualizado",
   "about": "Tnego varios libros que ya no uso, pero me gustaría intercambiarlos por otros que no he leído",
-  "numberWhatsapp": "0912345678",
+  "numberWhatsapp": "09x9345678",
   "password": "12345"
 }
 
@@ -86,3 +86,5 @@ Content-Type: application/json
 ###
 GET http://localhost:8080/api/v1/users
 
+###
+DELETE http://localhost:8080/api/v1/users/83cdae70-d0e1-4385-bc99-b44dbb9d6a84
