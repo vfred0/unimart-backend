@@ -51,22 +51,26 @@ public class Exchange {
         boolean hasBeenRated;
         String articleToReceive;
         String articleToExchange;
+        UUID userId;
 
         if (isUserReceiver(user)) {
             userProposer = getProposerArticle().getUser();
             hasBeenRated = this.receiverRating != null;
             articleToReceive = getProposerArticle().getTitle();
             articleToExchange = getReceiverArticle().getTitle();
+            userId = getProposerArticle().getUser().getId();
         } else {
             userProposer = getReceiverArticle().getUser();
             hasBeenRated = this.proposerRating != null;
             articleToReceive = getReceiverArticle().getTitle();
             articleToExchange = getProposerArticle().getTitle();
+            userId = getReceiverArticle().getUser().getId();
         }
 
         return ExchangeDto.builder()
                 .id(this.id)
                 .date(this.date)
+                .userId(userId)
                 .isDiscarded(!this.isMade)
                 .userName(userProposer.getName())
                 .userPhoto(userProposer.getPhoto())
