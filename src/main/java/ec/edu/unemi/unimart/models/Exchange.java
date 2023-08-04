@@ -89,7 +89,7 @@ public class Exchange {
     }
 
     private boolean isUserReceiver(User user) {
-        return getReceiverArticle().getUser().equals(user);
+        return getReceiverArticle().getUser().getId().equals(user.getId());
     }
 
     public void addRating(Rating rating) {
