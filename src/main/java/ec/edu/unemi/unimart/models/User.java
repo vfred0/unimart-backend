@@ -35,8 +35,9 @@ public class User {
     @Column(nullable = false, length = 250)
     String about;
 
+    @Builder.Default
     @Column(nullable = false, insertable = false)
-    Double rating;
+    Double rating = 0.0;
 
     @Column(nullable = false, insertable = false)
     Short numberExchanges;
@@ -56,4 +57,20 @@ public class User {
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
     List<Article> articles;
+
+    public List<Article> getProposerArticles() {
+        return this.articles.stream().filter(article -> article.getWhereProposed() != null).toList();
+    }
+
+    public void setAverageRatingAndNumberExchanges(Rating rating) {
+        this.ratings.add(rating);
+        this.rating = this.ratings.stream()
+                .mapToDouble(Rating::getScore)
+                .average().orElse(0.0);
+        this.updateNumberExchanges();
+    }
+
+    public void updateNumberExchanges() {
+        this.numberExchanges = (short) this.ratings.size();
+    }
 }

@@ -7,6 +7,7 @@ import ec.edu.unemi.unimart.services.crud.CrudService;
 import ec.edu.unemi.unimart.mappers.Mapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,5 +25,12 @@ public class UserService extends CrudService<User, UserDto, UUID> implements IUs
         userUpdated.setRating(user.getRating());
         userUpdated.setNumberExchanges(user.getNumberExchanges());
         return this.getMapper().toDto(this.getRepository().save(userUpdated), UserDto.class);
+    }
+
+    @Override
+    public Optional<UserDto> findById(UUID id) {
+        return this.getRepository().findById(id).map(user ->
+                this.getMapper().toDto(user, UserDto.class)
+        );
     }
 }
