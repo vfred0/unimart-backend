@@ -15,8 +15,8 @@ public class AuthService implements IAuthService {
 
     @Override
     public Optional<LoginResponseDto> login(LoginRequestDto loginRequestDto) {
-        return this.userRepository.findByUsernameAndPassword(loginRequestDto.getUsername(), loginRequestDto.getPassword()).map(user ->
-                LoginResponseDto.builder().id(user.getId()).build()
-        );
+        return this.userRepository
+                .findByUsernameAndPassword(loginRequestDto.username(), loginRequestDto.password())
+                .map(user ->new LoginResponseDto(user.getId()));
     }
 }
