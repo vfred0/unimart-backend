@@ -157,4 +157,11 @@ public class Article {
                 .findFirst()
                 .orElse(null);
     }
+
+    public ArticleDto setExchangeDetails(ArticleDto articleDto) {
+        articleDto.setAcceptProposals(this.isAcceptProposals());
+        articleDto.setReceiverUserIdForArticle(this.getReceiverUserIdForArticle());
+        articleDto.setProposersUserIdsForArticle(this.getProposersUserIdsForArticle());
+        return articleDto;
+    }
 }

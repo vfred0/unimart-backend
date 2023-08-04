@@ -42,10 +42,7 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
     public Optional<ArticleDto> findById(UUID articleId) {
         Article article = this.getRepository().findById(articleId).orElseThrow(() -> new RuntimeException("Artículo no encontrado"));
         ArticleDto articleDto = this.getMapper().toDto(article, ArticleDto.class);
-        articleDto.setAcceptProposals(article.isAcceptProposals());
-        articleDto.setReceiverUserIdForArticle(article.getReceiverUserIdForArticle());
-        articleDto.setProposersUserIdsForArticle(article.getProposersUserIdsForArticle());
-        return Optional.of(articleDto);
+        return Optional.of(article.setExchangeDetails(articleDto));
     }
 
     @Override
