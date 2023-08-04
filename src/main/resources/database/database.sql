@@ -11,7 +11,6 @@ CREATE TYPE categories AS ENUM (
     'TOYS_GAMES'
     );
 
-
 CREATE TYPE genders AS ENUM (
     'MALE',
     'FEMALE',
@@ -93,6 +92,7 @@ CREATE TABLE ratings
     user_id_who_rated     UUID,
     score                 SMALLINT     NOT NULL DEFAULT 1,
     comment               VARCHAR(100) NOT NULL,
+    date                  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT pk_ratings PRIMARY KEY (id),
     CONSTRAINT fk_ratings_user_id_who_was_rated FOREIGN KEY (user_id_who_was_rated) REFERENCES users (id) ON DELETE CASCADE,
     CONSTRAINT fk_ratings_user_id_who_rated FOREIGN KEY (user_id_who_rated) REFERENCES users (id) ON DELETE CASCADE,
