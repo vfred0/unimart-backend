@@ -1,5 +1,6 @@
 package ec.edu.unemi.unimart.models;
 
+import ec.edu.unemi.unimart.dtos.article.ArticleDto;
 import ec.edu.unemi.unimart.models.enums.Category;
 import ec.edu.unemi.unimart.models.enums.Gender;
 import ec.edu.unemi.unimart.models.enums.State;
@@ -14,6 +15,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -84,7 +86,7 @@ public class Article {
         return TypeArticle.isExchanged(this.typeArticle);
     }
 
-    public List<UUID> getProposersUserIdsForArticle() {
+    private List<UUID> getProposersUserIdsForArticle() {
         if (!this.whereReceived.isEmpty()) {
             return this.whereReceived.stream()
                     .map(proposedArticle -> proposedArticle.getProposerArticle().getUser().getId())
@@ -93,14 +95,14 @@ public class Article {
         return null;
     }
 
-    public UUID getReceiverUserIdForArticle() {
+    private UUID getReceiverUserIdForArticle() {
         if (this.whereProposed != null) {
             return this.whereProposed.getReceiverArticle().getUser().getId();
         }
         return null;
     }
 
-    public Boolean isAcceptProposals() {
+    private Boolean isAcceptProposals() {
         boolean isAcceptProposals = true;
         if (this.whereProposed != null) {
             isAcceptProposals = this.whereProposed.getExchanges().stream().noneMatch(Exchange::getIsMade);
@@ -113,14 +115,9 @@ public class Article {
         return isAcceptProposals;
     }
 
-    public void decrementNumberProposals() {
-        if (this.numbersProposals > 0) {
-            this.numbersProposals--;
-        }
-    }
-
     public List<Article> getProposerArticles() {
         return this.whereReceived.stream()
+                .filter(proposedArticle -> proposedArticle.getExchanges().isEmpty())
                 .map(ProposedArticle::getProposerArticle)
                 .collect(Collectors.toList());
     }
@@ -134,12 +131,12 @@ public class Article {
         this.numbersProposals = (short) this.whereReceived.size();
     }
 
-    public void addProposerArticle(ProposedArticle proposedArticle) {
+    public void addWhereReceived(ProposedArticle proposedArticle) {
         this.whereReceived.add(proposedArticle);
         this.updateNumberProposals();
     }
 
-    public Exchange getExchange() {
+    public List<Exchange> getExchanges() {
         List<Exchange> exchanges = new ArrayList<>();
         if (!this.whereReceived.isEmpty()) {
             exchanges = this.whereReceived.stream()
@@ -152,10 +149,7 @@ public class Article {
                     .stream()
                     .toList());
         }
-        return exchanges.stream()
-                .filter(Objects::nonNull)
-                .findFirst()
-                .orElse(null);
+        return exchanges;
     }
 
     public ArticleDto setExchangeDetails(ArticleDto articleDto) {
@@ -163,5 +157,32 @@ public class Article {
         articleDto.setReceiverUserIdForArticle(this.getReceiverUserIdForArticle());
         articleDto.setProposersUserIdsForArticle(this.getProposersUserIdsForArticle());
         return articleDto;
+    }
+
+    public ArticleDto setReceiverArticleIdAndNumberProposals(ArticleDto articleDto) {
+        short numberProposals = this.numbersProposals;
+        short countExchanges = (short) this.whereReceived.stream()
+                .filter(proposedArticle -> !proposedArticle.getExchanges().isEmpty())
+                .count();
+        if (this.whereProposed != null) {
+            articleDto.setReceiverArticleId(this.whereProposed.getReceiverArticle().getId());
+            articleDto.setNumbersProposals((short) (numberProposals - countExchanges));
+        }
+        return articleDto;
+    }
+
+    public void updateArticlesFromDeleteOrExchanged() {
+        if (this.whereProposed != null) {
+            this.whereProposed.getReceiverArticle().updateNumberProposals();
+        }
+        if (!this.whereReceived.isEmpty()) {
+            this.whereReceived.forEach(proposedArticle ->
+                    proposedArticle.getProposerArticle().setPublished()
+            );
+        }
+    }
+
+    public void setPublished() {
+        this.typeArticle = TypeArticle.PUBLISHED;
     }
 }
