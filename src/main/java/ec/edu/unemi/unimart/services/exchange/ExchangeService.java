@@ -61,9 +61,7 @@ public class ExchangeService implements IExchangeService {
     public UUID acceptExchange(ProposedArticleDto proposedArticleDto) {
         ProposedArticle proposedArticle = this.proposedArticleRepository
                 .findByReceiverArticleIdAndProposerArticleId(proposedArticleDto.receiverArticleId(), proposedArticleDto.proposerArticleId());
-        proposedArticle.getReceiverArticle().updateNumberProposals();
         proposedArticle.getProposerArticle().setPublished();
-
         Exchange exchange = new Exchange();
         exchange.setProposedArticle(proposedArticle);
         return this.exchangeRepository.save(exchange).getId();
@@ -78,8 +76,10 @@ public class ExchangeService implements IExchangeService {
     public List<ExchangeDto> findByUserId(UUID userId) {
         User user = this.userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found: " + userId));
         return user.getArticles().stream()
-                .filter(article -> article.getExchange() != null)
-                .map(article -> article.getExchange().getDetails(user))
+                .map(Article::getExchanges)
+                .filter(Objects::nonNull)
+                .flatMap(Collection::stream)
+                .map(exchange -> exchange.getDetails(user))
                 .toList();
     }
 }
