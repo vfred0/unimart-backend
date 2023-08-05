@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
-import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
@@ -20,18 +19,17 @@ public class ProposedArticleService implements IProposedArticleService {
 
     @Override
     public UUID save(ProposedArticleDto proposedArticleDto) {
-        Article receiverArticle = this.articleRepository.findById(proposedArticleDto.receiverArticle()).orElse(null);
-        Article proposerArticle = this.articleRepository.findById(proposedArticleDto.proposerArticle()).orElse(null);
+        Article receiverArticle = this.articleRepository.findById(proposedArticleDto.receiverArticleId()).orElse(null);
+        Article proposerArticle = this.articleRepository.findById(proposedArticleDto.proposerArticleId()).orElse(null);
         ProposedArticle proposedArticle = ProposedArticle.builder()
                 .receiverArticle(receiverArticle)
                 .proposerArticle(proposerArticle)
                 .build();
         UUID id = this.repository.save(proposedArticle).getId();
-        Logger.getLogger("ProposedArticleService").info("Proposed Article: " + proposedArticle);
-
-        receiverArticle.addProposerArticle(proposedArticle);
+        receiverArticle.addWhereReceived(proposedArticle);
         proposerArticle.setTypeArticle(TypeArticle.PROPOSED);
-        Logger.getLogger("ProposedArticleService").info("Receiver Article: " + receiverArticle);
+        this.articleRepository.save(receiverArticle);
+        this.articleRepository.save(proposerArticle);
         return id;
     }
 
