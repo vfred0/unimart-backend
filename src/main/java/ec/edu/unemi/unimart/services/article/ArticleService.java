@@ -18,18 +18,8 @@ import java.util.*;
 public class ArticleService extends CrudService<Article, ArticleDto, UUID> implements IArticleService {
     private final IUserService userService;
 
-    public ArticleService(Mapper mapper, IArticleRepository repository, IUserService userService) {
-        super(mapper, repository, Article.class, ArticleDto.class);
-        this.userService = userService;
-    }
-
-    @Override
     public List<ArticleDto> search(String title, Category category, State state) {
-        return getRepository().findAll()
-                .stream()
-                .filter(article -> article.containsFilters(title, category, state))
-                .filter(article -> !article.isExchanged())
-                .map(article -> getMapper().toDto(article, ArticleDto.class)).toList();
+        return this.mapper.toDtos(this.articleRepository.findByTitleAndCategoryAndState(title, category, state), ArticleDto.class);
     }
 
     @Override
