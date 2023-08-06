@@ -153,7 +153,15 @@ public class Article {
     }
 
     public ArticleDto setExchangeDetails(ArticleDto articleDto) {
-        articleDto.setAcceptProposals(this.isAcceptProposals());
+        boolean isAcceptableForExchange = true;
+        for (ProposedArticle proposedArticle : whereProposed.getReceiverArticle().getWhereReceived()) {
+            if (!proposedArticle.getExchanges().isEmpty()) {
+                Logger.getLogger(Article.class.getName()).log(Level.INFO, "Proposed article: " + proposedArticle.getId());
+                isAcceptableForExchange = false;
+                break;
+            }
+        }
+        articleDto.setIsAcceptableForExchange(isAcceptableForExchange);
         articleDto.setReceiverUserIdForArticle(this.getReceiverUserIdForArticle());
         articleDto.setProposersUserIdsForArticle(this.getProposersUserIdsForArticle());
         return articleDto;

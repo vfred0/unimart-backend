@@ -56,6 +56,9 @@ public class ArticleDto {
     Boolean acceptProposals;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    Boolean isAcceptableForExchange;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     UUID receiverUserIdForArticle;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
