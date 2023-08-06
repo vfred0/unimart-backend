@@ -13,3 +13,5 @@ Content-Type: application/json
   "proposerArticle": "a0737312-2972-403a-b75e-e2ca875890ca"
 }
 
+###
+GET http://localhost:8080/api/v1/proposedArticles/users/74998608-ba34-41a2-814d-6274fc519af9
