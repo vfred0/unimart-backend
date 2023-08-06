@@ -110,7 +110,7 @@ public class Article {
     }
 
     public void removeProposer(Article article) {
-        this.whereReceived.removeIf(proposedArticle -> proposedArticle.getProposerArticle().equals(article));
+        this.whereReceived.removeIf(proposedArticle -> proposedArticle.getProposerArticle().getId().equals(article.getId()));
         this.updateNumberProposals();
     }
 
