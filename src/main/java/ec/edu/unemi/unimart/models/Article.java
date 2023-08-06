@@ -77,14 +77,6 @@ public class Article {
     @OneToOne(mappedBy = "proposerArticle")
     ProposedArticle whereProposed;
 
-    public boolean containsFilters(String title, Category category, State state) {
-        return this.title.contains(title) && this.category.equals(category) && this.state.equals(state);
-    }
-
-    public boolean isExchanged() {
-        return TypeArticle.isExchanged(this.typeArticle);
-    }
-
     private List<UUID> getProposersUserIdsForArticle() {
         if (containsArticlesWhereReceived()) {
             return this.whereReceived.stream()
@@ -171,5 +163,13 @@ public class Article {
 
     public void setPublished() {
         this.typeArticle = TypeArticle.PUBLISHED;
+    }
+
+    public void setExchanged() {
+        this.typeArticle = TypeArticle.EXCHANGED;
+    }
+
+    public void setProposed() {
+        this.typeArticle = TypeArticle.PROPOSED;
     }
 }

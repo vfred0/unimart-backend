@@ -9,11 +9,13 @@ import ec.edu.unemi.unimart.repositories.IProposedArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ProposedArticleService implements IProposedArticleService {
+
     private final IProposedArticleRepository repository;
     private final IArticleRepository articleRepository;
 
@@ -26,8 +28,8 @@ public class ProposedArticleService implements IProposedArticleService {
                 .proposerArticle(proposerArticle)
                 .build();
         UUID id = this.repository.save(proposedArticle).getId();
-        receiverArticle.addWhereReceived(proposedArticle);
-        proposerArticle.setTypeArticle(TypeArticle.PROPOSED);
+        Objects.requireNonNull(receiverArticle).addWhereReceived(proposedArticle);
+        Objects.requireNonNull(proposerArticle).setProposed();
         this.articleRepository.save(receiverArticle);
         this.articleRepository.save(proposerArticle);
         return id;
@@ -38,7 +40,7 @@ public class ProposedArticleService implements IProposedArticleService {
         this.articleRepository.findById(proposerArticleId).ifPresent(article ->
                 {
                     article.getWhereProposed().getReceiverArticle().removeProposer(article);
-                    article.setTypeArticle(TypeArticle.PUBLISHED);
+                    article.setPublished();
                 }
         );
         this.repository.deleteByProposerArticleId(proposerArticleId);

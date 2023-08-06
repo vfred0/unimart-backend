@@ -1,11 +1,15 @@
 package ec.edu.unemi.unimart.models;
 
+import ec.edu.unemi.unimart.dtos.ExchangeDto;
+import ec.edu.unemi.unimart.dtos.article.ArticleDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -58,10 +62,6 @@ public class User {
     @ToString.Exclude
     List<Article> articles;
 
-    public List<Article> getProposerArticles() {
-        return this.articles.stream().filter(article -> article.getWhereProposed() != null).toList();
-    }
-
     public void setAverageRatingAndNumberExchanges(Rating rating) {
         this.ratings.add(rating);
         this.rating = this.ratings.stream()
@@ -73,4 +73,14 @@ public class User {
     public void updateNumberExchanges() {
         this.numberExchanges = (short) this.ratings.size();
     }
+
+    public List<ExchangeDto> getExchanges() {
+        return this.articles.stream()
+                .map(Article::getExchanges)
+                .filter(Objects::nonNull)
+                .flatMap(Collection::stream)
+                .map(exchange -> exchange.getExchangeDetails(this))
+                .toList();
+    }
+
 }

@@ -1,36 +1,57 @@
 package ec.edu.unemi.unimart.services.user;
 
 import ec.edu.unemi.unimart.dtos.UserDto;
+import ec.edu.unemi.unimart.dtos.article.ArticleDto;
 import ec.edu.unemi.unimart.models.User;
 import ec.edu.unemi.unimart.repositories.IUserRepository;
-import ec.edu.unemi.unimart.services.crud.CrudService;
 import ec.edu.unemi.unimart.mappers.Mapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UserService extends CrudService<User, UserDto, UUID> implements IUserService {
+@RequiredArgsConstructor
+public class UserService implements IUserService {
 
-    public UserService(Mapper mapper, IUserRepository repository) {
-        super(mapper, repository, User.class, UserDto.class);
-    }
+    private final IUserRepository userRepository;
+    private final Mapper mapper;
 
     @Override
-    public UserDto update(UUID userId, UserDto userDto) {
-        User user = this.getRepository().findById(userId).orElseThrow(() -> new RuntimeException("Entity not found"));
-        User userUpdated = this.getMapper().toModel(userDto, User.class);
+    public UUID save(UserDto userDto) {
+        return this.mapper.toDto(this.userRepository.save(this.mapper.toModel(userDto, User.class)), UserDto.class).getId();
+    }
+
+    public UUID update(UUID userId, UserDto userDto) {
+        User user = this.userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Entity not found"));
+        User userUpdated = this.mapper.toModel(userDto, User.class);
         userUpdated.setId(user.getId());
         userUpdated.setRating(user.getRating());
         userUpdated.setNumberExchanges(user.getNumberExchanges());
-        return this.getMapper().toDto(this.getRepository().save(userUpdated), UserDto.class);
+        return this.mapper.toDto(this.userRepository.save(userUpdated), UserDto.class).getId();
+    }
+
+    public Optional<UserDto> findById(UUID id) {
+        return this.userRepository.findById(id).map(user ->
+                this.mapper.toDto(user, UserDto.class)
+        );
     }
 
     @Override
-    public Optional<UserDto> findById(UUID id) {
-        return this.getRepository().findById(id).map(user ->
-                this.getMapper().toDto(user, UserDto.class)
-        );
+    public void deleteById(UUID id) {
+        this.userRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ArticleDto> getArticlesByUserId(UUID id) {
+        User user = this.userRepository.findById(id).orElseThrow(() -> new RuntimeException("Entity not found"));
+        return user.getArticles().stream().map(article ->
+                {
+                    ArticleDto articleDto = this.mapper.toDto(article, ArticleDto.class);
+                    return article.setReceiverArticleIdAndNumberProposals(articleDto);
+                }
+        ).toList();
     }
 }

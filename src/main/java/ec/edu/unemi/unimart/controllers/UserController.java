@@ -1,5 +1,6 @@
 package ec.edu.unemi.unimart.controllers;
 
+import ec.edu.unemi.unimart.dtos.article.ArticleDto;
 import ec.edu.unemi.unimart.services.user.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -15,22 +16,23 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/users")
 public class UserController {
+
     private final IUserService userService;
 
-    @GetMapping
-    ResponseEntity<List<UserDto>> getAll() {
-        return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
+    @GetMapping("{id}/articles")
+    ResponseEntity<List<ArticleDto>> getArticlesByUserId(@PathVariable UUID id) {
+        return ResponseEntity.ok(userService.getArticlesByUserId(id));
     }
 
     @PostMapping
     ResponseEntity<HttpHeaders> save(@RequestBody UserDto userDto) {
-        UUID articleId = userService.save(userDto).getId();
+        UUID articleId = userService.save(userDto);
         return new ResponseEntity<>(HttpHeader.getHttpHeaders(articleId), HttpStatus.CREATED);
     }
 
     @PutMapping("{userId}")
     ResponseEntity<HttpHeaders> update(@PathVariable UUID userId, @RequestBody UserDto userDto) {
-        UUID articleId = userService.update(userId, userDto).getId();
+        UUID articleId = userService.update(userId, userDto);
         return new ResponseEntity<>(HttpHeader.getHttpHeaders(articleId), HttpStatus.OK);
     }
 

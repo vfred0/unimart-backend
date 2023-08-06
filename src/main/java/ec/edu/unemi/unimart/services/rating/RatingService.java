@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -32,6 +31,20 @@ public class RatingService implements IRatingService {
         rating.setUserIdWhoWasRated(userWhoWasRated);
 
         return this.ratingRepository.save(rating).getId();
+    }
+
+    @Override
+    public Rating saveAndUpdateUserDetails(RatingDto ratingDto) {
+        UUID id = this.save(ratingDto);
+        Rating rating = this.ratingRepository.findById(id).orElseThrow();
+        User userWhoRated = this.userRepository.findById(ratingDto.getUserIdWhoRated()).orElseThrow();
+        User userWhoWasRated = this.userRepository.findById(ratingDto.getUserIdWhoWasRated()).orElseThrow();
+        userWhoWasRated.setAverageRatingAndNumberExchanges(rating);
+        userWhoRated.updateNumberExchanges();
+        this.userRepository.save(userWhoWasRated);
+        this.userRepository.save(userWhoRated);
+
+        return rating;
     }
 
     public List<RatingDto> getByUserId(UUID userId) {

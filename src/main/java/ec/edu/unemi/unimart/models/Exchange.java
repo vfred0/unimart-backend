@@ -49,12 +49,12 @@ public class Exchange {
 
     public ExchangeDto getExchangeDetails(User user) {
         if (isUserReceiver(user)) {
-            return getExchangeDto(getProposerArticle(), getReceiverArticle());
+            return getExchangeDto(getProposerArticle(), getReceiverArticle(), this.receiverRating != null);
         }
-        return getExchangeDto(getReceiverArticle(), getProposerArticle());
+        return getExchangeDto(getReceiverArticle(), getProposerArticle(), this.proposerRating != null);
     }
 
-    private ExchangeDto getExchangeDto(Article proposerArticle, Article receiverArticle) {
+    private ExchangeDto getExchangeDto(Article proposerArticle, Article receiverArticle, boolean hasBeenRated) {
         return ExchangeDto.builder()
                 .id(this.id)
                 .date(this.date)
@@ -64,7 +64,7 @@ public class Exchange {
                 .userPhoto(proposerArticle.getUser().getPhoto())
                 .articleToReceive(proposerArticle.getTitle())
                 .articleToExchange(receiverArticle.getTitle())
-                .hasBeenRated(Objects.nonNull(this.receiverRating))
+                .hasBeenRated(hasBeenRated)
                 .build();
     }
 
@@ -87,5 +87,25 @@ public class Exchange {
             this.proposerRating = rating;
         }
         this.isMade = true;
+    }
+
+    public void updateArticlesFromDiscard() {
+        Article proposerArticle = getProposerArticle();
+        Article receiverArticle = getReceiverArticle();
+        receiverArticle.removeProposer(proposerArticle);
+        proposerArticle.setPublished();
+    }
+
+    public void updateArticlesFromMade() {
+        Article receiverArticle = getReceiverArticle();
+        Article proposerArticle = getProposerArticle();
+        receiverArticle.updateArticlesFromDeleteOrExchanged();
+        proposerArticle.updateArticlesFromDeleteOrExchanged();
+        receiverArticle.setExchanged();
+        proposerArticle.setExchanged();
+    }
+
+    public UUID getProposerArticleId() {
+        return getProposerArticle().getId();
     }
 }

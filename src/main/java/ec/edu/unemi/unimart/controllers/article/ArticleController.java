@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 
@@ -22,31 +21,21 @@ import java.util.UUID;
 public class ArticleController {
     private final IArticleService articleService;
 
-    @GetMapping
-    ResponseEntity<List<ArticleDto>> getAll() {
-        return ResponseEntity.ok(articleService.getAll());
-    }
-
     @GetMapping("{articleId}")
     ResponseEntity<ArticleDto> findById(@PathVariable UUID articleId) {
         return articleService.findById(articleId).map(articleDto -> new ResponseEntity<>(articleDto, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping("users/{id}")
-    ResponseEntity<List<ArticleDto>> findByUserId(@PathVariable UUID id) {
-        return ResponseEntity.ok(articleService.findByUserId(id));
-    }
-
     @PostMapping("{userId}")
     ResponseEntity<HttpHeaders> save(@PathVariable UUID userId, @RequestBody ArticleDto articleDto) {
-        UUID articleId = articleService.save(userId, articleDto).getId();
+        UUID articleId = articleService.save(userId, articleDto);
         return new ResponseEntity<>(HttpHeader.getHttpHeaders(articleId), HttpStatus.CREATED);
     }
 
 
     @PutMapping("{articleId}")
     ResponseEntity<HttpHeaders> update(@PathVariable UUID articleId, @RequestBody ArticleDto articleDto) {
-        UUID id = articleService.update(articleId, articleDto).getId();
+        UUID id = articleService.update(articleId, articleDto);
         return new ResponseEntity<>(HttpHeader.getHttpHeaders(id), HttpStatus.CREATED);
     }
 

@@ -62,21 +62,12 @@ public class ProposedArticle {
     }
 
     public boolean receiverOrProposerAcceptExchanged() {
-        boolean acceptExchange = true;
-        boolean checkWhereProposed = true;
+        return receiverArticle.getWhereReceived().stream()
+                .noneMatch(ProposedArticle::containsExchanged) &&
+                whereProposedContainsExchanged();
+    }
 
-        for (ProposedArticle proposedArticle : receiverArticle.getWhereReceived()) {
-            if (proposedArticle.containsExchanged()) {
-                acceptExchange = false;
-                checkWhereProposed = false;
-                break;
-            }
-        }
-        ProposedArticle receiverArticleWhereProposed = receiverArticle.getWhereProposed();
-        if (checkWhereProposed && Objects.nonNull(receiverArticleWhereProposed)) {
-            acceptExchange = !receiverArticleWhereProposed.containsExchanged();
-        }
-
-        return acceptExchange;
+    private boolean whereProposedContainsExchanged() {
+        return Objects.isNull(receiverArticle.getWhereProposed()) || !receiverArticle.getWhereProposed().containsExchanged();
     }
 }
