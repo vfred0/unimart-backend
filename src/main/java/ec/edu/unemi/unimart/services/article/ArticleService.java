@@ -8,7 +8,6 @@ import ec.edu.unemi.unimart.models.User;
 import ec.edu.unemi.unimart.models.enums.Category;
 import ec.edu.unemi.unimart.models.enums.State;
 import ec.edu.unemi.unimart.repositories.IArticleRepository;
-import ec.edu.unemi.unimart.repositories.IUserRepository;
 import ec.edu.unemi.unimart.services.crud.CrudService;
 import ec.edu.unemi.unimart.services.user.IUserService;
 import org.springframework.stereotype.Service;
@@ -18,12 +17,10 @@ import java.util.*;
 @Service
 public class ArticleService extends CrudService<Article, ArticleDto, UUID> implements IArticleService {
     private final IUserService userService;
-    private final IUserRepository userRepository;
 
-    public ArticleService(Mapper mapper, IArticleRepository repository, IUserService userService, IUserRepository userRepository) {
+    public ArticleService(Mapper mapper, IArticleRepository repository, IUserService userService) {
         super(mapper, repository, Article.class, ArticleDto.class);
         this.userService = userService;
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -39,12 +36,6 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
     public List<ArticleDto> proposerArticlesByReceiverArticleId(UUID receiverArticleId) {
         Article receiverArticle = this.getRepository().findById(receiverArticleId).orElseThrow(() -> new RuntimeException("Artículo no encontrado"));
         return this.getMapper().toDtos(receiverArticle.getProposerArticles(), ArticleDto.class);
-    }
-
-    @Override
-    public List<ArticleDto> proposedArticlesByUserId(UUID userId) {
-        User user = this.userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        return this.getMapper().toDtos(user.getProposerArticles(), ArticleDto.class);
     }
 
     @Override
@@ -69,8 +60,9 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
         articleUpdated.setId(articleId);
         articleUpdated.setUser(article.getUser());
         articleUpdated.setNumbersProposals(article.getNumbersProposals());
+        articleUpdated.setWhereReceived(article.getWhereReceived());
         articleUpdated.setWhereProposed(article.getWhereProposed());
-        articleUpdated.setWhereProposed(article.getWhereProposed());
+        articleUpdated.setTypeArticle(article.getTypeArticle());
         return this.getMapper().toDto(this.getRepository().save(articleUpdated), ArticleDto.class);
     }
 
@@ -78,7 +70,6 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
     public void deleteById(UUID articleId) {
         Article article = this.getRepository().findById(articleId).orElseThrow(() -> new RuntimeException("Artículo no encontrado"));
         article.updateArticlesFromDeleteOrExchanged();
-        this.getRepository().deleteById(articleId);
     }
 
     @Override
@@ -86,7 +77,7 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
         return this.getRepository().findByUserId(id).stream().map(article ->
                 {
                     ArticleDto articleDto = this.getMapper().toDto(article, ArticleDto.class);
-                    return article.setReceiverArticleId(articleDto);
+                    return article.setReceiverArticleIdAndNumberProposals(articleDto);
                 }
         ).toList();
     }
