@@ -4,7 +4,7 @@ import ec.edu.unemi.unimart.controllers.HttpHeader;
 import ec.edu.unemi.unimart.dtos.article.ArticleDto;
 import ec.edu.unemi.unimart.dtos.article.ProposedArticleDto;
 import ec.edu.unemi.unimart.services.article.IArticleService;
-import ec.edu.unemi.unimart.services.article.proposedArticle.IProposedArticleService;
+import ec.edu.unemi.unimart.services.proposedArticle.IProposedArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
