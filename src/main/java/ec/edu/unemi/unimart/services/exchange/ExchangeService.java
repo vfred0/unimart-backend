@@ -90,7 +90,7 @@ public class ExchangeService implements IExchangeService {
                 .map(Article::getExchanges)
                 .filter(Objects::nonNull)
                 .flatMap(Collection::stream)
-                .map(exchange -> exchange.getDetails(user))
+                .map(exchange -> exchange.getExchangeDetails(user))
                 .toList();
     }
 }
