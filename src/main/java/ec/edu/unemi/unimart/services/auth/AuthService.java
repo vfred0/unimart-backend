@@ -11,12 +11,13 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AuthService implements IAuthService {
+
     private final IUserRepository userRepository;
 
     @Override
     public Optional<LoginResponseDto> login(LoginRequestDto loginRequestDto) {
         return this.userRepository
                 .findByUsernameAndPassword(loginRequestDto.username(), loginRequestDto.password())
-                .map(user ->new LoginResponseDto(user.getId()));
+                .map(user -> new LoginResponseDto(user.getId()));
     }
 }
