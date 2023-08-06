@@ -69,8 +69,19 @@ public class ExchangeService implements IExchangeService {
 
 
     @Override
-    public void deleteById(UUID id) {
-        this.exchangeRepository.deleteById(id);
+    public void discardExchange(UUID id) {
+        Exchange exchange = this.exchangeRepository.findById(id).orElseThrow(() -> new RuntimeException("Exchange not found: " + id));
+        Article proposerArticle = exchange.getProposedArticle().getProposerArticle();
+        Article receiverArticle = exchange.getProposedArticle().getReceiverArticle();
+
+        receiverArticle.removeProposer(proposerArticle);
+
+        proposerArticle.setPublished();
+
+        this.proposedArticleRepository.deleteByProposerArticleId(proposerArticle.getId());
+
+        this.articleRepository.save(receiverArticle);
+        this.articleRepository.save(proposerArticle);
     }
 
     public List<ExchangeDto> findByUserId(UUID userId) {

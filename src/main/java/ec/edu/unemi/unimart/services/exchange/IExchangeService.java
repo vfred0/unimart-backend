@@ -12,7 +12,7 @@ public interface IExchangeService  {
 
     UUID setExchangeMade(UUID exchangeId, RatingDto ratingDto);
 
-    void deleteById(UUID id);
+    void discardExchange(UUID id);
 
     UUID acceptExchange(ProposedArticleDto proposedArticleDto);
 }
