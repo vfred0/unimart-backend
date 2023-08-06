@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -46,37 +47,24 @@ public class Exchange {
     @ToString.Exclude
     Rating proposerRating;
 
-    public ExchangeDto getDetails(User user) {
-        User userProposer;
-        boolean hasBeenRated;
-        String articleToReceive;
-        String articleToExchange;
-        UUID userId;
-
+    public ExchangeDto getExchangeDetails(User user) {
         if (isUserReceiver(user)) {
-            userProposer = getProposerArticle().getUser();
-            hasBeenRated = this.receiverRating != null;
-            articleToReceive = getProposerArticle().getTitle();
-            articleToExchange = getReceiverArticle().getTitle();
-            userId = getProposerArticle().getUser().getId();
-        } else {
-            userProposer = getReceiverArticle().getUser();
-            hasBeenRated = this.proposerRating != null;
-            articleToReceive = getReceiverArticle().getTitle();
-            articleToExchange = getProposerArticle().getTitle();
-            userId = getReceiverArticle().getUser().getId();
+            return getExchangeDto(getProposerArticle(), getReceiverArticle());
         }
+        return getExchangeDto(getReceiverArticle(), getProposerArticle());
+    }
 
+    private ExchangeDto getExchangeDto(Article proposerArticle, Article receiverArticle) {
         return ExchangeDto.builder()
                 .id(this.id)
                 .date(this.date)
-                .userId(userId)
+                .userId(proposerArticle.getUser().getId())
                 .isDiscarded(!this.isMade)
-                .userName(userProposer.getName())
-                .userPhoto(userProposer.getPhoto())
-                .articleToReceive(articleToReceive)
-                .articleToExchange(articleToExchange)
-                .hasBeenRated(hasBeenRated)
+                .userName(proposerArticle.getUser().getName())
+                .userPhoto(proposerArticle.getUser().getPhoto())
+                .articleToReceive(proposerArticle.getTitle())
+                .articleToExchange(receiverArticle.getTitle())
+                .hasBeenRated(Objects.nonNull(this.receiverRating))
                 .build();
     }
 
