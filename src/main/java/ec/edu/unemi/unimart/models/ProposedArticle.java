@@ -6,9 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -39,4 +37,46 @@ public class ProposedArticle {
     @OneToMany(mappedBy = "proposedArticle")
     @ToString.Exclude
     Set<Exchange> exchanges = new LinkedHashSet<>();
+
+    public boolean containsExchanged() {
+        return !this.exchanges.isEmpty();
+    }
+
+    public boolean isProposer(Article article) {
+        return this.proposerArticle.getId().equals(article.getId());
+    }
+
+    public UUID getReceiverUserId() {
+        if (this.receiverArticle != null) {
+            return this.receiverArticle.getUser().getId();
+        }
+        return null;
+    }
+
+    public UUID getProposerUserId() {
+        return this.proposerArticle.getUser().getId();
+    }
+
+    public UUID getIdReceiverArticle() {
+        return this.receiverArticle.getId();
+    }
+
+    public boolean receiverOrProposerAcceptExchanged() {
+        boolean acceptExchange = true;
+        boolean checkWhereProposed = true;
+
+        for (ProposedArticle proposedArticle : receiverArticle.getWhereReceived()) {
+            if (proposedArticle.containsExchanged()) {
+                acceptExchange = false;
+                checkWhereProposed = false;
+                break;
+            }
+        }
+        ProposedArticle receiverArticleWhereProposed = receiverArticle.getWhereProposed();
+        if (checkWhereProposed && Objects.nonNull(receiverArticleWhereProposed)) {
+            acceptExchange = !receiverArticleWhereProposed.containsExchanged();
+        }
+
+        return acceptExchange;
+    }
 }

@@ -15,7 +15,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -87,30 +86,23 @@ public class Article {
     }
 
     private List<UUID> getProposersUserIdsForArticle() {
-        if (!this.whereReceived.isEmpty()) {
+        if (containsArticlesWhereReceived()) {
             return this.whereReceived.stream()
-                    .map(proposedArticle -> proposedArticle.getProposerArticle().getUser().getId())
+                    .map(ProposedArticle::getProposerUserId)
                     .collect(Collectors.toList());
-        }
-        return null;
-    }
-
-    private UUID getReceiverUserIdForArticle() {
-        if (this.whereProposed != null) {
-            return this.whereProposed.getReceiverArticle().getUser().getId();
         }
         return null;
     }
 
     public List<Article> getProposerArticles() {
         return this.whereReceived.stream()
-                .filter(proposedArticle -> proposedArticle.getExchanges().isEmpty())
+                .filter(proposedArticle -> !proposedArticle.containsExchanged())
                 .map(ProposedArticle::getProposerArticle)
                 .collect(Collectors.toList());
     }
 
     public void removeProposer(Article article) {
-        this.whereReceived.removeIf(proposedArticle -> proposedArticle.getProposerArticle().getId().equals(article.getId()));
+        this.whereReceived.removeIf(proposedArticle -> proposedArticle.isProposer(article));
         this.updateNumberProposals();
     }
 
@@ -125,31 +117,24 @@ public class Article {
 
     public List<Exchange> getExchanges() {
         List<Exchange> exchanges = new ArrayList<>();
-        if (!this.whereReceived.isEmpty()) {
+        if (containsArticlesWhereReceived()) {
             exchanges = this.whereReceived.stream()
                     .map(ProposedArticle::getExchanges)
                     .flatMap(Collection::stream)
                     .collect(Collectors.toList());
         }
-        if (this.whereProposed != null) {
-            exchanges.addAll(this.whereProposed.getExchanges()
-                    .stream()
-                    .toList());
+        if (Objects.nonNull(this.whereProposed)) {
+            exchanges.addAll(this.whereProposed.getExchanges());
         }
         return exchanges;
     }
 
     public ArticleDto setExchangeDetails(ArticleDto articleDto) {
-        boolean isAcceptableForExchange = true;
-        for (ProposedArticle proposedArticle : whereProposed.getReceiverArticle().getWhereReceived()) {
-            if (!proposedArticle.getExchanges().isEmpty()) {
-                Logger.getLogger(Article.class.getName()).log(Level.INFO, "Proposed article: " + proposedArticle.getId());
-                isAcceptableForExchange = false;
-                break;
-            }
+        if (Objects.nonNull(whereProposed)) {
+            articleDto.setIsAcceptableForExchange(this.whereProposed.receiverOrProposerAcceptExchanged());
+            articleDto.setReceiverArticleId(this.whereProposed.getIdReceiverArticle());
+            articleDto.setReceiverUserIdForArticle(this.whereProposed.getReceiverUserId());
         }
-        articleDto.setIsAcceptableForExchange(isAcceptableForExchange);
-        articleDto.setReceiverUserIdForArticle(this.getReceiverUserIdForArticle());
         articleDto.setProposersUserIdsForArticle(this.getProposersUserIdsForArticle());
         return articleDto;
     }
@@ -157,24 +142,31 @@ public class Article {
     public ArticleDto setReceiverArticleIdAndNumberProposals(ArticleDto articleDto) {
         short numberProposals = this.numbersProposals;
         short countExchanges = (short) this.whereReceived.stream()
-                .filter(proposedArticle -> !proposedArticle.getExchanges().isEmpty())
+                .filter(ProposedArticle::containsExchanged)
                 .count();
-        if (this.whereProposed != null) {
-            articleDto.setReceiverArticleId(this.whereProposed.getReceiverArticle().getId());
-            articleDto.setNumbersProposals((short) (numberProposals - countExchanges));
+
+        articleDto.setNumbersProposals((short) (numberProposals - countExchanges));
+
+        if (Objects.nonNull(this.whereProposed)) {
+            articleDto.setReceiverArticleId(this.whereProposed.getIdReceiverArticle());
         }
+
         return articleDto;
     }
 
     public void updateArticlesFromDeleteOrExchanged() {
-        if (this.whereProposed != null) {
+        if (Objects.nonNull(this.whereProposed)) {
             this.whereProposed.getReceiverArticle().updateNumberProposals();
         }
-        if (!this.whereReceived.isEmpty()) {
+        if (containsArticlesWhereReceived()) {
             this.whereReceived.forEach(proposedArticle ->
                     proposedArticle.getProposerArticle().setPublished()
             );
         }
+    }
+
+    private boolean containsArticlesWhereReceived() {
+        return !this.whereReceived.isEmpty();
     }
 
     public void setPublished() {
