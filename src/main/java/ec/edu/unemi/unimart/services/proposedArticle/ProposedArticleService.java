@@ -1,4 +1,4 @@
-package ec.edu.unemi.unimart.services.article.proposedArticle;
+package ec.edu.unemi.unimart.services.proposedArticle;
 
 import ec.edu.unemi.unimart.dtos.article.ProposedArticleDto;
 import ec.edu.unemi.unimart.models.Article;

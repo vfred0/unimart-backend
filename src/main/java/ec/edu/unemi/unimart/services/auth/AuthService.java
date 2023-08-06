@@ -1,4 +1,4 @@
-package ec.edu.unemi.unimart.services;
+package ec.edu.unemi.unimart.services.auth;
 
 import ec.edu.unemi.unimart.dtos.login.LoginRequestDto;
 import ec.edu.unemi.unimart.dtos.login.LoginResponseDto;
