@@ -102,19 +102,6 @@ public class Article {
         return null;
     }
 
-    private Boolean isAcceptProposals() {
-        boolean isAcceptProposals = true;
-        if (this.whereProposed != null) {
-            isAcceptProposals = this.whereProposed.getExchanges().stream().noneMatch(Exchange::getIsMade);
-        }
-        if (!this.whereReceived.isEmpty()) {
-            isAcceptProposals = this.whereReceived.stream()
-                    .flatMap(proposedArticle -> proposedArticle.getExchanges().stream())
-                    .noneMatch(Exchange::getIsMade);
-        }
-        return isAcceptProposals;
-    }
-
     public List<Article> getProposerArticles() {
         return this.whereReceived.stream()
                 .filter(proposedArticle -> proposedArticle.getExchanges().isEmpty())
