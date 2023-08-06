@@ -70,6 +70,8 @@ public class ArticleService extends CrudService<Article, ArticleDto, UUID> imple
     public void deleteById(UUID articleId) {
         Article article = this.getRepository().findById(articleId).orElseThrow(() -> new RuntimeException("Artículo no encontrado"));
         article.updateArticlesFromDeleteOrExchanged();
+        this.getRepository().delete(article);
+
     }
 
     @Override
