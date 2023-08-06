@@ -2,7 +2,7 @@ package ec.edu.unemi.unimart.controllers;
 
 import ec.edu.unemi.unimart.dtos.login.LoginRequestDto;
 import ec.edu.unemi.unimart.dtos.login.LoginResponseDto;
-import ec.edu.unemi.unimart.services.IAuthService;
+import ec.edu.unemi.unimart.services.auth.IAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
