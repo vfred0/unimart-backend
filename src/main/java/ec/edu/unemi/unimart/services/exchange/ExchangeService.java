@@ -31,7 +31,7 @@ public class ExchangeService implements IExchangeService {
         exchange.updateArticlesFromMade();
         this.updateArticles(exchange);
         ProposedArticle proposedArticle = exchange.getProposedArticle();
-        this.proposedArticleRepository.deleteOtherExchangesByProposedArticle(
+        this.proposedArticleRepository.deleteOthersProposedArticle(
                 proposedArticle.getId(),
                 proposedArticle.getReceiverArticle().getId(),
                 proposedArticle.getProposerArticle().getId());

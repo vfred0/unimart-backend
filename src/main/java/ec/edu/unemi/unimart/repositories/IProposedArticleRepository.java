@@ -18,6 +18,6 @@ public interface IProposedArticleRepository extends IRepository<ProposedArticle,
 
     @Transactional
     @Modifying
-    @Query(value = "CALL proc_delete_other_proposed_articles(:proposedArticleId, :receiverArticleId, :proposerArticleId)", nativeQuery = true)
-    void deleteOtherExchangesByProposedArticle(UUID proposedArticleId, UUID receiverArticleId, UUID proposerArticleId);
+    @Query(value = "CALL proc_delete_others_proposed_articles(:proposedArticleId, :receiverArticleId, :proposerArticleId)", nativeQuery = true)
+    void deleteOthersProposedArticle(UUID proposedArticleId, UUID receiverArticleId, UUID proposerArticleId);
 }
