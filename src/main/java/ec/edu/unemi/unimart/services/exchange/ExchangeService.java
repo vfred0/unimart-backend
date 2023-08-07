@@ -24,13 +24,17 @@ public class ExchangeService implements IExchangeService {
     private final IRatingService ratingService;
 
     @Transactional
-    @Override
     public UUID setExchangeMade(UUID exchangeId, RatingDto ratingDto) {
         Exchange exchange = this.exchangeRepository.findById(exchangeId).orElseThrow(() -> new RuntimeException("Exchange not found: " + exchangeId));
         Rating rating = this.ratingService.saveAndUpdateUserDetails(ratingDto);
         exchange.addRating(rating);
         exchange.updateArticlesFromMade();
         this.updateArticles(exchange);
+        ProposedArticle proposedArticle = exchange.getProposedArticle();
+        this.proposedArticleRepository.deleteOtherExchangesByProposedArticle(
+                proposedArticle.getId(),
+                proposedArticle.getReceiverArticle().getId(),
+                proposedArticle.getProposerArticle().getId());
         return rating.getId();
     }
 
@@ -43,7 +47,6 @@ public class ExchangeService implements IExchangeService {
         return this.exchangeRepository.save(exchange).getId();
     }
 
-    @Override
     public void discardExchange(UUID id) {
         Exchange exchange = this.exchangeRepository.findById(id).orElseThrow(() -> new RuntimeException("Exchange not found: " + id));
         exchange.updateArticlesFromDiscard();
