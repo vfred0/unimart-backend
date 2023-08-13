@@ -55,7 +55,7 @@ CREATE TABLE articles
     description       VARCHAR(250)  NOT NULL,
     category          categories    NOT NULL DEFAULT 'TEXT_BOOKS_EDUCATIONAL_MATERIAL',
     state             states        NOT NULL DEFAULT 'NEW',
-    type_article      type_articles NOT NULL DEFAULT 'PUBLISHED',
+    type_article      type_articles NOT NULL DEFAULT type_articles.PUBLISHED,
     gender            genders                DEFAULT NULL,
     numbers_proposals SMALLINT      NOT NULL DEFAULT 0,
     date              TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -63,7 +63,6 @@ CREATE TABLE articles
     CONSTRAINT fk_articles_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     CONSTRAINT ck_articles_numbers_proposals CHECK (numbers_proposals >= 0)
 );
-
 
 CREATE TABLE article_images
 (
@@ -73,7 +72,7 @@ CREATE TABLE article_images
     CONSTRAINT fk_article_images_article_id FOREIGN KEY (article_id) REFERENCES articles (id) ON DELETE CASCADE
 );
 
-CREATE TABLE proposed_articles
+CREATE TABLE proposal
 (
     id                  UUID NOT NULL DEFAULT gen_random_uuid(),
     receiver_article_id UUID NOT NULL,
@@ -109,7 +108,7 @@ CREATE TABLE exchanges
     date                TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     is_made             BOOLEAN   NOT NULL DEFAULT FALSE,
     CONSTRAINT pk_exchanges PRIMARY KEY (id),
-    CONSTRAINT fk_exchanges_proposed_article_id FOREIGN KEY (proposed_article_id) REFERENCES proposed_articles (id) ON DELETE CASCADE,
+    CONSTRAINT fk_exchanges_proposed_article_id FOREIGN KEY (proposed_article_id) REFERENCES proposal (id) ON DELETE CASCADE,
     CONSTRAINT fk_exchanges_receiver_rating_id FOREIGN KEY (receiver_rating_id) REFERENCES ratings (id) ON DELETE CASCADE,
     CONSTRAINT fk_exchanges_proposer_rating_id FOREIGN KEY (proposer_rating_id) REFERENCES ratings (id) ON DELETE CASCADE
 );
