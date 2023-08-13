@@ -15,6 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/ratings")
 public class RatingController {
+
     private final IRatingService ratingService;
 
     @GetMapping("users/{userId}")

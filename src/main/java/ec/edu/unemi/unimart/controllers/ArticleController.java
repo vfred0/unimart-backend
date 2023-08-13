@@ -1,7 +1,7 @@
-package ec.edu.unemi.unimart.controllers.article;
+package ec.edu.unemi.unimart.controllers;
 
 import ec.edu.unemi.unimart.controllers.HttpHeader;
-import ec.edu.unemi.unimart.dtos.article.ArticleDto;
+import ec.edu.unemi.unimart.dtos.ArticleDto;
 import ec.edu.unemi.unimart.models.enums.Category;
 import ec.edu.unemi.unimart.models.enums.State;
 import ec.edu.unemi.unimart.services.article.IArticleService;
@@ -19,6 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/articles")
 public class ArticleController {
+
     private final IArticleService articleService;
 
     @GetMapping("{articleId}")
@@ -29,7 +30,10 @@ public class ArticleController {
     @PostMapping("{userId}")
     ResponseEntity<HttpHeaders> save(@PathVariable UUID userId, @RequestBody ArticleDto articleDto) {
         UUID articleId = articleService.save(userId, articleDto);
-        return new ResponseEntity<>(HttpHeader.getHttpHeaders(articleId), HttpStatus.CREATED);
+        return new ResponseEntity<>(
+                HttpHeader.getHttpHeaders(articleId),
+                HttpStatus.CREATED
+        );
     }
 
 

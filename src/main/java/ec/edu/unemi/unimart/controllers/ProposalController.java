@@ -1,10 +1,10 @@
-package ec.edu.unemi.unimart.controllers.article;
+package ec.edu.unemi.unimart.controllers;
 
 import ec.edu.unemi.unimart.controllers.HttpHeader;
-import ec.edu.unemi.unimart.dtos.article.ArticleDto;
-import ec.edu.unemi.unimart.dtos.article.ProposedArticleDto;
+import ec.edu.unemi.unimart.dtos.ArticleDto;
+import ec.edu.unemi.unimart.dtos.ProposalDto;
 import ec.edu.unemi.unimart.services.article.IArticleService;
-import ec.edu.unemi.unimart.services.proposedArticle.IProposedArticleService;
+import ec.edu.unemi.unimart.services.proposal.IProposalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,14 +16,15 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/proposedArticles")
-public class ProposedArticleController {
-    private final IProposedArticleService proposedArticleService;
+@RequestMapping("/api/v1/proposals")
+public class ProposalController {
+
+    private final IProposalService proposedArticleService;
     private final IArticleService articleService;
 
     @PostMapping
-    ResponseEntity<HttpHeaders> save(@RequestBody ProposedArticleDto proposedArticleDto) {
-        UUID id = proposedArticleService.save(proposedArticleDto);
+    ResponseEntity<HttpHeaders> save(@RequestBody ProposalDto proposalDto) {
+        UUID id = proposedArticleService.save(proposalDto);
         return new ResponseEntity<>(HttpHeader.getHttpHeaders(id), HttpStatus.CREATED);
     }
 

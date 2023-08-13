@@ -1,6 +1,6 @@
 package ec.edu.unemi.unimart.controllers;
 
-import ec.edu.unemi.unimart.dtos.article.ArticleDto;
+import ec.edu.unemi.unimart.dtos.ArticleDto;
 import ec.edu.unemi.unimart.services.user.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

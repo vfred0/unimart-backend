@@ -1,7 +1,7 @@
 package ec.edu.unemi.unimart.controllers;
 
 import ec.edu.unemi.unimart.dtos.ExchangeDto;
-import ec.edu.unemi.unimart.dtos.article.ProposedArticleDto;
+import ec.edu.unemi.unimart.dtos.ProposalDto;
 import ec.edu.unemi.unimart.dtos.RatingDto;
 import ec.edu.unemi.unimart.services.exchange.IExchangeService;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +26,8 @@ public class ExchangeController {
     }
 
     @PostMapping
-    ResponseEntity<HttpHeaders> acceptExchange(@RequestBody ProposedArticleDto proposedArticleDto) {
-        UUID id = exchangeService.acceptExchange(proposedArticleDto);
+    ResponseEntity<HttpHeaders> acceptExchange(@RequestBody ProposalDto proposalDto) {
+        UUID id = exchangeService.acceptExchange(proposalDto);
         return new ResponseEntity<>(HttpHeader.getHttpHeaders(id), HttpStatus.CREATED);
     }
 
