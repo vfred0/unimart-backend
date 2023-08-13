@@ -1,4 +1,4 @@
-package ec.edu.unemi.unimart.dtos.article;
+package ec.edu.unemi.unimart.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -22,12 +22,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ArticleDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     UUID id;
