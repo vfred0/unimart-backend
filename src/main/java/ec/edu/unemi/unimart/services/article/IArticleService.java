@@ -1,18 +1,22 @@
 package ec.edu.unemi.unimart.services.article;
 
-import ec.edu.unemi.unimart.dtos.article.ArticleDto;
+import ec.edu.unemi.unimart.dtos.ArticleDto;
 import ec.edu.unemi.unimart.models.enums.Category;
 import ec.edu.unemi.unimart.models.enums.State;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface IArticleService {
+    @Transactional
     UUID save(UUID userId, ArticleDto articleDto);
 
+    @Transactional
     UUID update(UUID articleId, ArticleDto articleDto);
 
+    @Transactional
     void deleteById(UUID articleId);
 
     List<ArticleDto> search(String title, Category category, State state);

@@ -1,7 +1,9 @@
 package ec.edu.unemi.unimart.services.user;
 
 import ec.edu.unemi.unimart.dtos.UserDto;
-import ec.edu.unemi.unimart.dtos.article.ArticleDto;
+import ec.edu.unemi.unimart.dtos.ArticleDto;
+import ec.edu.unemi.unimart.exceptions.MessageException;
+import ec.edu.unemi.unimart.exceptions.NotFoundException;
 import ec.edu.unemi.unimart.models.User;
 import ec.edu.unemi.unimart.repositories.IUserRepository;
 import ec.edu.unemi.unimart.mappers.Mapper;
@@ -24,8 +26,9 @@ public class UserService implements IUserService {
         return this.mapper.toDto(this.userRepository.save(this.mapper.toModel(userDto, User.class)), UserDto.class).getId();
     }
 
+    @Override
     public UUID update(UUID userId, UserDto userDto) {
-        User user = this.userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Entity not found"));
+        User user = getUserById(userId);
         User userUpdated = this.mapper.toModel(userDto, User.class);
         userUpdated.setId(user.getId());
         userUpdated.setRating(user.getRating());
@@ -33,6 +36,17 @@ public class UserService implements IUserService {
         return this.mapper.toDto(this.userRepository.save(userUpdated), UserDto.class).getId();
     }
 
+    @Override
+    public User getUserById(UUID id) {
+        return this.userRepository.findById(id).orElseThrow(() -> NotFoundException.throwBecauseOf(MessageException.USER_NOT_FOUND));
+    }
+
+    @Override
+    public void saveByModel(User user) {
+        this.userRepository.save(user);
+    }
+
+    @Override
     public Optional<UserDto> findById(UUID id) {
         return this.userRepository.findById(id).map(user ->
                 this.mapper.toDto(user, UserDto.class)
@@ -46,7 +60,7 @@ public class UserService implements IUserService {
 
     @Override
     public List<ArticleDto> getArticlesByUserId(UUID id) {
-        User user = this.userRepository.findById(id).orElseThrow(() -> new RuntimeException("Entity not found"));
+        User user = getUserById(id);
         return user.getArticles().stream().map(article ->
                 {
                     ArticleDto articleDto = this.mapper.toDto(article, ArticleDto.class);

@@ -1,7 +1,8 @@
 package ec.edu.unemi.unimart.services.user;
 
 import ec.edu.unemi.unimart.dtos.UserDto;
-import ec.edu.unemi.unimart.dtos.article.ArticleDto;
+import ec.edu.unemi.unimart.dtos.ArticleDto;
+import ec.edu.unemi.unimart.models.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,4 +19,8 @@ public interface IUserService {
     void deleteById(UUID id);
 
     List<ArticleDto> getArticlesByUserId(UUID id);
+
+    User getUserById(UUID id);
+
+    void saveByModel(User user);
 }
