@@ -1,6 +1,6 @@
 package ec.edu.unemi.unimart.models;
 
-import ec.edu.unemi.unimart.dtos.article.ArticleDto;
+import ec.edu.unemi.unimart.dtos.ArticleDto;
 import ec.edu.unemi.unimart.models.enums.Category;
 import ec.edu.unemi.unimart.models.enums.Gender;
 import ec.edu.unemi.unimart.models.enums.State;
@@ -15,14 +15,13 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
 @ToString
 @Entity
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "articles")
 public class Article {
     @Id
@@ -72,15 +71,15 @@ public class Article {
 
     @OneToMany(mappedBy = "receiverArticle", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    Set<ProposedArticle> whereReceived = new LinkedHashSet<>();
+    Set<Proposal> whereReceived = new LinkedHashSet<>();
 
     @OneToOne(mappedBy = "proposerArticle")
-    ProposedArticle whereProposed;
+    Proposal whereProposed;
 
     private List<UUID> getProposersUserIdsForArticle() {
         if (containsArticlesWhereReceived()) {
             return this.whereReceived.stream()
-                    .map(ProposedArticle::getProposerUserId)
+                    .map(Proposal::getProposerUserId)
                     .collect(Collectors.toList());
         }
         return null;
@@ -89,7 +88,7 @@ public class Article {
     public List<Article> getProposerArticles() {
         return this.whereReceived.stream()
                 .filter(proposedArticle -> !proposedArticle.containsExchanged())
-                .map(ProposedArticle::getProposerArticle)
+                .map(Proposal::getProposerArticle)
                 .collect(Collectors.toList());
     }
 
@@ -102,8 +101,8 @@ public class Article {
         this.numbersProposals = (short) this.whereReceived.size();
     }
 
-    public void addWhereReceived(ProposedArticle proposedArticle) {
-        this.whereReceived.add(proposedArticle);
+    public void addWhereReceived(Proposal proposal) {
+        this.whereReceived.add(proposal);
         this.updateNumberProposals();
     }
 
@@ -111,7 +110,7 @@ public class Article {
         List<Exchange> exchanges = new ArrayList<>();
         if (containsArticlesWhereReceived()) {
             exchanges = this.whereReceived.stream()
-                    .map(ProposedArticle::getExchanges)
+                    .map(Proposal::getExchanges)
                     .flatMap(Collection::stream)
                     .collect(Collectors.toList());
         }
@@ -134,7 +133,7 @@ public class Article {
     public ArticleDto setReceiverArticleIdAndNumberProposals(ArticleDto articleDto) {
         short numberProposals = this.numbersProposals;
         short countExchanges = (short) this.whereReceived.stream()
-                .filter(ProposedArticle::containsExchanged)
+                .filter(Proposal::containsExchanged)
                 .count();
 
         articleDto.setNumbersProposals((short) (numberProposals - countExchanges));

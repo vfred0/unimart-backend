@@ -1,7 +1,6 @@
 package ec.edu.unemi.unimart.models;
 
 import ec.edu.unemi.unimart.dtos.ExchangeDto;
-import ec.edu.unemi.unimart.dtos.article.ArticleDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;

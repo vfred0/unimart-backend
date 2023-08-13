@@ -8,7 +8,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -31,9 +30,9 @@ public class Exchange {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "proposed_article_id", nullable = false)
+    @JoinColumn(name = "proposal_id", nullable = false)
     @ToString.Exclude
-    ProposedArticle proposedArticle;
+    Proposal proposal;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -69,11 +68,11 @@ public class Exchange {
     }
 
     private Article getReceiverArticle() {
-        return this.proposedArticle.getReceiverArticle();
+        return this.proposal.getReceiverArticle();
     }
 
     private Article getProposerArticle() {
-        return this.proposedArticle.getProposerArticle();
+        return this.proposal.getProposerArticle();
     }
 
     private boolean isUserReceiver(User user) {

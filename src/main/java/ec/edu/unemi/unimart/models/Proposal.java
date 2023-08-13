@@ -14,10 +14,10 @@ import java.util.*;
 @Builder
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "proposed_articles")
+@Table(name = "proposals")
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProposedArticle {
+public class Proposal {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
@@ -34,7 +34,7 @@ public class ProposedArticle {
     @ToString.Exclude
     Article proposerArticle;
 
-    @OneToMany(mappedBy = "proposedArticle")
+    @OneToMany(mappedBy = "proposals")
     @ToString.Exclude
     Set<Exchange> exchanges = new LinkedHashSet<>();
 
@@ -63,7 +63,7 @@ public class ProposedArticle {
 
     public boolean receiverOrProposerAcceptExchanged() {
         return receiverArticle.getWhereReceived().stream()
-                .noneMatch(ProposedArticle::containsExchanged) &&
+                .noneMatch(Proposal::containsExchanged) &&
                 whereProposedContainsExchanged();
     }
 
