@@ -8,7 +8,6 @@ import ec.edu.unemi.unimart.models.User;
 import ec.edu.unemi.unimart.repositories.IRatingRepository;
 import ec.edu.unemi.unimart.services.user.IUserService;
 import jakarta.transaction.Transactional;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +31,8 @@ public class RatingService implements IRatingService {
                 .score(ratingDto.getScore())
                 .build();
 
-        rating.setUserIdWhoRated(userWhoRated);
-        rating.setUserIdWhoWasRated(userWhoWasRated);
+        rating.setUserWhoRated(userWhoRated);
+        rating.setUserWhoWasRated(userWhoWasRated);
 
         return this.ratingRepository.save(rating).getId();
     }
@@ -43,19 +42,18 @@ public class RatingService implements IRatingService {
     public Rating saveAndUpdateUserDetails(RatingDto ratingDto) {
         UUID id = this.save(ratingDto);
         Rating rating = this.ratingRepository.findById(id).orElseThrow(() -> NotFoundException.throwBecauseOf(MessageException.RATING_NOT_FOUND));
-        User userWhoRated = this.userService.getUserById(ratingDto.getUserIdWhoRated());
-        User userWhoWasRated = this.userService.getUserById(ratingDto.getUserIdWhoWasRated());
-        userWhoWasRated.setAverageRatingAndNumberExchanges(rating);
+        User userWhoRated = rating.getUserWhoRated();
+        User userWhoWasRated = rating.getUserWhoWasRated();
+        userWhoWasRated.setAverageRating(rating);
+        userWhoWasRated.updateNumberExchanges();
         userWhoRated.updateNumberExchanges();
-        this.userService.saveByModel(userWhoWasRated);
-        this.userService.saveByModel(userWhoRated);
         return rating;
     }
 
     @Override
     public List<RatingDto> getByUserId(UUID userId) {
         User user = this.userService.getUserById(userId);
-        return user.getRatings().stream().map(Rating::getDetails).toList();
+        return user.getWhereUserWhoWasRated().stream().map(Rating::getDetails).toList();
     }
 
 }
