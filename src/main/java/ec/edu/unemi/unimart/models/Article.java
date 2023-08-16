@@ -147,7 +147,8 @@ public class Article {
 
     public void updateArticlesFromDeleteOrExchanged() {
         if (Objects.nonNull(this.whereProposed)) {
-            this.whereProposed.getReceiverArticle().updateNumberProposals();
+            Article receiverArticle = this.whereProposed.getReceiverArticle();
+            receiverArticle.setNumbersProposals((short) (receiverArticle.getNumbersProposals() - 1));
         }
         if (containsArticlesWhereReceived()) {
             this.whereReceived.forEach(proposedArticle ->
