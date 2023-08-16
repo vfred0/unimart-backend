@@ -7,7 +7,7 @@ CREATE OR REPLACE PROCEDURE proc_delete_others_proposed_articles(
 $$
 BEGIN
     DELETE
-    FROM proposed_articles
+    FROM proposals
     WHERE id <> p_proposed_article_id
       AND (receiver_article_id IN (p_receiver_article_id, p_proposer_article_id)
         OR proposer_article_id IN (p_receiver_article_id, p_proposer_article_id));
