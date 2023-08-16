@@ -55,7 +55,7 @@ CREATE TABLE articles
     description       VARCHAR(250)  NOT NULL,
     category          categories    NOT NULL DEFAULT 'TEXT_BOOKS_EDUCATIONAL_MATERIAL',
     state             states        NOT NULL DEFAULT 'NEW',
-    type_article      type_articles NOT NULL DEFAULT type_articles.PUBLISHED,
+    type_article      type_articles NOT NULL DEFAULT 'PUBLISHED',
     gender            genders                DEFAULT NULL,
     numbers_proposals SMALLINT      NOT NULL DEFAULT 0,
     date              TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -66,13 +66,14 @@ CREATE TABLE articles
 
 CREATE TABLE article_images
 (
+    id         UUID        NOT NULL DEFAULT gen_random_uuid(),
     article_id UUID        NOT NULL,
     image      VARCHAR(60) NOT NULL,
-    CONSTRAINT pk_article_images PRIMARY KEY (article_id),
+    CONSTRAINT pk_article_images PRIMARY KEY (id),
     CONSTRAINT fk_article_images_article_id FOREIGN KEY (article_id) REFERENCES articles (id) ON DELETE CASCADE
 );
 
-CREATE TABLE proposal
+CREATE TABLE proposals
 (
     id                  UUID NOT NULL DEFAULT gen_random_uuid(),
     receiver_article_id UUID NOT NULL,
@@ -101,14 +102,14 @@ CREATE TABLE ratings
 
 CREATE TABLE exchanges
 (
-    id                  UUID      NOT NULL DEFAULT gen_random_uuid(),
-    proposed_article_id UUID      NOT NULL,
-    receiver_rating_id  UUID,
-    proposer_rating_id  UUID,
-    date                TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    is_made             BOOLEAN   NOT NULL DEFAULT FALSE,
+    id                 UUID      NOT NULL DEFAULT gen_random_uuid(),
+    proposal_id        UUID      NOT NULL,
+    receiver_rating_id UUID,
+    proposer_rating_id UUID,
+    date               TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    is_made            BOOLEAN   NOT NULL DEFAULT FALSE,
     CONSTRAINT pk_exchanges PRIMARY KEY (id),
-    CONSTRAINT fk_exchanges_proposed_article_id FOREIGN KEY (proposed_article_id) REFERENCES proposal (id) ON DELETE CASCADE,
+    CONSTRAINT fk_exchanges_proposal_id FOREIGN KEY (proposal_id) REFERENCES proposals (id) ON DELETE CASCADE,
     CONSTRAINT fk_exchanges_receiver_rating_id FOREIGN KEY (receiver_rating_id) REFERENCES ratings (id) ON DELETE CASCADE,
     CONSTRAINT fk_exchanges_proposer_rating_id FOREIGN KEY (proposer_rating_id) REFERENCES ratings (id) ON DELETE CASCADE
 );
