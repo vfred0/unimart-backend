@@ -4,8 +4,6 @@ import ec.edu.unemi.unimart.dtos.ExchangeDto;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -29,19 +27,16 @@ public class Exchange {
     Boolean isMade = false;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "proposal_id", nullable = false)
     @ToString.Exclude
     Proposal proposal;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "receiver_rating_id")
     @ToString.Exclude
     Rating receiverRating;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "proposer_rating_id")
     @ToString.Exclude
     Rating proposerRating;
@@ -80,7 +75,7 @@ public class Exchange {
     }
 
     public void addRating(Rating rating) {
-        if (isUserReceiver(rating.getUserIdWhoRated())) {
+        if (isUserReceiver(rating.getUserWhoRated())) {
             this.receiverRating = rating;
         } else {
             this.proposerRating = rating;
