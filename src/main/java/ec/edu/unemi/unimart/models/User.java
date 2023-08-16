@@ -53,24 +53,23 @@ public class User {
     @Column(nullable = false, length = 32)
     String password;
 
-    @OneToMany(mappedBy = "userIdWhoWasRated")
+    @OneToMany(mappedBy = "userWhoWasRated")
     @ToString.Exclude
-    List<Rating> ratings;
+    List<Rating> whereUserWhoWasRated;
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
     List<Article> articles;
 
-    public void setAverageRatingAndNumberExchanges(Rating rating) {
-        this.ratings.add(rating);
-        this.rating = this.ratings.stream()
+    public void setAverageRating(Rating rating) {
+        this.whereUserWhoWasRated.add(rating);
+        this.rating = this.whereUserWhoWasRated.stream()
                 .mapToDouble(Rating::getScore)
                 .average().orElse(0.0);
-        this.updateNumberExchanges();
     }
 
     public void updateNumberExchanges() {
-        this.numberExchanges = (short) this.ratings.size();
+        this.numberExchanges = (short) this.whereUserWhoWasRated.size();
     }
 
     public List<ExchangeDto> getExchanges() {
