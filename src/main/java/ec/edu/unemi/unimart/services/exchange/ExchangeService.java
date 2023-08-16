@@ -42,7 +42,7 @@ public class ExchangeService implements IExchangeService {
 
     public UUID acceptExchange(ProposalDto proposalDto) {
         Proposal proposal = this.proposalService.findByProposalDto(proposalDto);
-        proposal.getProposerArticle().setPublished();
+//        proposal.getProposerArticle().setPublished();
         Exchange exchange = new Exchange();
         exchange.setProposal(proposal);
         return this.exchangeRepository.save(exchange).getId();
