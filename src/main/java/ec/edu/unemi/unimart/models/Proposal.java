@@ -23,18 +23,16 @@ public class Proposal {
     UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "receiver_article_id", nullable = false)
     @ToString.Exclude
     Article receiverArticle;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "proposer_article_id", nullable = false)
     @ToString.Exclude
     Article proposerArticle;
 
-    @OneToMany(mappedBy = "proposals")
+    @OneToMany(mappedBy = "proposal")
     @ToString.Exclude
     Set<Exchange> exchanges = new LinkedHashSet<>();
 
