@@ -36,7 +36,7 @@ $$
                 '0987655435');
 
 
-        INSERT INTO articles (id, user_id, title, description, category, state)
+        INSERT INTO articles (title, description, category, state, gender)
         VALUES (article01_id, user01_id, 'Articulo 1', 'Descripcion del articulo 1', 'ELECTRONICS', 'NEW');
         INSERT INTO articles (id, user_id, title, description, category, state)
         VALUES (article02_id, user02_id, 'Articulo 2', 'Descripcion del articulo 2', 'ELECTRONICS', 'PREOWNED');
@@ -49,24 +49,26 @@ $$
         INSERT INTO articles (id, user_id, title, description, category, state)
         VALUES (article06_id, user06_id, 'Articulo 6', 'Descripcion del articulo 6', 'ELECTRONICS', 'USED');
 
-        INSERT INTO article_images VALUES (article01_id, 'https://is.gd/DdAob3');
-        INSERT INTO article_images VALUES (article02_id, 'https://is.gd/DdAob3');
-        INSERT INTO article_images VALUES (article03_id, 'https://is.gd/DdAob3');
-        INSERT INTO article_images VALUES (article04_id, 'https://is.gd/DdAob3');
-        INSERT INTO article_images VALUES (article05_id, 'https://is.gd/DdAob3');
-        INSERT INTO article_images VALUES (article06_id, 'https://is.gd/DdAob3');
+        INSERT INTO article_images(article_id, image) VALUES (article01_id, 'https://is.gd/DdAob3');
+        INSERT INTO article_images(article_id, image)
+        VALUES (article01_id, 'https://i.ibb.co/VgVdfsD/1ee9d07df63c.jpg');
+        INSERT INTO article_images(article_id, image) VALUES (article02_id, 'https://is.gd/DdAob3');
+        INSERT INTO article_images(article_id, image) VALUES (article03_id, 'https://is.gd/DdAob3');
+        INSERT INTO article_images(article_id, image) VALUES (article04_id, 'https://is.gd/DdAob3');
+        INSERT INTO article_images(article_id, image) VALUES (article05_id, 'https://is.gd/DdAob3');
+        INSERT INTO article_images(article_id, image) VALUES (article06_id, 'https://is.gd/DdAob3');
 
-        INSERT INTO proposed_articles(id, receiver_article_id, proposer_article_id)
+        INSERT INTO proposals(id, receiver_article_id, proposer_article_id)
         VALUES (gen_random_uuid(), article01_id, article02_id);
-        INSERT INTO proposed_articles(id, receiver_article_id, proposer_article_id)
+        INSERT INTO proposals(id, receiver_article_id, proposer_article_id)
         VALUES (gen_random_uuid(), article02_id, article03_id);
-        INSERT INTO proposed_articles(id, receiver_article_id, proposer_article_id)
+        INSERT INTO proposals(id, receiver_article_id, proposer_article_id)
         VALUES (gen_random_uuid(), article03_id, article01_id);
-        INSERT INTO proposed_articles(id, receiver_article_id, proposer_article_id)
+        INSERT INTO proposals(id, receiver_article_id, proposer_article_id)
         VALUES (gen_random_uuid(), article01_id, article05_id);
-        INSERT INTO proposed_articles(id, receiver_article_id, proposer_article_id)
+        INSERT INTO proposals(id, receiver_article_id, proposer_article_id)
         VALUES (gen_random_uuid(), article02_id, article06_id);
-        INSERT INTO proposed_articles(id, receiver_article_id, proposer_article_id)
+        INSERT INTO proposals(id, receiver_article_id, proposer_article_id)
         VALUES (gen_random_uuid(), article06_id, article04_id);
 
         UPDATE articles

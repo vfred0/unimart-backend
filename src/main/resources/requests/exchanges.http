@@ -2,7 +2,7 @@
 GET http://localhost:8080/api/v1/exchanges/users/ea57d8c1-33aa-4c83-b3d8-32b59b262059
 
 ### Exchanges by user id: Vicor
-GET http://localhost:8080/api/v1/exchanges/users/74998608-ba34-41a2-814d-6274fc519af9
+GET http://localhost:8080/api/v1/exchanges/users/35fd532f-3ed9-4867-92ad-55549ae6a9db
 
 ### Accept exchange
 POST http://localhost:8080/api/v1/exchanges

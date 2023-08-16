@@ -74,4 +74,4 @@ Content-Type: application/json
 DELETE http://localhost:8080/api/v1/articles/e088003c-70df-4ad2-8f81-68e844fc7052
 
 ###
-GET http://localhost:8080/api/v1/articles/5326dfab-db9a-4aaf-b05c-0ab17ba31ffd
+GET http://localhost:8080/api/v1/articles/5695978c-213f-410b-8f98-e1793ed8c613

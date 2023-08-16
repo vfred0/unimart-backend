@@ -3,6 +3,9 @@ PUT http://localhost:8080/api/v1/auth/login
 Content-Type: application/json
 
 {
-  "username": "user02",
+  "username": "user05",
   "password": "user02"
 }
+
+### GET
+GET http://localhost:8080/api/v1/users/7ef81a23-bad1-4a53-ad20-efdb266f40be
