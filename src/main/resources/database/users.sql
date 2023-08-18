@@ -30,3 +30,10 @@ VALUES
     ('raquel','Raquel Gimenez','Soy profesora de preescolar en un jardín.','https://randomuser.me/api/portraits/women/21.jpg','preescolar1','0995647382'),
     ('juanm','Juan Martinez','Trabajo como programador web freelance.','https://randomuser.me/api/portraits/men/42.jpg','juanm123','0990876543'),
     ('yamila','Yamila Fernandez','Estoy estudiando para ser veterinaria.','https://randomuser.me/api/portraits/women/34.jpg','yamfer','0996654321');
+
+
+INSERT INTO users (username, name, about, photo, password, number_whatsapp)
+VALUES
+    ('isabel', 'Isabel Carrión', 'Interesada con la idea de los intercambios', 'https://is.gd/V6Sepo', 'delia', '0912345678'),
+    ('vcruz', 'Víctor Cruz', 'Reutilizar artículos!', 'https://is.gd/60Ugzv', 'vcruz', '0912345699');
+

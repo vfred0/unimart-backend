@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
   "photo": "https://is.gd/Xp9Pwj",
-  "username": "terri",
-  "name": "Terri Mendoza",
+  "username": "nuevousuario",
+  "name": "Usuario nuevo",
   "about": "Me gusta la idea de intercambiar cosas, porque así puedo obtener cosas que necesito sin gastar dinero",
   "numberWhatsapp": "0912345671",
   "password": "12345"

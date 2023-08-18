@@ -1,6 +1,5 @@
 DELETE FROM exchanges;
 DELETE FROM proposals;
-DELETE FROM article_images;
 DELETE FROM articles;
 DELETE FROM ratings;
 DELETE FROM users;

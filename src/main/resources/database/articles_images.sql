@@ -40,7 +40,6 @@ VALUES ('9bad23aa-f869-4f25-ae57-d0a276410090', 'https://is.gd/u8Vva0'),
        ('9af131fd-2dd3-4b36-a888-14cd5c051963', 'https://is.gd/wDAxbR'),
        ('554d9ff6-738d-4a99-a4e6-eb6bc7efaf27', 'https://is.gd/wDAxbR'),
 
-
        ('3b19e783-8579-4639-8416-6ac6cb973661', 'https://is.gd/SfkVLl'),
        ('d392d8c8-e8d8-49b7-b745-b4ac3360c08a', 'https://is.gd/SfkVLl'),
        ('827de9bd-47d2-4da4-8a25-78001858f4f9', 'https://is.gd/SfkVLl'),
