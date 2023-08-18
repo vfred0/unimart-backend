@@ -36,8 +36,9 @@ public class Article {
     @Column(nullable = false, length = 250)
     String description;
 
+    @Builder.Default
     @Column(nullable = false, insertable = false)
-    Short numbersProposals;
+    Short numbersProposals = 0;
 
     @Column(nullable = false, insertable = false, updatable = false)
     LocalDateTime date;
@@ -146,12 +147,20 @@ public class Article {
     public void updateArticlesFromDeleteOrExchanged() {
         if (Objects.nonNull(this.whereProposed)) {
             Article receiverArticle = this.whereProposed.getReceiverArticle();
-            receiverArticle.setNumbersProposals((short) (receiverArticle.getNumbersProposals() - 1));
+            receiverArticle.decrementNumbersProposals();
         }
         if (containsArticlesWhereReceived()) {
             this.whereReceived.forEach(proposedArticle ->
                     proposedArticle.getProposerArticle().setPublished()
             );
+        }
+    }
+
+    private void decrementNumbersProposals() {
+        if (this.numbersProposals > 0) {
+            this.numbersProposals--;
+        } else {
+            this.numbersProposals = 0;
         }
     }
 
