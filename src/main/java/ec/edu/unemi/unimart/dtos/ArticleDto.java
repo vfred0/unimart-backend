@@ -18,6 +18,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -65,7 +66,7 @@ public class ArticleDto {
     UUID receiverArticleId;
 
     @NotNull
-    Set<String> images;
+    String[] images;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     List<UUID> proposersUserIdsForArticle;

@@ -53,6 +53,7 @@ CREATE TABLE articles
     user_id           UUID          NOT NULL,
     title             VARCHAR(60)   NOT NULL,
     description       VARCHAR(250)  NOT NULL,
+    images            VARCHAR(60)[] NOT NULL,
     category          categories    NOT NULL DEFAULT 'TEXT_BOOKS_EDUCATIONAL_MATERIAL',
     state             states        NOT NULL DEFAULT 'NEW',
     type_article      type_articles NOT NULL DEFAULT 'PUBLISHED',
@@ -64,14 +65,6 @@ CREATE TABLE articles
     CONSTRAINT ck_articles_numbers_proposals CHECK (numbers_proposals >= 0)
 );
 
-CREATE TABLE article_images
-(
-    id         UUID        NOT NULL DEFAULT gen_random_uuid(),
-    article_id UUID        NOT NULL,
-    image      VARCHAR(60) NOT NULL,
-    CONSTRAINT pk_article_images PRIMARY KEY (id),
-    CONSTRAINT fk_article_images_article_id FOREIGN KEY (article_id) REFERENCES articles (id) ON DELETE CASCADE
-);
 
 CREATE TABLE proposals
 (

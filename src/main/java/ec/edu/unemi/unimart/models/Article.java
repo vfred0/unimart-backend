@@ -1,5 +1,6 @@
 package ec.edu.unemi.unimart.models;
 
+import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import ec.edu.unemi.unimart.dtos.ArticleDto;
 import ec.edu.unemi.unimart.models.enums.Category;
 import ec.edu.unemi.unimart.models.enums.Gender;
@@ -10,6 +11,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Type;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -61,10 +63,9 @@ public class Article {
     @JoinColumn(name = "user_id")
     User user;
 
-    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "article_images", joinColumns = @JoinColumn(name = "article_id"))
-    @Column(name = "image", nullable = false)
-    Set<String> images = new LinkedHashSet<>();
+    @Type(StringArrayType.class)
+    @Column(name = "images", columnDefinition = "varchar(60)[]")
+    String[] images;
 
     @OneToMany(mappedBy = "receiverArticle", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
