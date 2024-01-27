@@ -1,8 +1,8 @@
 package ec.edu.unemi.unimart.services.user;
 
-import ec.edu.unemi.unimart.dtos.UserDto;
-import ec.edu.unemi.unimart.dtos.ArticleDto;
-import ec.edu.unemi.unimart.models.User;
+import ec.edu.unemi.unimart.api.dtos.UserDto;
+import ec.edu.unemi.unimart.api.dtos.ArticleDto;
+import ec.edu.unemi.unimart.data.entities.User;
 
 import java.util.List;
 import java.util.Optional;

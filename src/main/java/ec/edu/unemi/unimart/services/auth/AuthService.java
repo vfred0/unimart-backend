@@ -1,8 +1,8 @@
 package ec.edu.unemi.unimart.services.auth;
 
-import ec.edu.unemi.unimart.dtos.login.LoginRequestDto;
-import ec.edu.unemi.unimart.dtos.login.LoginResponseDto;
-import ec.edu.unemi.unimart.repositories.IUserRepository;
+import ec.edu.unemi.unimart.api.dtos.login.LoginRequestDto;
+import ec.edu.unemi.unimart.api.dtos.login.LoginResponseDto;
+import ec.edu.unemi.unimart.data.daos.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +16,6 @@ public class AuthService implements IAuthService {
 
     @Override
     public Optional<LoginResponseDto> login(LoginRequestDto loginRequestDto) {
-        return this.userRepository
-                .findByUsernameAndPassword(loginRequestDto.username(), loginRequestDto.password())
-                .map(user -> new LoginResponseDto(user.getId()));
+        return Optional.empty();
     }
 }

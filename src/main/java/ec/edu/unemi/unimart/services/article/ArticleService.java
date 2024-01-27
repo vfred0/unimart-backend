@@ -1,14 +1,14 @@
 package ec.edu.unemi.unimart.services.article;
 
-import ec.edu.unemi.unimart.dtos.ArticleDto;
+import ec.edu.unemi.unimart.api.dtos.ArticleDto;
 import ec.edu.unemi.unimart.exceptions.MessageException;
 import ec.edu.unemi.unimart.exceptions.NotFoundException;
-import ec.edu.unemi.unimart.mappers.Mapper;
-import ec.edu.unemi.unimart.models.Article;
-import ec.edu.unemi.unimart.models.User;
-import ec.edu.unemi.unimart.models.enums.Category;
-import ec.edu.unemi.unimart.models.enums.State;
-import ec.edu.unemi.unimart.repositories.IArticleRepository;
+import ec.edu.unemi.unimart.data.utils.Mapper;
+import ec.edu.unemi.unimart.data.entities.Article;
+import ec.edu.unemi.unimart.data.entities.User;
+import ec.edu.unemi.unimart.data.enums.Category;
+import ec.edu.unemi.unimart.data.enums.State;
+import ec.edu.unemi.unimart.data.daos.IArticleRepository;
 import ec.edu.unemi.unimart.services.user.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package ec.edu.unemi.unimart.services.proposal;
 
-import ec.edu.unemi.unimart.dtos.ProposalDto;
-import ec.edu.unemi.unimart.models.Proposal;
+import ec.edu.unemi.unimart.api.dtos.ProposalDto;
+import ec.edu.unemi.unimart.data.entities.Proposal;
 import jakarta.transaction.Transactional;
 
 import java.util.UUID;

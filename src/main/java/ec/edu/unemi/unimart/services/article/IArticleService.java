@@ -1,8 +1,8 @@
 package ec.edu.unemi.unimart.services.article;
 
-import ec.edu.unemi.unimart.dtos.ArticleDto;
-import ec.edu.unemi.unimart.models.enums.Category;
-import ec.edu.unemi.unimart.models.enums.State;
+import ec.edu.unemi.unimart.api.dtos.ArticleDto;
+import ec.edu.unemi.unimart.data.enums.Category;
+import ec.edu.unemi.unimart.data.enums.State;
 import jakarta.transaction.Transactional;
 
 import java.util.List;

@@ -1,20 +1,23 @@
 package ec.edu.unemi.unimart.services.exchange;
 
-import ec.edu.unemi.unimart.dtos.ExchangeDto;
-import ec.edu.unemi.unimart.dtos.ProposalDto;
-import ec.edu.unemi.unimart.dtos.RatingDto;
+import ec.edu.unemi.unimart.api.dtos.ExchangeDto;
+import ec.edu.unemi.unimart.api.dtos.ProposalDto;
+import ec.edu.unemi.unimart.api.dtos.RatingDto;
+import ec.edu.unemi.unimart.data.daos.IArticleRepository;
+import ec.edu.unemi.unimart.data.daos.IExchangeRepository;
+import ec.edu.unemi.unimart.data.entities.Exchange;
+import ec.edu.unemi.unimart.data.entities.Proposal;
+import ec.edu.unemi.unimart.data.entities.Rating;
 import ec.edu.unemi.unimart.exceptions.MessageException;
 import ec.edu.unemi.unimart.exceptions.NotFoundException;
-import ec.edu.unemi.unimart.models.*;
-import ec.edu.unemi.unimart.models.Rating;
-import ec.edu.unemi.unimart.repositories.*;
 import ec.edu.unemi.unimart.services.proposal.IProposalService;
 import ec.edu.unemi.unimart.services.rating.IRatingService;
 import ec.edu.unemi.unimart.services.user.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

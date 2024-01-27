@@ -1,0 +1,30 @@
+version: '3.9'
+services:
+  database:
+    image: mysql
+    ports:
+      - "5432:5432"
+    environment:
+      - MYSQL_ROOT_PASSWORD=unimart
+      - MYSQL_DATABASE=unimart
+    volumes:
+      - database:/var/lib/postgresql/data
+    restart: always
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+    depends_on:
+      - database
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://localhost:5432/unimart
+      - SPRING_DATASOURCE_USERNAME=unimart
+      - SPRING_DATASOURCE_PASSWORD=unimart
+    restart: always
+
+volumes:
+  database:
+    name: database

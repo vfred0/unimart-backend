@@ -1,12 +1,12 @@
 package ec.edu.unemi.unimart.services.proposal;
 
-import ec.edu.unemi.unimart.dtos.ProposalDto;
+import ec.edu.unemi.unimart.api.dtos.ProposalDto;
 import ec.edu.unemi.unimart.exceptions.MessageException;
 import ec.edu.unemi.unimart.exceptions.NotFoundException;
-import ec.edu.unemi.unimart.models.Article;
-import ec.edu.unemi.unimart.models.Proposal;
-import ec.edu.unemi.unimart.repositories.IArticleRepository;
-import ec.edu.unemi.unimart.repositories.IProposalRepository;
+import ec.edu.unemi.unimart.data.entities.Article;
+import ec.edu.unemi.unimart.data.entities.Proposal;
+import ec.edu.unemi.unimart.data.daos.IArticleRepository;
+import ec.edu.unemi.unimart.data.daos.IProposalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

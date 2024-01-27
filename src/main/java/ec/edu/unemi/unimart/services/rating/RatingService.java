@@ -1,11 +1,11 @@
 package ec.edu.unemi.unimart.services.rating;
 
-import ec.edu.unemi.unimart.dtos.RatingDto;
+import ec.edu.unemi.unimart.api.dtos.RatingDto;
 import ec.edu.unemi.unimart.exceptions.MessageException;
 import ec.edu.unemi.unimart.exceptions.NotFoundException;
-import ec.edu.unemi.unimart.models.Rating;
-import ec.edu.unemi.unimart.models.User;
-import ec.edu.unemi.unimart.repositories.IRatingRepository;
+import ec.edu.unemi.unimart.data.entities.Rating;
+import ec.edu.unemi.unimart.data.entities.User;
+import ec.edu.unemi.unimart.data.daos.IRatingRepository;
 import ec.edu.unemi.unimart.services.user.IUserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

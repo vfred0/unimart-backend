@@ -1,8 +1,8 @@
 package ec.edu.unemi.unimart.services.exchange;
 
-import ec.edu.unemi.unimart.dtos.ExchangeDto;
-import ec.edu.unemi.unimart.dtos.ProposalDto;
-import ec.edu.unemi.unimart.dtos.RatingDto;
+import ec.edu.unemi.unimart.api.dtos.ExchangeDto;
+import ec.edu.unemi.unimart.api.dtos.ProposalDto;
+import ec.edu.unemi.unimart.api.dtos.RatingDto;
 import jakarta.transaction.Transactional;
 
 import java.util.List;

@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/unimart?useSSL=false
+    username: root
+    password: unimart
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+server:
+  servlet:
+    context-path: '/api/v1/'
+
+jwt:
+  secret: WUSiSIHlRTqyRPer4JGmeE8WgQpVywDpX5IIHiZTx8QrWGnMEnRrZbqE5zTNIZoY
+  expiration: 86400000

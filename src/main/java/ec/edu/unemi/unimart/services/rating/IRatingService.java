@@ -1,7 +1,7 @@
 package ec.edu.unemi.unimart.services.rating;
 
-import ec.edu.unemi.unimart.dtos.RatingDto;
-import ec.edu.unemi.unimart.models.Rating;
+import ec.edu.unemi.unimart.api.dtos.RatingDto;
+import ec.edu.unemi.unimart.data.entities.Rating;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
