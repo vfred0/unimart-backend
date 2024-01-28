@@ -17,7 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -30,6 +30,8 @@ public class SecurityConfig {
     private final JwtRequestFilter jwtRequestFilter;
     private final PasswordEncoder passwordEncoder;
     private final LogoutService logoutService;
+    private final CsrfTokenFilter csrfTokenFilter;
+    //private final CsrfTokenHandler csrfTokenHandler;
 
 
     @Autowired
@@ -38,18 +40,25 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        //var requestHandler = new CsrfTokenRequestAttributeHandler();
+        // requestHandler.setCsrfRequestAttributeName("_csrf");
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
-                .httpBasic(Customizer.withDefaults())
+                //.httpBasic(Customizer.withDefaults())
                 .formLogin(AbstractHttpConfigurer::disable)
                 .exceptionHandling(e -> e.authenticationEntryPoint(jwtAuthenticationEntryPoint))
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout(logout ->
-                        logout.logoutUrl("/api/v1/auth/logout")
-                                .addLogoutHandler(logoutService)
-                                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
-                )
+                //.csrf(csrf -> csrf.csrfTokenRequestHandler(requestHandler)
+                //.ignoringRequestMatchers("/api/v1/auth/**")
+                //(      .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                //)
+                //.addFilterAfter(csrfTokenFilter, BasicAuthenticationFilter.class)
+                .addFilterBefore(jwtRequestFilter, BasicAuthenticationFilter.class)
+//                .logout(logout ->
+//                        logout.logoutUrl("/api/v1/auth/logout")
+//                                .addLogoutHandler(logoutService)
+//                                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+//                )
                 .sessionManagement(Customizer.withDefaults());
 
         return httpSecurity.build();
