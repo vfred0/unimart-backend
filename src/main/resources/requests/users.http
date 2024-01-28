@@ -8,7 +8,8 @@ Content-Type: application/json
   "name": "Víctor Arreaga",
   "about": "Me gusta la idea de intercambiar cosas, porque así puedo obtener cosas que necesito sin gastar dinero",
   "numberWhatsapp": "0912345671",
-  "password": "12345"
+  "password": "12345",
+  "roleES": "ADMIN"
 }
 
 ###
