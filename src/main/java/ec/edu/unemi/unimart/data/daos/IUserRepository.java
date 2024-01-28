@@ -8,7 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface IUserRepository extends IRepository<User, UUID> {
-    Optional<User> findByUsernameAndPassword(String username, String password);
-
-    User findOneByUsername(String username);
+    Optional<User> findByUsername(String username);
 }
