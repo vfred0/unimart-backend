@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import ec.edu.unemi.unimart.data.enums.Category;
 import ec.edu.unemi.unimart.data.enums.Gender;
 import ec.edu.unemi.unimart.data.enums.State;
-import ec.edu.unemi.unimart.data.enums.TypeArticle;
+import ec.edu.unemi.unimart.data.enums.ArticleType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Size;
@@ -14,6 +14,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -59,11 +60,11 @@ public class ArticleDto {
     UUID receiverArticleId;
 
     @NotNull
-    String[] images;
+    Set<String> images;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     List<UUID> proposersUserIdsForArticle;
 
     @NotNull @Builder.Default
-    TypeArticle typeArticle = TypeArticle.PUBLISHED;
+    ArticleType articleType = ArticleType.PUBLISHED;
 }

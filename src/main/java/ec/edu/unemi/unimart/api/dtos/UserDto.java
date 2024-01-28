@@ -1,11 +1,13 @@
 package ec.edu.unemi.unimart.api.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import ec.edu.unemi.unimart.data.enums.Role;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -24,6 +26,5 @@ public class UserDto {
     Short numberExchanges;
     @Size(max = 10) String numberWhatsapp;
     @Size(max = 32) String password;
-
+    Set<Role> roles;
 }
-
