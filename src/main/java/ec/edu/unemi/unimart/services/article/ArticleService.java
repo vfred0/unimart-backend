@@ -58,7 +58,7 @@ public class ArticleService implements IArticleService {
         articleUpdated.setNumbersProposals(article.getNumbersProposals());
         articleUpdated.setWhereReceived(article.getWhereReceived());
         articleUpdated.setWhereProposed(article.getWhereProposed());
-        articleUpdated.setTypeArticle(article.getTypeArticle());
+        articleUpdated.setArticleType(article.getArticleType());
         return this.mapper.toDto(this.articleRepository.save(articleUpdated), ArticleDto.class).getId();
     }
 

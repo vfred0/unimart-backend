@@ -23,4 +23,6 @@ public interface IUserService {
     User getUserById(UUID id);
 
     void saveByModel(User user);
+
+    User findByUsername(String username);
 }

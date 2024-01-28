@@ -10,6 +10,7 @@ import ec.edu.unemi.unimart.data.utils.Mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -44,6 +45,11 @@ public class UserService implements IUserService {
     @Override
     public void saveByModel(User user) {
         this.userRepository.save(user);
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return this.userRepository.findByUsername(username).orElseThrow(() -> NotFoundException.throwBecauseOf(MessageException.USER_NOT_FOUND));
     }
 
     @Override
