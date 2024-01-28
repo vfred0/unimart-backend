@@ -17,3 +17,9 @@ server:
 jwt:
   secret: WUSiSIHlRTqyRPer4JGmeE8WgQpVywDpX5IIHiZTx8QrWGnMEnRrZbqE5zTNIZoY
   expiration: 86400000
+
+logging:
+  level:
+    org:
+      springframework:
+        security: debug
