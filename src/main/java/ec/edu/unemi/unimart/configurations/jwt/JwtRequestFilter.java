@@ -1,4 +1,4 @@
-package ec.edu.unemi.unimart.configurations;
+package ec.edu.unemi.unimart.configurations.jwt;
 
 import ec.edu.unemi.unimart.services.jwt.JwtService;
 import ec.edu.unemi.unimart.services.jwt.JwtUserDetailsService;
@@ -6,6 +6,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,7 +27,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private final JwtUserDetailsService userDetailService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NotNull HttpServletRequest request,
+                                    @NotNull HttpServletResponse response,
+                                    @NotNull FilterChain filterChain) throws ServletException, IOException {
+        if (request.getHeader("Authorization") == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         try {
             String token = getToken(request);
             if (jwtService.verifyToken(token)) {
