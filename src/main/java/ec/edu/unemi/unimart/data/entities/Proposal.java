@@ -6,16 +6,15 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.*;
 
+@Builder
 @Getter
 @Setter
 @ToString
-@Builder
-@Entity
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "proposals")
-@NoArgsConstructor
 @AllArgsConstructor
-
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Entity
+@Table(name = "proposals")
 public class Proposal {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

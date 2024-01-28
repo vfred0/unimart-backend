@@ -10,15 +10,15 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
+@Builder
 @Getter
 @Setter
-@Entity
-@Builder
 @ToString
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "ratings")
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Entity
+@Table(name = "ratings")
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -53,7 +53,7 @@ public class Rating {
                 .comment(this.comment)
                 .score(this.score)
                 .date(this.date)
-                .userName(this.userWhoRated.getName())
+                .userName(this.userWhoRated.getNames())
                 .userPhoto(this.userWhoRated.getPhoto())
                 .build();
     }

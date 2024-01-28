@@ -1,30 +1,28 @@
 package ec.edu.unemi.unimart.data.entities;
 
-import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import ec.edu.unemi.unimart.api.dtos.ArticleDto;
+import ec.edu.unemi.unimart.data.enums.ArticleType;
 import ec.edu.unemi.unimart.data.enums.Category;
 import ec.edu.unemi.unimart.data.enums.Gender;
 import ec.edu.unemi.unimart.data.enums.State;
-import ec.edu.unemi.unimart.data.enums.TypeArticle;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.Type;
 
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Builder
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
 @ToString
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Entity
 @Table(name = "articles")
 public class Article {
     @Id
@@ -60,16 +58,15 @@ public class Article {
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    TypeArticle typeArticle = TypeArticle.PUBLISHED;
+    ArticleType articleType = ArticleType.PUBLISHED;
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     User user;
 
-    @Type(StringArrayType.class)
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    Set<Image> images = new LinkedHashSet<>();
+    Set<ArticleImage> articleImages = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "receiverArticle", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
@@ -172,14 +169,14 @@ public class Article {
     }
 
     public void setPublished() {
-        this.typeArticle = TypeArticle.PUBLISHED;
+        this.articleType = ArticleType.PUBLISHED;
     }
 
     public void setExchanged() {
-        this.typeArticle = TypeArticle.EXCHANGED;
+        this.articleType = ArticleType.EXCHANGED;
     }
 
     public void setProposed() {
-        this.typeArticle = TypeArticle.PROPOSED;
+        this.articleType = ArticleType.PROPOSED;
     }
 }

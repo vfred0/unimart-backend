@@ -12,11 +12,11 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-@Entity
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "exchanges")
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Entity
+@Table(name = "exchanges")
 public class Exchange {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -57,7 +57,7 @@ public class Exchange {
                 .date(this.date)
                 .userId(proposerArticle.getUser().getId())
                 .isDiscarded(!this.isMade)
-                .userName(proposerArticle.getUser().getName())
+                .userName(proposerArticle.getUser().getNames())
                 .userPhoto(proposerArticle.getUser().getPhoto())
                 .articleToReceive(proposerArticle.getTitle())
                 .articleToExchange(receiverArticle.getTitle())

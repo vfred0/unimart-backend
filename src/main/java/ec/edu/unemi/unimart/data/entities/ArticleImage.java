@@ -7,13 +7,16 @@ import lombok.experimental.FieldDefaults;
 import java.util.UUID;
 
 
+@Builder
 @Getter
 @Setter
 @ToString
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "images")
-public class Image {
+@Entity
+@Table(name = "article_images")
+public class ArticleImage {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
