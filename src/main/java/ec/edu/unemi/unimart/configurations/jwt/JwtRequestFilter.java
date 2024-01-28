@@ -30,11 +30,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NotNull HttpServletRequest request,
                                     @NotNull HttpServletResponse response,
                                     @NotNull FilterChain filterChain) throws ServletException, IOException {
-        if (request.getHeader("Authorization") == null) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         try {
             String token = getToken(request);
             if (jwtService.verifyToken(token)) {
