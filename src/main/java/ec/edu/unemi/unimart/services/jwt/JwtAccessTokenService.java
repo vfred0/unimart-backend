@@ -13,13 +13,11 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -38,17 +36,16 @@ public class JwtAccessTokenService {
                 .map(UserDetails.class::cast)
                 .orElseThrow(() -> NotFoundException.throwBecauseOf(MessageException.USER_NOT_FOUND));
 
-
-
-        List<String> roles = new ArrayList<>();
+        Set<String> roles = new HashSet<>();
+        Pattern pattern = Pattern.compile("name=(.+?)]");
         for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
-            Pattern pattern = Pattern.compile("authority=(.*?)]");
             Matcher matcher = pattern.matcher(grantedAuthority.getAuthority());
             if (matcher.find()) {
-                String authority = matcher.group(1);
-                roles.add(authority.replace(")", ""));
+                roles.add(matcher.group(1).replace(")", ""));
             }
         }
+
+        log.info("Roles: {}", roles);
 
 
         Instant issuedAt = Instant.now();

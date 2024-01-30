@@ -7,6 +7,7 @@ import ec.edu.unemi.unimart.data.daos.IUserRepository;
 import ec.edu.unemi.unimart.data.daos.IUserRoleRepository;
 import ec.edu.unemi.unimart.data.entities.User;
 import ec.edu.unemi.unimart.data.entities.UserRole;
+import ec.edu.unemi.unimart.data.enums.Role;
 import ec.edu.unemi.unimart.services.jwt.JwtAccessTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,7 +39,8 @@ public class AuthService {
     }
 
     public void register(RegisterRequestDto registerRequestDto) {
-        UserRole userRole = this.userRoleRepository.findByAuthority("AUTHENTICATED").orElseThrow(() -> new RuntimeException("User role not found."));
+        UserRole userRole = this.userRoleRepository.findByName(Role.ROLE_AUTHENTICATED)
+                .orElseThrow(() -> new RuntimeException("User role not found."));
 
         boolean isUsernameExists = userRepository.findByUsername(registerRequestDto.username()).isPresent();
         if (isUsernameExists) {

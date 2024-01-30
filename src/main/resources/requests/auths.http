@@ -1,15 +1,4 @@
 ###
-POST http://localhost:8080/api/v1/auth/login
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2ZnJlZDAiLCJuYW1lcyI6IjEyMzQ1Iiwicm9sZSI6WyJST0xFX0FVVEhFTlRJQ0FURUQiLCJST0xFX0FETUlOIl0sImV4cCI6MTcwNjQ5ODQ1NywiaWF0IjoxNzA2NDEyMDU3LCJ1c2VyIjoiQWxmcmVkMCBBcnJlYWdhIn0.bnjuDzcxkNqAgMavw-Cqpi2oyPEqxD_pVIGbto6oznI
-
-{
-  "username": "user05",
-  "password": "user02"
-}
-
-
-###
 POST http://localhost:8080/api/v1/auth/register
 Content-Type: application/json
 
@@ -19,6 +8,7 @@ Content-Type: application/json
   "password": "12345"
 }
 
+
 ###
 POST http://localhost:8080/api/v1/auth/login
 Content-Type: application/json
@@ -27,8 +17,3 @@ Content-Type: application/json
   "username": "vfred0",
   "password": "12345"
 }
-
-###
-DELETE http://localhost:8080/api/v1/auth/logout
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2ZnJlZDAiLCJuYW1lcyI6IjEyMzQ1Iiwicm9sZSI6WyJST0xFX0FVVEhFTlRJQ0FURUQiLCJST0xFX0FETUlOIl0sImV4cCI6MTcwNjQ5ODQ1NywiaWF0IjoxNzA2NDEyMDU3LCJ1c2VyIjoiQWxmcmVkMCBBcnJlYWdhIn0.bnjuDzcxkNqAgMavw-Cqpi2oyPEqxD_pVIGbto6oznI

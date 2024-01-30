@@ -63,7 +63,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     Set<Article> articles = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany
     @JoinTable(
             name = "user_roles",
             joinColumns = {
