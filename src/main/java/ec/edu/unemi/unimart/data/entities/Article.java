@@ -1,6 +1,7 @@
 package ec.edu.unemi.unimart.data.entities;
 
 import ec.edu.unemi.unimart.api.dtos.ArticleDto;
+import ec.edu.unemi.unimart.data.entities.auditing.Auditing;
 import ec.edu.unemi.unimart.data.enums.ArticleType;
 import ec.edu.unemi.unimart.data.enums.Category;
 import ec.edu.unemi.unimart.data.enums.Gender;
@@ -10,6 +11,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -22,9 +24,10 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "articles")
-public class Article {
+public class Article extends Auditing {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;

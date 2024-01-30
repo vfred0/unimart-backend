@@ -1,9 +1,11 @@
 package ec.edu.unemi.unimart.data.entities;
 
 import ec.edu.unemi.unimart.api.dtos.ExchangeDto;
+import ec.edu.unemi.unimart.data.entities.auditing.Auditing;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -15,9 +17,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "exchanges")
-public class Exchange {
+public class Exchange extends Auditing {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;

@@ -1,8 +1,10 @@
 package ec.edu.unemi.unimart.data.entities;
 
+import ec.edu.unemi.unimart.data.entities.auditing.Auditing;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.*;
 
@@ -13,9 +15,10 @@ import java.util.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "proposals")
-public class Proposal {
+public class Proposal extends Auditing {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;

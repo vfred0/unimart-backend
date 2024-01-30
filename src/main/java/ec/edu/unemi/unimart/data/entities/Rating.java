@@ -1,9 +1,11 @@
 package ec.edu.unemi.unimart.data.entities;
 
 import ec.edu.unemi.unimart.api.dtos.RatingDto;
+import ec.edu.unemi.unimart.data.entities.auditing.Auditing;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
@@ -17,9 +19,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "ratings")
-public class Rating {
+public class Rating extends Auditing {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
