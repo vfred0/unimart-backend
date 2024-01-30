@@ -1,19 +1,22 @@
 ###
-POST http://localhost:8080/api/v1/auth/register
-Content-Type: application/json
-
-{
-  "names": "Alfred0 Arreaga",
-  "username": "vfred0",
-  "password": "12345"
-}
-
-
-###
 POST http://localhost:8080/api/v1/auth/login
 Content-Type: application/json
 
 {
-  "username": "vfred0",
-  "password": "12345"
+  "username": "victor",
+  "password": "123456"
+}
+
+###
+POST http://localhost:8080/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "names": "Victor Arreaga",
+  "photo": "https://github.com/vfred0.png",
+  "username": "victor",
+  "password": "123456",
+  "numberWhatsapp": "0000000000",
+  "about": "Me gusta la programación",
+  "roles": ["ROLE_ADMIN", "ROLE_AUTHENTICATED"]
 }
