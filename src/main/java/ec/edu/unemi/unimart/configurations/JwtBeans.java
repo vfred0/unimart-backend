@@ -5,7 +5,6 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import ec.edu.unemi.unimart.configurations.rsa.RsaKeys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +15,6 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
 @Configuration
@@ -41,7 +38,6 @@ public class JwtBeans {
         return jwtAuthenticationConverter;
     }
 
-
     @Bean
     public JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(this.rsaKeys.publicKey()).build();
@@ -54,10 +50,8 @@ public class JwtBeans {
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
-        RSAPublicKey publicKey = this.rsaKeys.publicKey();
-        RSAPrivateKey privateKey = this.rsaKeys.privateKey();
-        RSAKey rsaKey = new RSAKey.Builder(publicKey)
-                .privateKey(privateKey)
+        RSAKey rsaKey = new RSAKey.Builder(rsaKeys.publicKey())
+                .privateKey(rsaKeys.privateKey())
                 .keyID(UUID.randomUUID().toString())
                 .build();
         JWKSet jwkSet = new JWKSet(rsaKey);
