@@ -4,6 +4,7 @@ import ec.edu.unemi.unimart.api.dtos.auth.AccessToken;
 import ec.edu.unemi.unimart.api.dtos.auth.LoginRequestDto;
 import ec.edu.unemi.unimart.api.dtos.auth.RegisterRequestDto;
 import ec.edu.unemi.unimart.data.daos.IUserAccountRepository;
+import ec.edu.unemi.unimart.data.daos.IUserRepository;
 import ec.edu.unemi.unimart.data.daos.IUserRoleRepository;
 import ec.edu.unemi.unimart.data.entities.UserAccount;
 import ec.edu.unemi.unimart.data.entities.UserRole;
@@ -27,6 +28,7 @@ public class AuthService {
     private final IUserAccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
     private final IUserRoleRepository userRoleRepository;
+    private final IUserRepository userRepository;
 
     public AccessToken authenticate(LoginRequestDto loginRequestDto) {
         Authentication authenticationToken = new UsernamePasswordAuthenticationToken(
@@ -41,6 +43,22 @@ public class AuthService {
 
     public void register(RegisterRequestDto registerRequestDto) {
         this.checkIfUsernameExists(registerRequestDto.username());
+        saveUserAccount(registerRequestDto);
+        saveUser(registerRequestDto);
+    }
+
+    private void saveUser(RegisterRequestDto registerRequestDto) {
+        this.userRepository.save(
+                ec.edu.unemi.unimart.data.entities.User.builder()
+                        .names(registerRequestDto.names())
+                        .photo(registerRequestDto.photo())
+                        .numberWhatsapp(registerRequestDto.numberWhatsapp())
+                        .about(registerRequestDto.about())
+                        .build()
+        );
+    }
+
+    private void saveUserAccount(RegisterRequestDto registerRequestDto) {
         Set<UserRole> userRoles = getUserRoles(registerRequestDto);
         this.accountRepository.save(
                 UserAccount.builder()
