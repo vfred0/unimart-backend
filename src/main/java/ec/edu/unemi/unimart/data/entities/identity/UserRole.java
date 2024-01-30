@@ -1,4 +1,4 @@
-package ec.edu.unemi.unimart.data.entities;
+package ec.edu.unemi.unimart.data.entities.identity;
 
 import ec.edu.unemi.unimart.data.enums.Role;
 import jakarta.persistence.*;
@@ -17,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "roles")
+@Table(schema = "identity", name = "roles")
 public class UserRole implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
