@@ -7,15 +7,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.UUID;
 
-@Builder
-@Getter
-@Setter
-@ToString
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Entity
-@Table(name = "roles")
+
 public class RoleEntity {
 
     @Id

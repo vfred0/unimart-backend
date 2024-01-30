@@ -21,9 +21,6 @@ public enum Category {
 
     private final String name;
 
-    public static Category byName(String category) {
-        return Arrays.stream(Category.values()).filter(c -> c.getName().equals(category)).findFirst().orElse(null);
-    }
     @Override
     public String toString() {
         return name;

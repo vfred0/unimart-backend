@@ -13,15 +13,6 @@ public enum ArticleType {
     EXCHANGED("Intercambiado");
 
     private final String name;
-
-    public static ArticleType byName(String typeArticle) {
-        return Arrays.stream(ArticleType.values()).filter(ta -> ta.getName().equals(typeArticle)).findFirst().orElse(null);
-    }
-
-    public static boolean isExchanged(ArticleType articleType) {
-        return articleType.equals(EXCHANGED);
-    }
-
     @Override
     public String toString() {
         return name;

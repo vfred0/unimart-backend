@@ -7,7 +7,6 @@ import java.util.Set;
 public record RegisterRequestDto(
         String names,
         String username,
-        String password,
-        Set<Role> roles
+        String password
 ) {
 }

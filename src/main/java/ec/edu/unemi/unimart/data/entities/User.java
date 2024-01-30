@@ -64,14 +64,16 @@ public class User {
     Set<Article> articles = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    Set<RoleEntity> roles = new HashSet<>();
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = {
+                    @JoinColumn(name = "user_id", referencedColumnName = "id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "role_id", referencedColumnName = "id")
+            })
+    Set<UserRole> roles = new HashSet<>();
 
-
-    @OneToMany(mappedBy = "user")
-    Set<Session> sessions = new HashSet<>();
 
     public void setAverageRating(Rating rating) {
         this.whereUserWhoWasRated.add(rating);

@@ -14,10 +14,6 @@ public enum Gender {
 
     private final String name;
 
-    public static Gender byName(String gender) {
-        return Arrays.stream(Gender.values()).filter(g -> g.getName().equals(gender)).findFirst().orElse(null);
-    }
-
     @Override
     public String toString() {
         return name;

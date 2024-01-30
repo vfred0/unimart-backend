@@ -1,17 +1,13 @@
 ###
 POST http://localhost:8080/api/v1/auth/login
 Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2ZnJlZDAiLCJuYW1lcyI6IjEyMzQ1Iiwicm9sZSI6WyJST0xFX0FVVEhFTlRJQ0FURUQiLCJST0xFX0FETUlOIl0sImV4cCI6MTcwNjQ5ODQ1NywiaWF0IjoxNzA2NDEyMDU3LCJ1c2VyIjoiQWxmcmVkMCBBcnJlYWdhIn0.bnjuDzcxkNqAgMavw-Cqpi2oyPEqxD_pVIGbto6oznI
 
 {
   "username": "user05",
   "password": "user02"
 }
 
-{
-  "userId": "5d417baf-3375-45a5-ad41-4d40558e015a",
-  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2ZnJlZDAiLCJuYW1lcyI6IjEyMzQ1Iiwicm9sZSI6WyJST0xFX0FVVEhFTlRJQ0FURUQiLCJST0xFX0FETUlOIl0sImV4cCI6MTcwNjQ5ODQ1NywiaWF0IjoxNzA2NDEyMDU3LCJ1c2VyIjoiQWxmcmVkMCBBcnJlYWdhIn0.bnjuDzcxkNqAgMavw-Cqpi2oyPEqxD_pVIGbto6oznI",
-  "refreshToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2ZnJlZDAiLCJleHAiOjE3MDY0OTg0NTcsImlhdCI6MTcwNjQxMjA1N30.exqSkG6q-ph31blkNh-U57VoM-vAnIBm3nFnrdY4I-A"
-}
 
 ###
 POST http://localhost:8080/api/v1/auth/register
@@ -20,8 +16,16 @@ Content-Type: application/json
 {
   "names": "Alfred0 Arreaga",
   "username": "vfred0",
-  "password": "12345",
-  "roles": ["ROLE_AUTHENTICATED", "ROLE_ADMIN"]
+  "password": "12345"
+}
+
+###
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "vfred0",
+  "password": "12345"
 }
 
 ###
