@@ -1,6 +1,5 @@
 package ec.edu.unemi.unimart.data.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import ec.edu.unemi.unimart.api.dtos.ExchangeDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -26,10 +25,6 @@ public class User {
     @Column(columnDefinition = "TEXT DEFAULT NULL")
     String photo;
 
-    @Size(max = 15)
-    @Column(nullable = false, length = 15)
-    String username;
-
     @Size(max = 50)
     @Column(nullable = false, length = 50)
     String names;
@@ -46,14 +41,9 @@ public class User {
     @Column(nullable = false, insertable = false, columnDefinition = "SMALLINT DEFAULT 0")
     Short numberExchanges = 0;
 
-
     @Size(max = 10)
     @Column(length = 10, columnDefinition = "VARCHAR(10) DEFAULT '1234567890'")
     String numberWhatsapp;
-
-    @JsonIgnore
-    @Column(nullable = false)
-    String password;
 
     @OneToMany(mappedBy = "userWhoWasRated")
     @ToString.Exclude
@@ -62,18 +52,6 @@ public class User {
     @ToString.Exclude
     @OneToMany(mappedBy = "user")
     Set<Article> articles = new HashSet<>();
-
-    @ManyToMany
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = {
-                    @JoinColumn(name = "user_id", referencedColumnName = "id")
-            },
-            inverseJoinColumns = {
-                    @JoinColumn(name = "role_id", referencedColumnName = "id")
-            })
-    Set<UserRole> roles = new HashSet<>();
-
 
     public void setAverageRating(Rating rating) {
         this.whereUserWhoWasRated.add(rating);

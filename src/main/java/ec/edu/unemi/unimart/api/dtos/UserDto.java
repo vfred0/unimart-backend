@@ -19,12 +19,9 @@ import java.util.UUID;
 public class UserDto {
     UUID id;
     @Size(max = 50) String photo;
-    @Size(max = 15) String username;
-    @Size(max = 50) String name;
+    @Size(max = 50) String names;
     @Size(max = 250) String about;
     Double rating;
     Short numberExchanges;
     @Size(max = 10) String numberWhatsapp;
-    @Size(max = 32) String password;
-    Set<Role> roles;
 }
