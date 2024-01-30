@@ -1,16 +1,15 @@
 package ec.edu.unemi.unimart.services.user;
 
-import ec.edu.unemi.unimart.api.dtos.UserDto;
 import ec.edu.unemi.unimart.api.dtos.ArticleDto;
+import ec.edu.unemi.unimart.api.dtos.UserDto;
+import ec.edu.unemi.unimart.data.daos.IUserRepository;
+import ec.edu.unemi.unimart.data.entities.User;
+import ec.edu.unemi.unimart.data.utils.Mapper;
 import ec.edu.unemi.unimart.exceptions.MessageException;
 import ec.edu.unemi.unimart.exceptions.NotFoundException;
-import ec.edu.unemi.unimart.data.entities.User;
-import ec.edu.unemi.unimart.data.daos.IUserRepository;
-import ec.edu.unemi.unimart.data.utils.Mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -47,10 +46,6 @@ public class UserService implements IUserService {
         this.userRepository.save(user);
     }
 
-    @Override
-    public User findByUsername(String username) {
-        return this.userRepository.findByUsername(username).orElseThrow(() -> NotFoundException.throwBecauseOf(MessageException.USER_NOT_FOUND));
-    }
 
     @Override
     public Optional<UserDto> findById(UUID id) {
