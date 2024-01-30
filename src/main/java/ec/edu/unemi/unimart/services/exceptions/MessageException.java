@@ -1,4 +1,4 @@
-package ec.edu.unemi.unimart.exceptions;
+package ec.edu.unemi.unimart.services.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

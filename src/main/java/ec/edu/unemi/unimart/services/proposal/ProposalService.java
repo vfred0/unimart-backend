@@ -1,12 +1,12 @@
 package ec.edu.unemi.unimart.services.proposal;
 
 import ec.edu.unemi.unimart.api.dtos.ProposalDto;
-import ec.edu.unemi.unimart.exceptions.MessageException;
-import ec.edu.unemi.unimart.exceptions.NotFoundException;
+import ec.edu.unemi.unimart.services.exceptions.MessageException;
 import ec.edu.unemi.unimart.data.entities.Article;
 import ec.edu.unemi.unimart.data.entities.Proposal;
 import ec.edu.unemi.unimart.data.daos.IArticleRepository;
 import ec.edu.unemi.unimart.data.daos.IProposalRepository;
+import ec.edu.unemi.unimart.services.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +37,7 @@ public class ProposalService implements IProposalService {
     }
 
     private Article getArticle(UUID id, MessageException messageException) {
-        return this.articleRepository.findById(id).orElseThrow(() -> NotFoundException.throwBecauseOf(messageException));
+        return this.articleRepository.findById(id).orElseThrow(() -> new NotFoundException(messageException));
     }
 
     @Override

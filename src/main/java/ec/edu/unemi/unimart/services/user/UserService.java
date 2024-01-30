@@ -5,8 +5,8 @@ import ec.edu.unemi.unimart.api.dtos.UserDto;
 import ec.edu.unemi.unimart.data.daos.IUserRepository;
 import ec.edu.unemi.unimart.data.entities.User;
 import ec.edu.unemi.unimart.data.utils.Mapper;
-import ec.edu.unemi.unimart.exceptions.MessageException;
-import ec.edu.unemi.unimart.exceptions.NotFoundException;
+import ec.edu.unemi.unimart.services.exceptions.MessageException;
+import ec.edu.unemi.unimart.services.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,14 +38,8 @@ public class UserService implements IUserService {
 
     @Override
     public User getUserById(UUID id) {
-        return this.userRepository.findById(id).orElseThrow(() -> NotFoundException.throwBecauseOf(MessageException.USER_NOT_FOUND));
+        return this.userRepository.findById(id).orElseThrow(() -> new NotFoundException(MessageException.USER_NOT_FOUND));
     }
-
-    @Override
-    public void saveByModel(User user) {
-        this.userRepository.save(user);
-    }
-
 
     @Override
     public Optional<UserDto> findById(UUID id) {

@@ -8,8 +8,8 @@ import ec.edu.unemi.unimart.data.daos.IExchangeRepository;
 import ec.edu.unemi.unimart.data.entities.Exchange;
 import ec.edu.unemi.unimart.data.entities.Proposal;
 import ec.edu.unemi.unimart.data.entities.Rating;
-import ec.edu.unemi.unimart.exceptions.MessageException;
-import ec.edu.unemi.unimart.exceptions.NotFoundException;
+import ec.edu.unemi.unimart.services.exceptions.MessageException;
+import ec.edu.unemi.unimart.services.exceptions.NotFoundException;
 import ec.edu.unemi.unimart.services.proposal.IProposalService;
 import ec.edu.unemi.unimart.services.rating.IRatingService;
 import ec.edu.unemi.unimart.services.user.IUserService;
@@ -40,7 +40,7 @@ public class ExchangeService implements IExchangeService {
     }
 
     private Exchange getExchange(UUID exchangeId) {
-        return this.exchangeRepository.findById(exchangeId).orElseThrow(() -> NotFoundException.throwBecauseOf(MessageException.EXCHANGE_NOT_FOUND));
+        return this.exchangeRepository.findById(exchangeId).orElseThrow(() -> new NotFoundException(MessageException.EXCHANGE_NOT_FOUND));
     }
 
     public UUID acceptExchange(ProposalDto proposalDto) {

@@ -6,7 +6,6 @@ import ec.edu.unemi.unimart.services.exceptions.ForbiddenException;
 import ec.edu.unemi.unimart.services.exceptions.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,7 +16,7 @@ public class ApiExceptionHandler {
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({
-            AccessDeniedException.class
+            org.springframework.security.access.AccessDeniedException.class
     })
     @ResponseBody
     public void unauthorizedRequest(Exception exception) {
@@ -54,7 +53,6 @@ public class ApiExceptionHandler {
     public ErrorMessage conflict(Exception exception) {
         return new ErrorMessage(exception, HttpStatus.CONFLICT.value());
     }
-
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler({

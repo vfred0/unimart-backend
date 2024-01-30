@@ -1,14 +1,14 @@
 package ec.edu.unemi.unimart.services.article;
 
 import ec.edu.unemi.unimart.api.dtos.ArticleDto;
-import ec.edu.unemi.unimart.exceptions.MessageException;
-import ec.edu.unemi.unimart.exceptions.NotFoundException;
+import ec.edu.unemi.unimart.services.exceptions.MessageException;
 import ec.edu.unemi.unimart.data.utils.Mapper;
 import ec.edu.unemi.unimart.data.entities.Article;
 import ec.edu.unemi.unimart.data.entities.User;
 import ec.edu.unemi.unimart.data.enums.Category;
 import ec.edu.unemi.unimart.data.enums.State;
 import ec.edu.unemi.unimart.data.daos.IArticleRepository;
+import ec.edu.unemi.unimart.services.exceptions.NotFoundException;
 import ec.edu.unemi.unimart.services.user.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -70,7 +70,7 @@ public class ArticleService implements IArticleService {
     }
 
     private Article getArticle(UUID id) {
-        return this.articleRepository.findById(id).orElseThrow(() -> NotFoundException.throwBecauseOf(MessageException.ARTICLE_NOT_FOUND));
+        return this.articleRepository.findById(id).orElseThrow(() -> new NotFoundException(MessageException.ARTICLE_NOT_FOUND));
     }
 
 }

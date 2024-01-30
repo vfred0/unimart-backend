@@ -1,7 +1,7 @@
 package ec.edu.unemi.unimart.services.auth;
 
-import ec.edu.unemi.unimart.exceptions.MessageException;
-import ec.edu.unemi.unimart.exceptions.NotFoundException;
+import ec.edu.unemi.unimart.services.exceptions.MessageException;
+import ec.edu.unemi.unimart.services.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,7 +27,7 @@ public class JwtAccessTokenService {
                 .of(authentication.getPrincipal())
                 .filter(UserDetails.class::isInstance)
                 .map(UserDetails.class::cast)
-                .orElseThrow(() -> NotFoundException.throwBecauseOf(MessageException.USER_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(MessageException.USER_NOT_FOUND));
     }
 
     private static JwtClaimsSet getClaims(UserDetails userDetails) {

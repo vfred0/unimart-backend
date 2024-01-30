@@ -1,11 +1,11 @@
 package ec.edu.unemi.unimart.services.rating;
 
 import ec.edu.unemi.unimart.api.dtos.RatingDto;
-import ec.edu.unemi.unimart.exceptions.MessageException;
-import ec.edu.unemi.unimart.exceptions.NotFoundException;
+import ec.edu.unemi.unimart.services.exceptions.MessageException;
 import ec.edu.unemi.unimart.data.entities.Rating;
 import ec.edu.unemi.unimart.data.entities.User;
 import ec.edu.unemi.unimart.data.daos.IRatingRepository;
+import ec.edu.unemi.unimart.services.exceptions.NotFoundException;
 import ec.edu.unemi.unimart.services.user.IUserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +41,7 @@ public class RatingService implements IRatingService {
     @Transactional
     public Rating saveAndUpdateUserDetails(RatingDto ratingDto) {
         UUID id = this.save(ratingDto);
-        Rating rating = this.ratingRepository.findById(id).orElseThrow(() -> NotFoundException.throwBecauseOf(MessageException.RATING_NOT_FOUND));
+        Rating rating = this.ratingRepository.findById(id).orElseThrow(() -> new NotFoundException(MessageException.RATING_NOT_FOUND));
         User userWhoRated = rating.getUserWhoRated();
         User userWhoWasRated = rating.getUserWhoWasRated();
         userWhoWasRated.setAverageRating(rating);
