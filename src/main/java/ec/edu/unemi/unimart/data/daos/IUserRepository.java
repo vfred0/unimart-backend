@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository
 public interface IUserRepository extends IRepository<User, UUID> {
-    Optional<User> findByUsername(String username);
+
 }
