@@ -18,10 +18,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userAccountService.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Invalid username."));
-        org.springframework.security.core.userdetails.User.UserBuilder builder =
-                org.springframework.security.core.userdetails.User.withUsername(username);
-        return builder.password(user.getPassword()).roles(user.getRoles().toString()).build();
+        return this.userAccountService
+                .findByUsername(username)
+                .map(this::map)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    private org.springframework.security.core.userdetails.User map(User userAccount) {
+        return new org.springframework.security.core.userdetails.User(
+                userAccount.getUsername(),
+                userAccount.getPassword(),
+                userAccount.getRoles()
+        );
     }
 }

@@ -34,6 +34,7 @@ public class AuthService {
                 loginRequestDto.password()
         );
         Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
+
         String idToken = this.jwtAccessTokenService.generateIdToken(authentication);
         return new AccessToken(idToken);
     }
