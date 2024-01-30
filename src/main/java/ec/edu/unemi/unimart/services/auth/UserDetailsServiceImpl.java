@@ -1,7 +1,7 @@
 package ec.edu.unemi.unimart.services.auth;
 
 import ec.edu.unemi.unimart.data.daos.IUserAccountRepository;
-import ec.edu.unemi.unimart.data.entities.UserAccount;
+import ec.edu.unemi.unimart.data.entities.identity.UserAccount;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
