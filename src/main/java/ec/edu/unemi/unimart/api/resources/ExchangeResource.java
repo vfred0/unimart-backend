@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("exchanges")
+@RequestMapping("/api/v1/exchanges")
 public class ExchangeResource {
     private final IExchangeService exchangeService;
 

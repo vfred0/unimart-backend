@@ -16,7 +16,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("users")
+@RequestMapping("/api/v1/users")
 public class UserResource {
 
     private final IUserService userService;

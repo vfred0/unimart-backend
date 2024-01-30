@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("ratings")
+@RequestMapping("/api/v1/ratings")
 public class RatingResource {
 
     private final IRatingService ratingService;

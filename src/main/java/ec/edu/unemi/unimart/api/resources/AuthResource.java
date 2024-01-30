@@ -1,7 +1,6 @@
 package ec.edu.unemi.unimart.api.resources;
 
 import ec.edu.unemi.unimart.api.dtos.auth.AccessToken;
-import ec.edu.unemi.unimart.api.dtos.auth.AuthResponseDto;
 import ec.edu.unemi.unimart.api.dtos.auth.LoginRequestDto;
 import ec.edu.unemi.unimart.api.dtos.auth.RegisterRequestDto;
 import ec.edu.unemi.unimart.services.auth.AuthService;
@@ -23,7 +22,7 @@ public class AuthResource {
     private final AuthService authService;
 
     @PostMapping("login")
-    public ResponseEntity<AccessToken> login(@RequestBody LoginRequestDto loginRequestDto) throws Exception {
+    public ResponseEntity<AccessToken> login(@RequestBody LoginRequestDto loginRequestDto) {
         log.info("Login request: {}", loginRequestDto);
         return new ResponseEntity<>(authService.authenticate(loginRequestDto), HttpStatus.OK);
     }
