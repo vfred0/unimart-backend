@@ -1,0 +1,3 @@
+rsa-keys:
+  private-key: ${PRIVATE_KEY:classpath:private-pkcs8.pem}
+  public-key: ${PUBLIC_KEY:classpath:public.pem}

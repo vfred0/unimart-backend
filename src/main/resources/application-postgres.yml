@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/unimart
+    username: postgres
+    password: unimart
+    driver-class-name: org.postgresql.Driver
