@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/private.pem
+/src/main/resources/private-pkcs8.pem
+/src/main/resources/public.pem
